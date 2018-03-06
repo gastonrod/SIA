@@ -19,19 +19,20 @@ double sgn(double x)
 
 double calculate(double * input)
 {
-	double res = w[0]*input[0]; 	// threshold
+	double res = -w[0]; 	// threshold
 	for (int i = 1; i < INPUT_LENGTH + 1; i++)
 	{
-		res += w[i]*input[i];
+		res += w[i]*input[i-1];
 	}
 	return sgn(res);
 }
 
 void delta_rule(double S, double o, double * E)
 {
-	for (int i = 0; i < INPUT_LENGTH + 1; i++)
+	w[0] += lr*(o - S);
+	for (int i = 1; i < INPUT_LENGTH + 1; i++)
 	{
-		w[i] += lr*(S - o)*E[i];
+		w[i] += lr*(S - o)*E[i-1];
 	}
 }
 
@@ -58,6 +59,40 @@ void learn(struct learning_pattern * lp, int length)
 	}
 }
 
+void test()
+{
+	struct learning_pattern tp;
+	double correct = 0;
+	for (int i = 0; i < (1<<INPUT_LENGTH); i++)
+	{
+		if (i == 31)
+		{
+			tp.output = 1;
+		}
+		else
+		{
+			tp.output = -1;
+		}
+		int k = i;
+		for (int j = 0; j < INPUT_LENGTH; j++, k >>= 1)
+		{
+			tp.input[j] = k%2;
+		}
+		double ans = calculate(tp.input);
+		if (ans == tp.output) correct++;
+		printf("AND(");
+		for (int j = 0; j < INPUT_LENGTH; j++)
+		{
+			printf("%d", (int) tp.input[j]);
+			(j == INPUT_LENGTH-1 ? putchar(')') : putchar(','));
+		}
+		printf(" = %d\n", (int) ans);
+	}
+	correct /= (1<<INPUT_LENGTH);
+	correct *= 100;
+	printf("PASSED: %lf%%\n", correct);
+}
+
 int main()
 {
 	struct learning_pattern example[] = 
@@ -65,19 +100,21 @@ int main()
 		{
 			.input = {0,0,0,0,0},
 			.output = -1
-		},/*
+		},
 		{
 			.input = {1,1,1,1,1},
 			.output = 1
-		},*/
+		},
 		{
-			.input = {1,0,0,0,0},
+			.input = {1,1,1,1,0},
+			.output = -1
+		},
+		{
+			.input = {0,1,1,1,1},
 			.output = -1
 		}
 	};
-	learn(example, 2);
-	double test[] = {1,0,0,0,0};
-	printf("AND(1,0,0,0,0) = %lf\n", calculate(test));
-	
+	learn(example, 4);
+	test();
 	return 0;
 }
