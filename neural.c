@@ -3,7 +3,7 @@
 #define INPUT_LENGTH 5
 
 static double lr = 1;
-
+static int learning_time = 0;
 static double w[INPUT_LENGTH+1];
 
 struct learning_pattern
@@ -51,6 +51,7 @@ void learn(struct learning_pattern * lp, int length)
 		{
 			delta_rule(expected, obtained, lp[i].input);
 			correct = 0;
+			learning_time++;
 		}
 		else
 		{
@@ -116,5 +117,6 @@ int main()
 	};
 	learn(example, 4);
 	test();
+	printf("Learning time: %d\n", learning_time);
 	return 0;
 }
