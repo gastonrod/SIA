@@ -2,7 +2,7 @@
 
 #define INPUT_LENGTH 5
 
-static double lr = 1;
+static double lr = 0.5;
 static int learning_time = 0;
 static double w[INPUT_LENGTH+1];
 
@@ -99,10 +99,6 @@ int main()
 	struct learning_pattern example[] = 
 	{
 		{
-			.input = {0,0,0,0,0},
-			.output = -1
-		},
-		{
 			.input = {1,1,1,1,1},
 			.output = 1
 		},
@@ -111,12 +107,12 @@ int main()
 			.output = -1
 		},
 		{
-			.input = {0,1,1,1,1},
+			.input = {0,0,0,0,0},
 			.output = -1
-		}
+		},
 	};
-	learn(example, 4);
+	learn(example, sizeof(example)/sizeof(example[0]));
 	test();
-	printf("Learning time: %d\n", learning_time);
+	printf("Corrections: %d\n", learning_time);
 	return 0;
 }
