@@ -1,5 +1,21 @@
 1; % Not a function file
 
+function out = learn(W, patterns, g, eta)
+  n = numel(patterns);
+  M = numel(W);
+  for k = [1:100]
+    p = mod(k,n)+1;
+    printf("Running pattern: ");
+    patterns{p}
+    dw = run_pattern(W, patterns{p}{1}, g, patterns{p}{2}, eta);
+    for j = [1:M]
+      W{j} = W{j} + dw{j};
+    endfor
+    dw;
+  endfor
+  out = W;
+endfunction
+
 % Parameters:
 %
 % W is a cell array of matrices. W{m}(j, i) holds the weight of the
