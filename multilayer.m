@@ -1,6 +1,27 @@
 1; % Not a function file
 
-function out = batch_learn(W, patterns, g, eta, epochs)
+% This function trains a neural network on a training set using back-propagation
+%
+% Parameters:
+%
+% W is a cell array of matrices. W{m}(j, i) holds the weight of the
+% connection from unit i in the m-1 layer to unit j in the m layer
+%
+% patterns is a two dimentional cell array. patterns{i}{1} contains and input 
+% pattern; patterns{i}{2} holds the expected output
+%
+% g is a two dimentional cell array of function handles. g{m}{1} is the the 
+% activation function for layer m; g{m}{2} is the derivative of g{m}{1} in 
+% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2
+%
+% eta is the learning rate
+%
+% epochs is the number if epochs to run the training for
+%
+% Return value:
+%
+% ansW holds the weight matrices of the trained neural network
+function ansW = incremental_learn(W, patterns, g, eta, epochs)
   n = numel(patterns);
   M = numel(W);
   for k = [1:epochs]
@@ -11,7 +32,7 @@ function out = batch_learn(W, patterns, g, eta, epochs)
       endfor
     endfor
   endfor
-  out = W;
+  ansW = W;
 endfunction
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -27,7 +48,7 @@ endfunction
 %
 % g is a two dimentional cell array of function handles. g{m}{1} is the the 
 % activation function for layer m; g{m}{2} is the derivative of g{m}{1} in 
-% terms of g
+% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2
 %
 % S is the expected output as a column vector
 %
