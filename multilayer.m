@@ -1,6 +1,33 @@
 1; % Not a function file
 
 % This function trains a neural network on a training set using back-propagation
+% and batch learning
+%
+% Parameters:
+%
+% W is a cell array of matrices. W{m}(j, i) holds the weight of the
+% connection from unit i in the m-1 layer to unit j in the m layer
+%
+% patterns is a two dimentional cell array. patterns{i}{1} contains and input 
+% pattern; patterns{i}{2} holds the expected output
+%
+% g is a two dimentional cell array of function handles. g{m}{1} is the the 
+% activation function for layer m; g{m}{2} is the derivative of g{m}{1} in 
+% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2
+%
+% eta is the learning rate
+%
+% epochs is the number if epochs to run the training for
+%
+% Return value:
+%
+% ansW holds the weight matrices of the trained neural network
+function ansW = batch_learn(W, patterns, g, eta, epochs)
+  ansW = learn(W, patterns, g, eta, epochs, true);
+endfunction
+
+% This function trains a neural network on a training set using back-propagation
+% and incremental learning
 %
 % Parameters:
 %
@@ -22,16 +49,67 @@
 %
 % ansW holds the weight matrices of the trained neural network
 function ansW = incremental_learn(W, patterns, g, eta, epochs)
+  ansW = learn(W, patterns, g, eta, epochs, false);
+endfunction
+
+% This function trains a neural network on a training set using back-propagation
+%
+% Parameters:
+%
+% W is a cell array of matrices. W{m}(j, i) holds the weight of the
+% connection from unit i in the m-1 layer to unit j in the m layer
+%
+% patterns is a two dimentional cell array. patterns{i}{1} contains and input 
+% pattern; patterns{i}{2} holds the expected output
+%
+% g is a two dimentional cell array of function handles. g{m}{1} is the the 
+% activation function for layer m; g{m}{2} is the derivative of g{m}{1} in 
+% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2
+%
+% eta is the learning rate
+%
+% epochs is the number if epochs to run the training for
+%
+% is_batch is a boolean value specifying if the training should be batch or 
+% incremental
+%
+% Return value:
+%
+% ansW holds the weight matrices of the trained neural network
+function ansW = learn(W, patterns, g, eta, epochs, is_batch)
   n = numel(patterns);
   M = numel(W);
+  batch_dw = cell(M, 1);
+  
   for k = [1:epochs]
-    for p = [1:numel(patterns)]
-      dw = run_and_correct(W, patterns{p}{1}, g, patterns{p}{2}, eta);
-      for j = [1:M]
-        W{j} += dw{j};
+    
+    if (is_batch)
+      for i = [1:M]
+        batch_dw{i} = zeros(rows(W{i}), columns(W{i}));
       endfor
+    endif
+    
+    for p = [1:n]
+      dw = run_and_correct(W, patterns{p}{1}, g, patterns{p}{2}, eta);
+      if (is_batch)
+        for i = [1:M]
+          batch_dw{i} += dw{i};
+        endfor
+      else
+        for i = [1:M]
+          W{i} += dw{i};
+        endfor
+      endif
     endfor
+
+    if (is_batch)
+      for j = [1:M]
+        W{j} += batch_dw{j};
+      endfor
+    endif
+
   endfor
+  
   ansW = W;
 endfunction
 
