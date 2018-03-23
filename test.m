@@ -23,8 +23,8 @@
 function wrong_pct = test(W, patterns, g, eps= 0.1, print_ans= true)
   err_count = 0;
   for k = [1:numel(patterns)]
-    run_pattern(W, patterns{k}{1}, g);
-    output = ans{numel(ans)};
+    V = run_pattern(W, patterns{k}{1}, g);
+    output = V{numel(V)};
     if abs(output - patterns{k}{2}) > eps
       err_count++;
     endif

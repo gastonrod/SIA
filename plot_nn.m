@@ -17,12 +17,18 @@ function plot_nn(W, patterns, g)
   x = [];
   y = [];
   z = [];
+  z_n = [];
   for k = [1:numel(patterns)]
     x(k) = patterns{k}{1}(1);
     y(k) = patterns{k}{1}(2);
     V = run_pattern(W, [x(k);y(k)], g);
-    z(k) = V{numel(V)};
+    z_n(k) = V{numel(V)};
+    z(k) = patterns{k}{2};
   end
   title ("Neural network's interpretation");
-  plot3(x, y, z, "o");
+ subplot (2, 1, 1)
+ plot3(x, y, z, ".");
+ subplot (2, 1, 2)
+ plot3(x, y, z_n, ".");
+ rotate3d
 end
