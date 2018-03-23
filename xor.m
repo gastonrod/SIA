@@ -1,12 +1,50 @@
-% Learning patterns to be used in the learning and testing process
-patterns = {
+% All possible patterns
+all_patterns = {
  [{[0;0;0;0;0]} 0]
- [{[1;0;0;0;0]} 1]
- [{[0;1;0;0;0]} 1]
- [{[1;1;0;0;0]} 0]
+ [{[0;0;0;0;1]} 1]
+ [{[0;0;0;1;0]} 1]
+ [{[0;0;0;1;1]} 0]
  [{[0;0;1;0;0]} 1]
+ [{[0;0;1;0;1]} 0]
+ [{[0;0;1;1;0]} 0]
+ [{[0;0;1;1;1]} 1]
+ [{[0;1;0;0;0]} 1]
+ [{[0;1;0;0;1]} 0]
+ [{[0;1;0;1;0]} 0]
+ [{[0;1;0;1;1]} 1]
+ [{[0;1;1;0;0]} 0]
+ [{[0;1;1;0;1]} 1]
+ [{[0;1;1;1;0]} 1]
+ [{[0;1;1;1;1]} 0]
+ [{[0;0;0;0;0]} 0]
+ [{[1;0;0;0;1]} 0]
+ [{[1;0;0;1;0]} 0]
+ [{[1;0;0;1;1]} 1]
  [{[1;0;1;0;0]} 0]
+ [{[1;0;1;0;1]} 1]
+ [{[1;0;1;1;0]} 1]
+ [{[1;0;1;1;1]} 0]
+ [{[1;1;0;0;0]} 0]
+ [{[1;1;0;0;1]} 1]
+ [{[1;1;0;1;0]} 1]
+ [{[1;1;0;1;1]} 0]
  [{[1;1;1;0;0]} 1]
+ [{[1;1;1;0;1]} 0]
+ [{[1;1;1;1;0]} 0]
+ [{[1;1;1;1;1]} 1]
+};
+
+% Learning patterns to be used in the learning and testing process
+learning_patterns = {
+ [{[0;0;0;0;0]} 0]
+ [{[0;0;0;0;1]} 1]
+ [{[0;0;0;1;0]} 1]
+ [{[0;0;0;1;1]} 0]
+ [{[0;0;1;0;0]} 1]
+ [{[0;0;1;0;1]} 0]
+ [{[0;0;1;1;0]} 0]
+ [{[0;0;1;1;1]} 1]
+ [{[0;1;0;0;0]} 1]
 };
 
 % Activation functions and their derivatives
@@ -27,6 +65,6 @@ eta = 0.3;
 % Amount of times to loop through the patterns
 epoch = 1000;
 
-W = incremental_learn(init_weights, patterns, g, eta, epoch);
+W = incremental_learn(init_weights, learning_patterns, g, eta, epoch);
 
-test(W, patterns, g);
+test(W, all_patterns, g);
