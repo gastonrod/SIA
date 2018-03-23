@@ -19,11 +19,13 @@
 %
 % epochs is the number if epochs to run the training for
 %
+% momentum is the momentum parameter. It defaults to cero (plain back-propagation)
+%
 % Return value:
 %
 % ansW holds the weight matrices of the trained neural network
-function ansW = batch_learn(W, patterns, g, eta, epochs)
-  ansW = learn(W, patterns, g, eta, epochs, true);
+function ansW = batch_learn(W, patterns, g, eta, epochs, momentum = 0)
+  ansW = learn(W, patterns, g, eta, epochs, true, false, momentum);
 endfunction
 
 % This function trains a neural network on a training set using back-propagation
@@ -49,11 +51,13 @@ endfunction
 % during an epoch should be chosen randomly or not. By default it's set to
 % false
 %
+% momentum is the momentum parameter. It defaults to cero (plain back-propagation)
+%
 % Return value:
 %
 % ansW holds the weight matrices of the trained neural network
-function ansW = incremental_learn(W, patterns, g, eta, epochs, random_pass = false)
-  ansW = learn(W, patterns, g, eta, epochs, false, random_pass);
+function ansW = incremental_learn(W, patterns, g, eta, epochs, random_pass = false, momentum = 0)
+  ansW = learn(W, patterns, g, eta, epochs, false, random_pass, momentum);
 endfunction
 
 % This function trains a neural network on a training set using back-propagation
@@ -78,19 +82,27 @@ endfunction
 % or incremental
 %
 % random_pass is a boolean value specifying whether the order of patterns 
-% during an epoch should be chosen randomly or not. By default it's set to
-% false
+% during an epoch should be chosen randomly or not
+%
+% momentum is the momentum parameter
 %
 % Return value:
 %
 % ansW holds the weight matrices of the trained neural network
-function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass = false)
+function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, momentum)
   n = numel(patterns);
+  % M is the number of layers (without counting the input layer)
   M = numel(W);
   batch_dw = cell(M, 1);
+  %last_dw will hold the weight updates for the previous epoch (to implement momentum)
+  last_dw = cell(M,1);
+  for i = [1:M]
+    last_dw{i} = zeros(rows(W{i}), columns(W{i}));
+  endfor
   
   for k = [1:epochs]
     
+    % Permute the patterns array uniformly if requested
     if (random_pass)
       for i = [n:-1:2]
         j = floor((unifrnd(1, n+1)-1)*0.99999+1);
@@ -100,12 +112,14 @@ function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass = false
       endfor
     endif
 
+    % Initialize batch_dw, which will accumulate the weight changes for one whole epoch
     if (is_batch)
       for i = [1:M]
         batch_dw{i} = zeros(rows(W{i}), columns(W{i}));
       endfor
     endif
-    
+
+    % Run each pattern once
     for p = [1:n]
       dw = run_and_correct(W, patterns{p}{1}, g, patterns{p}{2}, eta);
       if (is_batch)
@@ -114,15 +128,17 @@ function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass = false
         endfor
       else
         for i = [1:M]
-          W{i} += dw{i};
+          W{i} += dw{i} + momentum*last_dw{i};
         endfor
+        last_dw = dw;
       endif
     endfor
 
     if (is_batch)
       for j = [1:M]
-        W{j} += batch_dw{j};
+        W{j} += batch_dw{j} + momentum*last_dw{i};
       endfor
+      last_dw = batch_dw;
     endif
 
   endfor
