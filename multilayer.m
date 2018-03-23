@@ -45,11 +45,15 @@ endfunction
 %
 % epochs is the number if epochs to run the training for
 %
+% random_pass is a boolean value specifying whether the order of patterns 
+% during an epoch should be chosen randomly or not. By default it's set to
+% false
+%
 % Return value:
 %
 % ansW holds the weight matrices of the trained neural network
-function ansW = incremental_learn(W, patterns, g, eta, epochs)
-  ansW = learn(W, patterns, g, eta, epochs, false);
+function ansW = incremental_learn(W, patterns, g, eta, epochs, random_pass = false)
+  ansW = learn(W, patterns, g, eta, epochs, false, random_pass);
 endfunction
 
 % This function trains a neural network on a training set using back-propagation
@@ -70,19 +74,32 @@ endfunction
 %
 % epochs is the number if epochs to run the training for
 %
-% is_batch is a boolean value specifying if the training should be batch or 
-% incremental
+% is_batch is a boolean value specifying whether the training should be batch 
+% or incremental
+%
+% random_pass is a boolean value specifying whether the order of patterns 
+% during an epoch should be chosen randomly or not. By default it's set to
+% false
 %
 % Return value:
 %
 % ansW holds the weight matrices of the trained neural network
-function ansW = learn(W, patterns, g, eta, epochs, is_batch)
+function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass = false)
   n = numel(patterns);
   M = numel(W);
   batch_dw = cell(M, 1);
   
   for k = [1:epochs]
     
+    if (random_pass)
+      for i = [n:-1:2]
+        j = floor((unifrnd(1, n+1)-1)*0.99999+1);
+        temp = patterns{i};
+        patterns{i} = patterns{j};
+        patterns{j} = temp;
+      endfor
+    endif
+
     if (is_batch)
       for i = [1:M]
         batch_dw{i} = zeros(rows(W{i}), columns(W{i}));
