@@ -21,11 +21,15 @@
 %
 % momentum is the momentum parameter. It defaults to cero (plain back-propagation)
 %
+% aep is the adaptative eta parameters values. aep(1) is the increasing factor;
+% aep(2) is the decreasing factor; aep(3) is the number of successful epochs 
+% before update. If aep is empty, no adaptative eta ocurrs (default)
+%
 % Return value:
 %
 % ansW holds the weight matrices of the trained neural network
-function ansW = batch_learn(W, patterns, g, eta, epochs, momentum = 0)
-  ansW = learn(W, patterns, g, eta, epochs, true, false, momentum);
+function ansW = batch_learn(W, patterns, g, eta, epochs, momentum = 0, aep = [])
+  ansW = learn(W, patterns, g, eta, epochs, true, false, momentum, aep);
 endfunction
 
 % This function trains a neural network on a training set using back-propagation
@@ -53,11 +57,15 @@ endfunction
 %
 % momentum is the momentum parameter. It defaults to cero (plain back-propagation)
 %
+% aep is the adaptative eta parameters values. aep(1) is the increasing factor;
+% aep(2) is the decreasing factor; aep(3) is the number of successful epochs 
+% before update. If aep is empty, no adaptative eta ocurrs (default)
+%
 % Return value:
 %
 % ansW holds the weight matrices of the trained neural network
-function ansW = incremental_learn(W, patterns, g, eta, epochs, random_pass = false, momentum = 0)
-  ansW = learn(W, patterns, g, eta, epochs, false, random_pass, momentum);
+function ansW = incremental_learn(W, patterns, g, eta, epochs, random_pass = false, momentum = 0, aep = [])
+  ansW = learn(W, patterns, g, eta, epochs, false, random_pass, momentum, aep);
 endfunction
 
 % This function trains a neural network on a training set using back-propagation
@@ -86,16 +94,25 @@ endfunction
 %
 % momentum is the momentum parameter
 %
+% aep is the adaptative eta parameters values. aep(1) is the increasing factor;
+% aep(2) is the decreasing factor; aep(3) is the number of successful epochs 
+% before update. If aep is empty, no adaptative eta ocurrs
+%
 % Return value:
 %
 % ansW holds the weight matrices of the trained neural network
-function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, momentum)
+function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, momentum, aep)
   n = numel(patterns);
   % M is the number of layers (without counting the input layer)
   M = numel(W);
   batch_dw = cell(M, 1);
-  %last_dw will hold the weight updates for the previous epoch (to implement momentum)
+  % last_dw will hold the weight updates for the previous epoch (to implement momentum)
   last_dw = cell(M,1);
+  % last_err will hold the error of the last epoch (to implement adaptative eta)
+  last_err = Inf;
+  % consecutive_success will hold the the consecutive number of epochs during which the
+  % learning has been successful
+  consecutive_success = 0;
   for i = [1:M]
     last_dw{i} = zeros(rows(W{i}), columns(W{i}));
   endfor
@@ -139,6 +156,23 @@ function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, moment
         W{j} += batch_dw{j} + momentum*last_dw{i};
       endfor
       last_dw = batch_dw;
+    endif
+
+    if (aep)
+      err = calculate_error(W, patterns, g);
+      if (err < last_err)
+        consecutive_success++;
+        if (consecutive_success == aep(3))
+          eta += aep(1);
+          consecutive_success = 0;
+        endif
+      else
+        consecutive_success = 0;
+        if (err > last_err)
+          eta -= aep(2)*eta;
+        endif
+      endif
+      last_err = err;
     endif
 
   endfor
