@@ -301,3 +301,17 @@ function out = direct_product(v, w)
     out = [out v(k)*w(k)];
   endfor
 endfunction
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This function takes a vector of integers and return a random cell-array of 
+% matrices representing a neural network. v(m) is the number of units at layer 
+% m-1
+function W = random_weights(v)
+  M = numel(v)-1;
+  W = cell(M, 1);
+  for m = [1:M]
+    high = 2/sqrt(v(m));
+    low = high/4;
+    W(m) = rand(v(m+1), (v(m)+1))*(high - low) + low;
+  endfor
+endfunction
