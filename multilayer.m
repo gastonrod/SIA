@@ -13,7 +13,7 @@
 %
 % g is a two dimentional cell array of function handles. g{m}{1} is the the 
 % activation function for layer m; g{m}{2} is the derivative of g{m}{1} in 
-% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2
+% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2)
 %
 % eta is the learning rate
 %
@@ -41,7 +41,7 @@ endfunction
 %
 % g is a two dimentional cell array of function handles. g{m}{1} is the the 
 % activation function for layer m; g{m}{2} is the derivative of g{m}{1} in 
-% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2
+% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2)
 %
 % eta is the learning rate
 %
@@ -72,7 +72,7 @@ endfunction
 %
 % g is a two dimentional cell array of function handles. g{m}{1} is the the 
 % activation function for layer m; g{m}{2} is the derivative of g{m}{1} in 
-% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2
+% terms of g (for example, if g{m}{1}(x) = tanh(x), then g{m}{2}(x) = 1-x^2)
 %
 % eta is the learning rate
 %
@@ -223,6 +223,39 @@ function V = run_pattern(W, E, g)
     V{k} = [-1; V{k}];
     V{k+1} = arrayfun(g{k}{1}, W{k}*V{k});
   endfor
+endfunction
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This function takes a neural network and a series of patterns and returns the 
+% overall error
+%
+% Parameters:
+%
+% W is a cell array of matrices. W{m}(j, i) holds the weight of the
+% connection from unit i in the m-1 layer to unit j in the m layer
+%
+% patterns is a two dimentional cell array. patterns{i}{1} contains and input 
+% pattern; patterns{i}{2} holds the expected output
+%
+% g is a two dimentional cell array of function handles. g{m}{1} is the the 
+% activation function for layer m
+%
+% Return value:
+%
+% V is a cell array of column vectors. V{m}(i) holds the output of unit i at
+% layer m-1
+function err = calculate_error(W, patterns, g)
+  M = numel(W);
+  outsize = rows(W{M});
+  P = numel(patterns);
+  err = 0;
+  for p = [1:P]
+    res = run_pattern(W, patterns{p}{1}, g){M+1};
+    for o = [1:outsize]
+      err += (patterns{p}{2}(o) - res(o))^2;
+    endfor
+  endfor
+  err /= 2;
 endfunction
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
