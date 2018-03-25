@@ -2,6 +2,7 @@ function out = tanh_vs_sigm(arqW, patterns, eta, epochs)
   arq_num = numel(arqW);
   out = cell(arq_num, 1);
   for w = [1:arq_num]
+    M = numel(arqW{w});
     g_tanh = cell(M, 1);
     g_sigm = cell(M, 1);
     for k = [1:M-1]
