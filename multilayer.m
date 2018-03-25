@@ -25,11 +25,16 @@
 % aep(2) is the decreasing factor; aep(3) is the number of successful epochs 
 % before update. If aep is empty, no adaptative eta ocurrs (default)
 %
+% with_error is a boolean parameter specifying whether the error at each epoch 
+% should be calculated and returned. It defaults to false
+%
 % Return value:
 %
-% ansW holds the weight matrices of the trained neural network
-function ansW = batch_learn(W, patterns, g, eta, epochs, momentum = 0, aep = [])
-  ansW = learn(W, patterns, g, eta, epochs, true, false, momentum, aep);
+% ansWE is a two dimentional cell-array. ansWE{1} holds the weight matrices of 
+% the trained neural network; ansWE{2} is filled if with_error was true;
+% ansWE{2}(i) is the global error of the network after epoch i
+function ansWE = batch_learn(W, patterns, g, eta, epochs, momentum = 0, aep = [], with_error = false)
+  ansWE = learn(W, patterns, g, eta, epochs, true, false, momentum, aep);
 endfunction
 
 % This function trains a neural network on a training set using back-propagation
@@ -61,11 +66,16 @@ endfunction
 % aep(2) is the decreasing factor; aep(3) is the number of successful epochs 
 % before update. If aep is empty, no adaptative eta ocurrs (default)
 %
+% with_error is a boolean parameter specifying whether the error at each epoch 
+% should be calculated and returned. It defaults to false
+%
 % Return value:
 %
-% ansW holds the weight matrices of the trained neural network
-function ansW = incremental_learn(W, patterns, g, eta, epochs, random_pass = false, momentum = 0, aep = [])
-  ansW = learn(W, patterns, g, eta, epochs, false, random_pass, momentum, aep);
+% ansWE is a two dimentional cell-array. ansWE{1} holds the weight matrices of 
+% the trained neural network; ansWE{2} is filled if with_error was true;
+% ansWE{2}(i) is the global error of the network after epoch i
+function ansWE = incremental_learn(W, patterns, g, eta, epochs, random_pass = false, momentum = 0, aep = [], with_error = false)
+  ansWE = learn(W, patterns, g, eta, epochs, false, random_pass, momentum, aep, with_error);
 endfunction
 
 % This function trains a neural network on a training set using back-propagation
@@ -98,10 +108,15 @@ endfunction
 % aep(2) is the decreasing factor; aep(3) is the number of successful epochs 
 % before update. If aep is empty, no adaptative eta ocurrs
 %
+% with_error is a boolean parameter specifying whether the error at each epoch 
+% should be calculated and returned
+%
 % Return value:
 %
-% ansW holds the weight matrices of the trained neural network
-function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, momentum, aep)
+% ansWE is a two dimentional cell-array. ansWE{1} holds the weight matrices of 
+% the trained neural network; ansWE{2} is filled if with_error was true;
+% ansWE{2}(i) is the global error of the network after epoch i
+function ansWE = learn(W, patterns, g, eta, epochs, is_batch, random_pass, momentum, aep, with_error)
   n = numel(patterns);
   % M is the number of layers (without counting the input layer)
   M = numel(W);
@@ -113,6 +128,8 @@ function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, moment
   % consecutive_success will hold the the consecutive number of epochs during which the
   % learning has been successful
   consecutive_success = 0;
+  % error_array(i) will hold the global error at the end of epoch i
+  error_array = zeros(epochs, 1);
   for i = [1:M]
     last_dw{i} = zeros(rows(W{i}), columns(W{i}));
   endfor
@@ -151,6 +168,7 @@ function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, moment
       endif
     endfor
 
+    % batch update
     if (is_batch)
       for j = [1:M]
         W{j} += batch_dw{j} + momentum*last_dw{i};
@@ -158,8 +176,18 @@ function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, moment
       last_dw = batch_dw;
     endif
 
-    if (aep)
+    % calculate error
+    err = 0;
+    if (with_error)
       err = calculate_error(W, patterns, g);
+      error_array(k) = err;
+    endif
+
+    % adaptative eta
+    if (aep)
+      if (with_error)
+        err = calculate_error(W, patterns, g);
+      endif
       if (err < last_err)
         consecutive_success++;
         if (consecutive_success == aep(3))
@@ -177,7 +205,14 @@ function ansW = learn(W, patterns, g, eta, epochs, is_batch, random_pass, moment
 
   endfor
   
-  ansW = W;
+  ansWE = cell(2,1);
+  ansWE{1} = W;
+  if (with_error)
+    ansWE{2} = error_array;
+  else
+    ansWE{2} = [];
+  endif
+
 endfunction
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
