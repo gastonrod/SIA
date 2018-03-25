@@ -1,3 +1,24 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This function takes a series of neural networks and compares the results of 
+% using hyperbolic tangent vs sigmoid as activation functions
+%
+% Parameters:
+%
+% arqW is a cell array of architectures, where every element contains a cell 
+% array of weight matrices
+%
+% patterns is the training set
+%
+% eta is the learning rate
+%
+% epochs is the number of epochs to train the network for
+%
+% Return value:
+%
+% The functon returns a cell array with as many elements as architectures
+% out{i} is a cell array corresponding to arqW{i}. out{i}{1} contains a 
+% vector with the global errors epoch by epoch with hyperbolic tangent;
+% out{i}{2} is analogous but with sigmoid learning
 function out = tanh_vs_sigm(arqW, patterns, eta, epochs)
   arq_num = numel(arqW);
   out = cell(arq_num, 1);
