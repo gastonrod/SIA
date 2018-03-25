@@ -1,6 +1,8 @@
 function out = tanh_vs_sigm(arqW, patterns, eta, epochs)
   arq_num = numel(arqW);
   out = cell(arq_num, 1);
+  won_tanh = 0;
+  won_sigm = 0;
   for w = [1:arq_num]
     M = numel(arqW{w});
     g_tanh = cell(M, 1);
@@ -11,11 +13,11 @@ function out = tanh_vs_sigm(arqW, patterns, eta, epochs)
     endfor
     g_tanh{M} = {@(x) x, @(x) 1};
     g_sigm{M} = {@(x) x, @(x) 1};
-    WE_tanh = tanhremental_learn(arqW{w}, patterns, g_tanh, eta, epochs, false, 0, [], true);
-    WE_sigm = tanhremental_learn(arqW{w}, patterns, g_sigm, eta, epochs, false, 0, [], true);
+    WE_tanh = incremental_learn(arqW{w}, patterns, g_tanh, eta, epochs, false, 0, [], true);
+    WE_sigm = incremental_learn(arqW{w}, patterns, g_sigm, eta, epochs, false, 0, [], true);
     err_tanh = WE_tanh{2}(epochs);
     err_sigm = WE_sigm{2}(epochs);
-    out{w} = {WE_tanh{2}, WE_sigm{2}};
+    out{w} = {WE_tanh{2}, WE_sigm{2}};    
     if (err_tanh > err_sigm)
       won_sigm++;
     else
