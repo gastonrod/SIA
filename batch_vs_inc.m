@@ -12,8 +12,9 @@ function out = batch_vs_inc(arqW, patterns, eta, epochs)
     g{M} = {@(x) x, @(x) 1};
     WE_inc = incremental_learn(arqW{w}, patterns, g, eta, epochs, false, 0, [], true);
     WE_batch = batch_learn(arqW{w}, patterns, g, eta, epochs, 0, [], true);
-    err_inc = WE_inc{2}(M);
-    err_batch = WE_batch{2}(M);
+    err_inc = WE_inc{2}(epochs);
+    err_batch = WE_batch{2}(epochs);
+    printf('%d: err_inc = %f\terr_batch=%f\n', w, err_inc, err_batch);
     out{w} = {WE_inc{2}, WE_batch{2}};
     if (err_inc > err_batch)
       won_batch++;
@@ -26,5 +27,5 @@ function out = batch_vs_inc(arqW, patterns, eta, epochs)
       endif
     endif
   endfor
-  printf('Incremental won: %d\nBatch won: %d\n', won_inc, won_batch);
+  printf('Incremental won: %f\nBatch won: %f\n', won_inc, won_batch);
 endfunction
