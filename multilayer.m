@@ -34,7 +34,7 @@
 % the trained neural network; ansWE{2} is filled if with_error was true;
 % ansWE{2}(i) is the global error of the network after epoch i
 function ansWE = batch_learn(W, patterns, g, eta, epochs, momentum = 0, aep = [], with_error = false)
-  ansWE = learn(W, patterns, g, eta, epochs, true, false, momentum, aep);
+  ansWE = learn(W, patterns, g, eta, epochs, true, false, momentum, aep, with_error);
 endfunction
 
 % This function trains a neural network on a training set using back-propagation
@@ -121,7 +121,7 @@ function ansWE = learn(W, patterns, g, eta, epochs, is_batch, random_pass, momen
   % M is the number of layers (without counting the input layer)
   M = numel(W);
   batch_dw = cell(M, 1);
-  % last_dw will hold the weight updates for the previous epoch (to implement momentum)
+  % last_dw will hold the weight updates for the previous update (to implement momentum)
   last_dw = cell(M,1);
   % last_err will hold the error of the last epoch (to implement adaptative eta)
   last_err = Inf;
@@ -171,7 +171,7 @@ function ansWE = learn(W, patterns, g, eta, epochs, is_batch, random_pass, momen
     % batch update
     if (is_batch)
       for j = [1:M]
-        W{j} += batch_dw{j} + momentum*last_dw{i};
+        W{j} += batch_dw{j} + momentum*last_dw{j};
       endfor
       last_dw = batch_dw;
     endif
