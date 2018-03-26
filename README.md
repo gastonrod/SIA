@@ -20,3 +20,13 @@ Alternatively, you may run `study_terrain_custom` which offers richer configurat
   * `learn_function` must be either `"incremental"` or `"batch"` and is used to set the learning function.
   * `eta` is the learning rate.
   * `momentum` is the momentum factor.
+
+## Relevant files
+
+* `multilayer.m` contains the functions necessary to make the neural network.
+* `gen_arq.m` generates the eleven architectures we experimented with.
+* `study_terrain` uses the already pre-set best parameters to learn a new terrain.
+* `test_results.data` contains the results of running the 11th architecture with different epochs and sample sizes.
+* `initial_W.data` contains the initial weights matrix utilized in the tests.
+* `/terrains` contains all the terrains provided.
+* `/images` contains the different graphs we gathered, such as different error rates for different architectures and many other things
