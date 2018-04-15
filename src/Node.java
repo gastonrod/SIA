@@ -30,7 +30,7 @@ public class Node {
                     depth + 1,
                     this,
                     accumulatedCost + stateAndCost.cost,
-                    state.getEstimatedCost()
+                    stateAndCost.state.getEstimatedCost()
             ));
         }
         return result;
