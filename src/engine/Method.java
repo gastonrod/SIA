@@ -1,4 +1,5 @@
-public enum Method {
+package engine;
 
-	BFS, DFS, IDS, GREEDY, A_STAR;
+public enum Method {
+	BFS, DFS, GREEDY, A_STAR
 }

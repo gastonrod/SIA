@@ -1,5 +1,4 @@
 *.class
-*.jar
 *.out
 .idea/*
 out/*

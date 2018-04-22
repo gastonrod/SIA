@@ -1,23 +1,19 @@
-import java.util.Comparator;
+package engine;
+
+import ar.com.itba.sia.*;
 
 public class Solver {
 
-    private static Comparator<Node> bfsComparator = Comparator.comparingInt(n -> n.depth);
-    private static Comparator<Node> dfsComparator = bfsComparator.reversed();
-    private static Comparator<Node> idsComparator = dfsComparator;
-    private static Comparator<Node> greedyComparator = Comparator.comparingDouble(n -> n.estimatedCost);
-    private static Comparator<Node> aStarComparator = Comparator.comparingDouble(n -> n.accumulatedCost + n.estimatedCost);
-
-    private static Search search;
+    private static Search<?> search;
 
     public static void main(String[] args) {
 
     }
 
-    private static void solve(State initialState, SolveMethod solveMethod) {
+    private static <E> void solve(Problem<E> problem, Heuristic<E> heuristic, SolveMethod<E> solveMethod) {
         try {
             int time = 0;
-            Node result = solveMethod.solve(initialState);
+            Node result = solveMethod.solve(problem, heuristic);
             System.out.println("Solution found");
             System.out.println(result.state.toString());
             System.out.println("Time: " + time);
@@ -33,38 +29,43 @@ public class Solver {
         }
     }
 
-    private static Node bfsSolve(State initialState) {
-        search =  new Search(bfsComparator);
-        return search.solve(initialState);
-    }
-
-    private static Node dfsSolve(State initialState) {
-        search =  new Search(dfsComparator);
-        return search.solve(initialState);
-    }
-
-    private static Node idsSolve(State initialState) {
-        Node result = null;
-        search = new Search(idsComparator);
-        for (int i = 0; result == null; i++) {
-            search.reset();
-            result = search.solve(initialState, i);
-        }
+    private static <E> Node<E> bfsSolve(Problem<E> problem, Heuristic<E> heuristic) {
+        Search<E> search =  new Search<E>();
+        Node<E> result = search.solve(problem, heuristic, false, Method.BFS);
+        Solver.search = search;
         return result;
     }
 
-    private static Node greedySolve(State initialState) {
-        search =  new Search(greedyComparator);
-        return search.solve(initialState);
+    private static <E> Node<E> dfsSolve(Problem<E> problem, Heuristic<E> heuristic) {
+        Search<E> search =  new Search<E>();
+        Node<E> result = search.solve(problem, heuristic, false, Method.DFS);
+        Solver.search = search;
+        return result;
     }
 
-    private static Node aStarSolve(State initialState) {
-        search =  new Search(aStarComparator);
-        return search.solve(initialState);
+    private static <E> Node<E> idaSolve(Problem<E> problem, Heuristic<E> heuristic) {
+        Search<E> search =  new Search<E>();
+        Node<E> result = search.solve(problem, heuristic, true, Method.DFS);
+        Solver.search = search;
+        return result;
+    }
+
+    private static <E> Node<E> greedySolve(Problem<E> problem, Heuristic<E> heuristic) {
+        Search<E> search =  new Search<E>();
+        Node<E> result = search.solve(problem, heuristic, false, Method.GREEDY);
+        Solver.search = search;
+        return result;
+    }
+
+    private static <E> Node<E> aStartSolve(Problem<E> problem, Heuristic<E> heuristic) {
+        Search<E> search =  new Search<E>();
+        Node<E> result = search.solve(problem, heuristic, false, Method.A_STAR);
+        Solver.search = search;
+        return result;
     }
 
     @FunctionalInterface
-    private interface SolveMethod {
-        Node solve(State initialState);
+    private interface SolveMethod<E> {
+        Node<E> solve(Problem<E> problem, Heuristic<E> heuristic);
     }
 }
