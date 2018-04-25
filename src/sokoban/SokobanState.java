@@ -4,7 +4,9 @@ import ar.com.itba.sia.*;
 
 public class SokobanState {
 
-    public static final SokobanBuilder BUILDER = new SokobanBuilder();
+    public static SokobanBuilder getNewBuilder() {
+        return new SokobanBuilder();
+    }
 
     private Element[][] board;
 
@@ -14,18 +16,24 @@ public class SokobanState {
 
     public static class SokobanBuilder {
 
+        private boolean dimentionsSet;
         private int dimX, dimY;
         private Element[][] board;
         private int addedElements;
         private boolean guyPlaced;
+        private int guyX, guyY;
         private int boxes;
         private int goals;
-        private int guyX;
-        private int guyY;
 
-        private SokobanBuilder() {}
+        private SokobanBuilder() {
+            this.dimentionsSet = false;
+        }
 
         public void setDimentions(int dimX, int dimY) {
+            if (dimX <= 0 || dimY <= 0) {
+                throw new IllegalArgumentException("Invalid dimensions for builder: x = " + dimX + " and y = " + dimY);
+            }
+            this.dimentionsSet = true;
             this.dimX = dimX;
             this.dimY = dimY;
             this.board = new Element[dimX][dimY];
@@ -36,6 +44,9 @@ public class SokobanState {
         }
 
         public void setElement(int x, int y, Element element) {
+            if (!dimentionsSet) {
+                throw new RuntimeException("Trying to set element before setting dimension");
+            }
             if (x < 0 || x >= dimX || y < 0 || y >= dimY) {
                 throw new RuntimeException("Adding element to invalid position (" + x + "," + y + ")");
             }
@@ -64,6 +75,9 @@ public class SokobanState {
         }
 
         public SokobanState build() {
+            if (!dimentionsSet) {
+                throw new RuntimeException("Trying to build state before setting dimension");
+            }
             if (addedElements < dimX*dimY) {
                 throw new RuntimeException("Attempt to build incomplete board");
             }
