@@ -2,7 +2,7 @@ package sokoban;
 
 public enum Element {
 
-    EMPTY, PLAYER, BOX, GOAL, BOX_AND_GOAL, WALL;
+    EMPTY, BOX, GOAL, WALL, BOX_AND_GOAL;
 
     public Element place(Element element) {
         return null;    // TODO
