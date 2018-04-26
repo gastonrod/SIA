@@ -20,8 +20,8 @@ public class SokobanState {
         private int dimX, dimY;
         private Element[][] board;
         private int addedElements;
-        private boolean guyPlaced;
-        private int guyX, guyY;
+        private boolean playerPlaced;
+        private int playerX, playerY;
         private int boxes;
         private int goals;
 
@@ -40,7 +40,7 @@ public class SokobanState {
             this.addedElements = 0;
             this.boxes = 0;
             this.goals = 0;
-            this.guyPlaced = false;
+            this.playerPlaced = false;
         }
 
         public void setElement(int x, int y, Element element) {
@@ -53,13 +53,13 @@ public class SokobanState {
             if (board[x][y] != null) {
                 throw new RuntimeException("Adding element " + element + " to occupied square (" + x + "," + y + ")");
             }
-            if (element == Element.GUY) {
-                if (guyPlaced) {
-                    throw new RuntimeException("Adding guy to position (" + x + "," + y + ") when there's one at (" + guyX + "," + guyY + ")");
+            if (element == Element.PLAYER) {
+                if (playerPlaced) {
+                    throw new RuntimeException("Adding player to position (" + x + "," + y + ") when there's one at (" + playerX + "," + playerY + ")");
                 } else {
-                    guyPlaced = true;
-                    guyX = x;
-                    guyY = y;
+                    playerPlaced = true;
+                    playerX = x;
+                    playerY = y;
                 }
             }
             board[x][y] = element;
