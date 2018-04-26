@@ -1,13 +1,21 @@
 package engine;
 
 import ar.com.itba.sia.*;
+import sokoban.SokobanProblem;
 
 public class Solver {
 
     private static Search<?> search;
 
     public static void main(String[] args) {
-
+        Problem<?> problem;
+        try {
+            problem = new SokobanProblem("input.txt");
+            System.out.println("Board parsing successful");
+        } catch(Exception e) {
+            System.out.println("Board parsing went wrong");
+            System.out.println(e.getMessage());
+        }
     }
 
     private static <E> void solve(Problem<E> problem, Heuristic<E> heuristic, SolveMethod<E> solveMethod) {
