@@ -1,7 +1,5 @@
 package sokoban;
 
-import ar.com.itba.sia.*;
-
 public class SokobanState {
 
     public static SokobanBuilder getNewBuilder() {
@@ -76,10 +74,16 @@ public class SokobanState {
 
         public SokobanState build() {
             if (!dimentionsSet) {
-                throw new RuntimeException("Trying to build state before setting dimension");
+                throw new RuntimeException("Attempt to build state before setting dimension");
             }
             if (addedElements < dimX*dimY) {
                 throw new RuntimeException("Attempt to build incomplete board");
+            }
+            if (goals != boxes) {
+                throw new RuntimeException("Attempt to build board with different amount of boxes (" + boxes + ") and goals (" + goals + ")");
+            }
+            if (!playerPlaced) {
+                throw new RuntimeException("Attempt to build board without a player");
             }
             return new SokobanState(board);
         }
