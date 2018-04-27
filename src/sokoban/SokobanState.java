@@ -11,10 +11,28 @@ public class SokobanState {
     private int boxes;
     private int placedBoxes;
 
-    private SokobanState(Element[][] board, int playerX, int playerY) {
+    SokobanState(Element[][] board, int playerX, int playerY, int boxes, int placedBoxes) {
         this.board = board;
         this.playerX = playerX;
         this.playerY = playerY;
+        this.boxes = boxes;
+        this.placedBoxes = placedBoxes;
+    }
+
+    Element[][] getBoardCopy() {
+        Element[][] boardCopy = this.board.clone();
+        for (int i = 0; i < boardCopy.length; i++) {
+            boardCopy[i] = this.board[i].clone();
+        }
+        return boardCopy;
+    }
+
+    int getBoxes() {
+        return boxes;
+    }
+
+    int getPlacedBoxes() {
+        return placedBoxes;
     }
 
     public static class SokobanBuilder {
@@ -27,6 +45,7 @@ public class SokobanState {
         private int playerX, playerY;
         private int boxes;
         private int goals;
+        private int placedBoxes;
 
         private SokobanBuilder() {
             this.dimensionsSet = false;
@@ -44,6 +63,7 @@ public class SokobanState {
             this.boxes = 0;
             this.goals = 0;
             this.playerPlaced = false;
+            this.placedBoxes = 0;
         }
 
         public void placePlayer(int playerX, int playerY) {
@@ -86,6 +106,7 @@ public class SokobanState {
             } else if (element == Element.BOX_AND_GOAL) {
                 boxes++;
                 goals++;
+                placedBoxes++;
             }
         }
 
@@ -102,7 +123,7 @@ public class SokobanState {
             if (goals != boxes) {
                 throw new RuntimeException("Attempt to build board with different amount of boxes (" + boxes + ") and goals (" + goals + ")");
             }
-            return new SokobanState(board, playerX, playerY);
+            return new SokobanState(board, playerX, playerY, boxes, placedBoxes);
         }
     }
 
