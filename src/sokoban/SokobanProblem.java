@@ -62,11 +62,11 @@ public class SokobanProblem implements Problem<SokobanState> {
             }
             String[] sPos = line.split(" ");
             if (sPos.length != 2) {
-                throw new RuntimeException("Invalid dimension line: " + line);
+                throw new RuntimeException("Invalid player's position line: " + line);
             }
             int playerX, playerY;
             try {
-                playerX = Integer.parseInt(sDims[0]);
+                playerX = Integer.parseInt(sPos[0]);
             } catch (NumberFormatException e) {
                 throw new RuntimeException("Invalid integer for player's x position: " + sPos[0], e);
             }

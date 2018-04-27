@@ -102,9 +102,6 @@ public class SokobanState {
             if (goals != boxes) {
                 throw new RuntimeException("Attempt to build board with different amount of boxes (" + boxes + ") and goals (" + goals + ")");
             }
-            if (!playerPlaced) {
-                throw new RuntimeException("Attempt to build board without a player");
-            }
             return new SokobanState(board, playerX, playerY);
         }
     }
