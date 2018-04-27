@@ -112,7 +112,7 @@ public class SokobanProblem implements Problem<SokobanState> {
 
     private void buildCharacterElementMap() {
         characterElementMap = new HashMap<>();
-        characterElementMap.put(' ', Element.EMPTY);
+        characterElementMap.put('.', Element.EMPTY);
         characterElementMap.put('b', Element.BOX);
         characterElementMap.put('g', Element.GOAL);
         characterElementMap.put('x', Element.BOX_AND_GOAL);
