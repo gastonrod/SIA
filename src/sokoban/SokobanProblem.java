@@ -132,6 +132,6 @@ public class SokobanProblem implements Problem<SokobanState> {
 
     @Override
     public boolean isResolved(SokobanState sokobanState) {
-        return false;
+        return sokobanState.getBoxes() == sokobanState.getPlacedBoxes();
     }
 }
