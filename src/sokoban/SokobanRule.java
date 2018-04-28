@@ -60,8 +60,12 @@ public class SokobanRule implements Rule<SokobanState> {
         return new SokobanState(board, boxX, boxY, sokobanState.getBoxes(), placedBoxes);
     }
 
-    private class InvalidRuleException extends RuntimeException {
+    @Override
+    public String toString() {
+        return "Move box at (" + boxX + ", " + boxY + ") " + direction;
+    }
 
+    private class InvalidRuleException extends RuntimeException {
         InvalidRuleException() {
             super("Applying invalid rule");
         }

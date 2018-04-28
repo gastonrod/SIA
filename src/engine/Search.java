@@ -56,6 +56,7 @@ class Search<E> {
 		while(!frontier.isEmpty()) {
 			Node<E> currentNode = frontier.remove();
 			explored.add(currentNode);
+			//System.out.println(currentNode.state.toString());
 			List<Rule<E>> rules = problem.getRules(currentNode.state);
 			List<Node<E>> nextNodes = new LinkedList<>();
 			for (Rule<E> rule: rules) {
@@ -72,9 +73,10 @@ class Search<E> {
 			for (Node<E> next: nextNodes) {
 				if (!explored.contains(next)) {
 					if (problem.isResolved(next.state)) {
+						frontier.add(next);
 						return next;
 					}
-					if (depthLimit >= 0 && next.depth < depthLimit) {
+					if (depthLimit < 0 || next.depth < depthLimit) {
 						frontier.add(next);
 					}
 				}

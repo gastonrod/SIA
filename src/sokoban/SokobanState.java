@@ -1,9 +1,27 @@
 package sokoban;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import java.util.Arrays;
+
 public class SokobanState {
 
     public static SokobanBuilder getNewBuilder() {
         return new SokobanBuilder();
+    }
+
+    private static Map<Element, Character> characterElementMap =
+            buildCharacterElementMap();
+
+    private static Map<Element, Character> buildCharacterElementMap() {
+        Map<Element, Character> result = new HashMap<>();
+        result.put(Element.EMPTY, '.');
+        result.put(Element.BOX, 'b');
+        result.put(Element.GOAL, 'g');
+        result.put(Element.WALL, 'w');
+        result.put(Element.BOX_AND_GOAL, 'x');
+        return result;
     }
 
     private Element[][] board;
@@ -27,12 +45,68 @@ public class SokobanState {
         return boardCopy;
     }
 
+    public int getDimX() {
+        return board.length;
+    }
+
+    public int getDimY() {
+        return board[0].length;
+    }
+
+    int getPlayerX() {
+        return playerX;
+    }
+
+    int getPlayerY() {
+        return playerY;
+    }
+
+    public Element getElementAt(int x, int y) {
+        return board[x][y];
+    }
+
     int getBoxes() {
         return boxes;
     }
 
     int getPlacedBoxes() {
         return placedBoxes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SokobanState)) return false;
+
+        SokobanState that = (SokobanState) o;
+
+        if (playerX != that.playerX) return false;
+        if (playerY != that.playerY) return false;
+        return Arrays.deepEquals(board, that.board);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.deepHashCode(board);
+        result = 31 * result + playerX;
+        result = 31 * result + playerY;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (i == playerX && j == playerY) {
+                    sb.append('p');
+                } else {
+                    sb.append(characterElementMap.get(board[i][j]));
+                }
+            }
+            sb.append('\n');
+        }
+        return sb.toString();
     }
 
     public static class SokobanBuilder {

@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -127,7 +128,50 @@ public class SokobanProblem implements Problem<SokobanState> {
     @NotNull
     @Override
     public List<Rule<SokobanState>> getRules(SokobanState sokobanState) {
-        return null;
+        boolean[][] painted = new boolean[sokobanState.getDimX()][sokobanState.getDimY()];
+        for (int i = 0; i < painted.length; i++) {
+            for (int j = 0; j < painted[0].length; j++) {
+                painted[i][j] = false;
+            }
+        }
+        List<Rule<SokobanState>> rules = new LinkedList<>();
+        generateRules(  sokobanState.getPlayerX(),
+                        sokobanState.getPlayerY(),
+                        sokobanState,
+                        rules,
+                        painted);
+        return rules;
+    }
+
+    private void generateRules(int playerX,
+                               int playerY,
+                               SokobanState sokobanState,
+                               List<Rule<SokobanState>> rules,
+                               boolean[][] painted) {
+        if (!painted[playerX][playerY]) {
+            painted[playerX][playerY] = true;
+            Direction[] directions = Direction.values();
+            for (Direction direction : directions) {
+                if (isInRange(playerX, playerY, direction, painted)) {
+                    int movedX = playerX + direction.x;
+                    int movedY = playerY + direction.y;
+                    Element element = sokobanState.getElementAt(movedX, movedY);
+                    if (element.hasBox() &&
+                            isInRange(movedX, movedY, direction, painted) &&
+                            sokobanState.getElementAt(movedX + direction.x, movedY + direction.y).hasRoom()) {
+                        rules.add(new SokobanRule(movedX, movedY, direction));
+                    } else if (element.hasRoom()) {
+                        generateRules(movedX, movedY, sokobanState, rules, painted);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isInRange(int playerX, int playerY, Direction direction, boolean[][] painted) {
+        int x = playerX + direction.x;
+        int y = playerY + direction.y;
+        return x >= 0 && x < painted.length && y >= 0 && y < painted[0].length;
     }
 
     @Override
