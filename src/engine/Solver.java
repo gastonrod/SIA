@@ -1,6 +1,7 @@
 package engine;
 
 import ar.com.itba.sia.*;
+import sokoban.SokobanDistanceHeuristic;
 import sokoban.SokobanPlacedBoxesHeuristic;
 import sokoban.SokobanProblem;
 
@@ -14,13 +15,13 @@ public class Solver {
     public static void main(String[] args) {
         Problem<?> problem = null;
         try {
-            problem = new SokobanProblem("input1.txt");
+            problem = new SokobanProblem("input4.txt");
             System.out.println("Board parsing successful");
         } catch(Exception e) {
             System.out.println("Board parsing went wrong");
             System.out.println(e.toString());
         }
-        solve((Problem<sokoban.SokobanState>) problem, new SokobanPlacedBoxesHeuristic(), Solver::aStarSolve);
+        solve((Problem<sokoban.SokobanState>) problem, new SokobanDistanceHeuristic(), Solver::aStarSolve);
     }
 
     private static <E> void solve(Problem<E> problem, Heuristic<E> heuristic, SolveMethod<E> solveMethod) {

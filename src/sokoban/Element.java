@@ -10,4 +10,8 @@ public enum Element {
     boolean hasRoom() {
         return this == GOAL || this == EMPTY;
     }
+
+    boolean hasGoal() {
+        return this == GOAL || this == BOX_AND_GOAL;
+    }
 }
