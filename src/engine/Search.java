@@ -10,6 +10,9 @@ class Search<E> {
 	private int expanded;
 	private int generated;
 
+	private InputManager<E> iM;
+	private static int stepsCounter = 1;
+
 	Search() {
 		reset();
 	}
@@ -22,6 +25,9 @@ class Search<E> {
 	}
 
 	Node<E> solve(Problem<E> problem, Heuristic<E> heuristic, boolean iterativeDeepening, Method method) {
+		if (Solver.debug){
+			iM = new InputManager<E>();
+		}
 		if (iterativeDeepening) {
 			for (int i = 0; i < Integer.MAX_VALUE; i++) {
 				Node<E> result = solve(problem, heuristic, i, method);
@@ -55,6 +61,13 @@ class Search<E> {
 		frontier.add(initialNode);
 		while(!frontier.isEmpty()) {
 			Node<E> currentNode = frontier.remove();
+			if(Solver.debug && --stepsCounter <= 0){
+				stepsCounter = iM.manageInput(currentNode, problem);
+				if (stepsCounter == -1) {
+					Solver.debug = false;
+					iM.closeScanner();
+				}
+			}
 			explored.add(currentNode);
 			//System.out.println(currentNode.state.toString());
 			List<Rule<E>> rules = problem.getRules(currentNode.state);
@@ -74,6 +87,8 @@ class Search<E> {
 				if (!explored.contains(next)) {
 					if (problem.isResolved(next.state)) {
 						frontier.add(next);
+						if(Solver.debug)
+							iM.closeScanner();
 						return next;
 					}
 					if (depthLimit < 0 || next.depth < depthLimit) {
@@ -82,8 +97,12 @@ class Search<E> {
 				}
 			}
 		}
+		if(Solver.debug)
+			iM.closeScanner();
 		return null;
 	}
+
+
 
 	int frontierSize() {
 		return (frontier == null ? 0 : frontier.size());
@@ -112,4 +131,5 @@ class Search<E> {
 				throw new IllegalArgumentException("Method not supported: " + method);
 		}
 	}
+
 }

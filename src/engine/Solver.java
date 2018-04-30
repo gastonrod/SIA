@@ -5,23 +5,37 @@ import sokoban.SokobanDistanceHeuristic;
 import sokoban.SokobanPlacedBoxesHeuristic;
 import sokoban.SokobanProblem;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 public class Solver {
 
     private static Search<?> search;
+    private static MyProperties properties;
+    public static boolean debug;
 
     public static void main(String[] args) {
         Problem<?> problem = null;
         try {
-            problem = new SokobanProblem("input4.txt");
+            properties = new MyProperties();
+            problem = new SokobanProblem(properties.getBoardFile());
             System.out.println("Board parsing successful");
-        } catch(Exception e) {
+        } catch (IOException e){
+            System.out.println("Properties loading went wrong");
+            System.out.println(e.getMessage());
+        }catch(Exception e) {
             System.out.println("Board parsing went wrong");
             System.out.println(e.toString());
         }
-        solve((Problem<sokoban.SokobanState>) problem, new SokobanDistanceHeuristic(), Solver::aStarSolve);
+        try {
+            debug = properties.getDebug();
+            solve((Problem<sokoban.SokobanState>) problem, properties.getHeuristic(), properties.getMethod());
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private static <E> void solve(Problem<E> problem, Heuristic<E> heuristic, SolveMethod<E> solveMethod) {
@@ -97,8 +111,67 @@ public class Solver {
         return result;
     }
 
+
     @FunctionalInterface
     private interface SolveMethod<E> {
         Node<E> solve(Problem<E> problem, Heuristic<E> heuristic);
     }
+
+    private static class MyProperties{
+
+        Properties properties;
+
+        public MyProperties() throws IOException{
+            properties = new Properties();
+            properties.load(new FileInputStream("config.properties"));
+        }
+
+        public Heuristic getHeuristic() throws Exception{
+            String s = properties.getProperty("HEURISTIC");
+            if (s == null)
+                throw new Exception("Heuristic not found in the config.properties file.");
+            if (s.equals("DISTANCE")){
+                return new SokobanDistanceHeuristic();
+            }else if(s.equals("PLACED_BOXES")){
+                return new SokobanPlacedBoxesHeuristic();
+            }else{
+                throw new Exception("The heuristic written in the properties file is wrong.");
+            }
+        }
+
+        public SolveMethod getMethod() throws Exception{
+            String s = properties.getProperty("METHOD");
+            if (s == null)
+                throw new Exception("Method not found in the config.properties file.");
+            if ( s.equals("A_STAR")){
+                return Solver::aStarSolve;
+            }else if (s.equals("BFS")){
+                return Solver::bfsSolve;
+            }else if (s.equals("DFS")){
+                return Solver::dfsSolve;
+            }else if (s.equals("GREEDY")){
+                return Solver::greedySolve;
+            }else if ( s.equals("IDA")){
+                return Solver::idaSolve;
+            } else {
+                throw new Exception("The method written in the properties file is wrong.");
+            }
+        }
+
+        public boolean getDebug() throws Exception{
+            String s = properties.getProperty("DEBUG");
+            if (s == null)
+                throw new Exception("Debug not found in the config.properties file.");
+            return Boolean.parseBoolean(s);
+        }
+
+        public String getBoardFile() throws Exception{
+            String s = properties.getProperty("BOARD");
+            if (s == null)
+                throw new Exception("Board filename not found in the config.properties file.");
+            return s;
+
+        }
+    }
+
 }
