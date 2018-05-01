@@ -1,0 +1,112 @@
+input2:
+  A_STAR:
+    DISTANCE:
+      Depth: 12
+      Time: 12.969 seconds
+      Expanded nodes: 551057
+      Frontier nodes: 1074723
+      Generated nodes: 2249971
+    PLACED_BOXES:
+      Depth: 12
+      Time: 0.098 seconds
+      Expanded nodes: 6746
+      Frontier nodes: 23500
+      Generated nodes: 34382
+  BFS:
+    Board parsing successful
+    Search terminated due to insufficient memory
+  DFS:
+    Depth: 20
+    Time: 7.154 seconds
+    Expanded nodes: 745852
+    Frontier nodes: 52
+    Generated nodes: 3470238
+  GREEDY:
+    Depth: 12
+    Time: 0.248 seconds
+    Expanded nodes: 29513
+    Frontier nodes: 26166
+    Generated nodes: 107476
+  IDA:
+    Depth: 12
+    Time: 0.766 seconds
+    Expanded nodes: 8944
+    Frontier nodes: 32
+    Generated nodes: 41011
+
+input3:
+  A_STAR:
+    DISTANCE:
+      Depth: 5
+      Time: 0.019 seconds
+      Expanded nodes: 186
+      Frontier nodes: 391
+      Generated nodes: 769
+    PLACED_BOXES:
+      Depth: 5
+      Time: 0.013 seconds
+      Expanded nodes: 60
+      Frontier nodes: 262
+      Generated nodes: 347
+  BFS:
+    Depth: 5
+    Time: 0.022 seconds
+    Expanded nodes: 506
+    Frontier nodes: 1557
+    Generated nodes: 2737
+  DFS:
+    Depth: 7
+    Time: 0.042 seconds
+    Expanded nodes: 1631
+    Frontier nodes: 31
+    Generated nodes: 6731
+  GREEDY:
+    Depth: 15
+    Time: 0.091 seconds
+    Expanded nodes: 5832
+    Frontier nodes: 1513
+    Generated nodes: 23081
+  IDA:
+    Depth: 7
+    Time: 0.035 seconds
+    Expanded nodes: 252
+    Frontier nodes: 28
+    Generated nodes: 1051
+input4:
+  A_STAR:
+    PLACED_BOXES:
+      Depth: 5
+      Time: 0.013 seconds
+      Expanded nodes: 60
+      Frontier nodes: 262
+      Generated nodes: 347
+    DISTANCE:
+      Depth: 5
+      Time: 0.018 seconds
+      Expanded nodes: 186
+      Frontier nodes: 391
+      Generated nodes: 769
+  BFS:
+    Depth: 5
+    Time: 0.03 seconds
+    Expanded nodes: 506
+    Frontier nodes: 1557
+    Generated nodes: 2737
+  DFS:
+    Depth: 7
+    Time: 0.048 seconds
+    Expanded nodes: 1631
+    Frontier nodes: 31
+    Generated nodes: 6731
+  GREEDY:
+    Depth: 15
+    Time: 0.087 seconds
+    Expanded nodes: 5832
+    Frontier nodes: 1513
+    Generated nodes: 23081
+  IDA:
+    Depth: 7
+    Time: 0.042 seconds
+    Expanded nodes: 252
+    Frontier nodes: 28
+    Generated nodes: 1051
