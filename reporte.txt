@@ -22,11 +22,18 @@ input2:
     Frontier nodes: 52
     Generated nodes: 3470238
   GREEDY:
-    Depth: 12
-    Time: 0.248 seconds
-    Expanded nodes: 29513
-    Frontier nodes: 26166
-    Generated nodes: 107476
+    DISTANCE:
+      Depth: 20
+        Time: 52.683 seconds
+        Expanded nodes: 3000334
+        Frontier nodes: 865989
+        Generated nodes: 12557538
+    PLACED_BOXES:
+      Depth: 12
+      Time: 0.562 seconds
+      Expanded nodes: 29513
+      Frontier nodes: 26166
+      Generated nodes: 107476
   IDA:
     Depth: 12
     Time: 0.766 seconds
@@ -61,11 +68,18 @@ input3:
     Frontier nodes: 31
     Generated nodes: 6731
   GREEDY:
-    Depth: 15
-    Time: 0.091 seconds
-    Expanded nodes: 5832
-    Frontier nodes: 1513
-    Generated nodes: 23081
+    DISTANCE:
+      Depth: 15
+      Time: 0.114 seconds
+      Expanded nodes: 5832
+      Frontier nodes: 1513
+      Generated nodes: 23081
+    PLACED_BOXES:
+      Depth: 7
+      Time: 0.012 seconds
+      Expanded nodes: 37
+      Frontier nodes: 90
+      Generated nodes: 145
   IDA:
     Depth: 7
     Time: 0.035 seconds
@@ -98,12 +112,19 @@ input4:
     Expanded nodes: 16600
     Frontier nodes: 160
     Generated nodes: 58197
-  GREEDY:
-    Depth: 34
-    Time: 0.425 seconds
-    Expanded nodes: 46921
-    Frontier nodes: 16733
-    Generated nodes: 175899
+    GREEDY:
+      DISTANCE:
+        Depth: 24
+        Time: 0.629 seconds
+        Expanded nodes: 40384
+        Frontier nodes: 13842
+        Generated nodes: 153807
+      PLACED_BOXES:
+        Depth: 34
+        Time: 0.594 seconds
+        Expanded nodes: 46921
+        Frontier nodes: 16733
+        Generated nodes: 175899
   IDA:
     Depth: 22
     Time: 1.784 seconds
