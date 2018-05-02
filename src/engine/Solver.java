@@ -98,7 +98,6 @@ public class Solver {
         return result;
     }
 
-
     @FunctionalInterface
     private interface SolveMethod<E> {
         Node<E> solve(Problem<E> problem, Heuristic<E> heuristic);

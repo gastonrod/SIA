@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class SokobanState {
 
-    public static SokobanBuilder getNewBuilder() {
+    static SokobanBuilder getNewBuilder() {
         return new SokobanBuilder();
     }
 
@@ -45,11 +45,11 @@ public class SokobanState {
         return boardCopy;
     }
 
-    public int getDimX() {
+    int getDimX() {
         return board.length;
     }
 
-    public int getDimY() {
+    int getDimY() {
         return board[0].length;
     }
 
@@ -61,7 +61,7 @@ public class SokobanState {
         return playerY;
     }
 
-    public Element getElementAt(int x, int y) {
+    Element getElementAt(int x, int y) {
         return board[x][y];
     }
 
@@ -109,7 +109,7 @@ public class SokobanState {
         return sb.toString();
     }
 
-    public static class SokobanBuilder {
+    static class SokobanBuilder {
 
         private boolean dimensionsSet;
         private int dimX, dimY;
@@ -125,7 +125,7 @@ public class SokobanState {
             this.dimensionsSet = false;
         }
 
-        public void setDimentions(int dimX, int dimY) {
+        void setDimentions(int dimX, int dimY) {
             if (dimX <= 0 || dimY <= 0) {
                 throw new IllegalArgumentException("Invalid dimensions for builder: x = " + dimX + " and y = " + dimY);
             }
@@ -140,7 +140,7 @@ public class SokobanState {
             this.placedBoxes = 0;
         }
 
-        public void placePlayer(int playerX, int playerY) {
+        void placePlayer(int playerX, int playerY) {
             if (!dimensionsSet) {
                 throw new RuntimeException("Board dimensions should be set before player");
             }
@@ -155,7 +155,7 @@ public class SokobanState {
             this.playerY = playerY;
         }
 
-        public void setElement(int x, int y, Element element) {
+        void setElement(int x, int y, Element element) {
             if (!dimensionsSet) {
                 throw new RuntimeException("Trying to set element before setting dimensions");
             }
@@ -184,7 +184,7 @@ public class SokobanState {
             }
         }
 
-        public SokobanState build() {
+        SokobanState build() {
             if (!dimensionsSet) {
                 throw new RuntimeException("Attempt to build state before setting dimension");
             }
