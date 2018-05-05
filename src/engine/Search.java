@@ -68,7 +68,9 @@ class Search<E> {
 					iM.closeScanner();
 				}
 			}
-			explored.add(currentNode);
+			if (depthLimit < 0) {
+				explored.add(currentNode);
+			}
 			//System.out.println(currentNode.state.toString());
 			List<Rule<E>> rules = problem.getRules(currentNode.state);
 			List<Node<E>> nextNodes = new LinkedList<>();
