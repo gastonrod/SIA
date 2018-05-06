@@ -6,7 +6,7 @@ import java.util.*;
 class Search<E> {
 
 	private Frontier<Node<E>> frontier;
-	private Set<Node<E>> explored;
+	private Map<Node<E>, Integer> explored;
 	private int expanded;
 	private int generated;
 
@@ -19,14 +19,14 @@ class Search<E> {
 
 	void reset() {
 		frontier = null;
-		explored = new HashSet<>();
+		explored = new HashMap<>();
 		expanded = 0;
 		generated = 0;
 	}
 
 	Node<E> solve(Problem<E> problem, Heuristic<E> heuristic, boolean iterativeDeepening, Method method) {
 		if (Solver.debug){
-			iM = new InputManager<E>();
+			iM = new InputManager<>();
 		}
 		if (iterativeDeepening) {
 			for (int i = 0; i < Integer.MAX_VALUE; i++) {
@@ -68,10 +68,7 @@ class Search<E> {
 					iM.closeScanner();
 				}
 			}
-			if (depthLimit < 0) {
-				explored.add(currentNode);
-			}
-			//System.out.println(currentNode.state.toString());
+			explored.put(currentNode, currentNode.depth);
 			List<Rule<E>> rules = problem.getRules(currentNode.state);
 			List<Node<E>> nextNodes = new LinkedList<>();
 			for (Rule<E> rule: rules) {
@@ -86,7 +83,8 @@ class Search<E> {
 			expanded++;
 			generated += nextNodes.size();
 			for (Node<E> next: nextNodes) {
-				if (!explored.contains(next)) {
+				Integer exploredDepth = explored.get(next);
+				if (exploredDepth == null || (depthLimit >= 0 && exploredDepth > next.depth)) {
 					if (problem.isResolved(next.state)) {
 						frontier.add(next);
 						if(Solver.debug)
