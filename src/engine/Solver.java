@@ -77,7 +77,7 @@ public class Solver {
         return result;
     }
 
-    private static <E> Node<E> idaSolve(Problem<E> problem, Heuristic<E> heuristic) {
+    private static <E> Node<E> iddfsSolve(Problem<E> problem, Heuristic<E> heuristic) {
         Search<E> search =  new Search<>();
         Node<E> result = search.solve(problem, heuristic, true, Method.DFS);
         Solver.search = search;
@@ -126,8 +126,8 @@ public class Solver {
                     return Solver::dfsSolve;
                 case "GREEDY":
                     return Solver::greedySolve;
-                case "IDA":
-                    return Solver::idaSolve;
+                case "IDDFS":
+                    return Solver::iddfsSolve;
                 default:
                     throw new Exception("The method written in the properties file is invalid.");
             }

@@ -34,12 +34,12 @@ input2:
       Expanded nodes: 29513
       Frontier nodes: 26166
       Generated nodes: 107476
-  IDA:
+  IDDFS:
     Depth: 12
-    Time: 0.766 seconds
-    Expanded nodes: 8944
-    Frontier nodes: 32
-    Generated nodes: 41011
+    Time: 52.745 seconds
+    Expanded nodes: 627274
+    Frontier nodes: 35
+    Generated nodes: 2840192
 
 input3:
   A_STAR:
@@ -80,12 +80,13 @@ input3:
       Expanded nodes: 37
       Frontier nodes: 90
       Generated nodes: 145
-  IDA:
-    Depth: 7
-    Time: 0.035 seconds
-    Expanded nodes: 252
-    Frontier nodes: 28
-    Generated nodes: 1051
+  IDDDFS:
+    Depth: 5
+    Time: 0.03 seconds
+    Expanded nodes: 574
+    Frontier nodes: 22
+    Generated nodes: 2855
+
 input4:
   A_STAR:
     PLACED_BOXES:
@@ -125,9 +126,9 @@ input4:
         Expanded nodes: 46921
         Frontier nodes: 16733
         Generated nodes: 175899
-  IDA:
-    Depth: 22
-    Time: 1.784 seconds
-    Expanded nodes: 30890
-    Frontier nodes: 74
-    Generated nodes: 116431
+  IDDFS:
+    Depth: 12
+    Time: 125.04 seconds
+    Expanded nodes: 27118392
+    Frontier nodes: 29
+    Generated nodes: 98050126
