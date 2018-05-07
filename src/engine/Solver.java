@@ -4,6 +4,7 @@ import ar.com.itba.sia.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -43,8 +44,9 @@ public class Solver {
                 System.out.println("Solution found");
                 System.out.println(result.state.toString());
                 System.out.println("Depth: " + result.depth);
-                System.out.println("Applied rules:");
-                printAppliedRules(result);
+                System.out.println("*****************************************");
+                System.out.println("Applied rules and states:");
+                printAppliedRulesAndStates(result);
             } else {
                 System.out.println("Solution not found");
             }
@@ -60,14 +62,21 @@ public class Solver {
         }
     }
 
-    private static void printAppliedRules(Node<?> result) {
+    private static void printAppliedRulesAndStates(Node<?> result) {
+        List<String> states = new LinkedList<>();
+        states.add(result.state.toString());
         List<String> rules = new LinkedList<>();
         while (result.rule != null) {
             rules.add(0, result.rule.toString());
             result = result.parent;
+            states.add(0, result.state.toString());
         }
-        for (String rule: rules) {
-            System.out.println(rule);
+        Iterator<String> statesIterator = states.iterator();
+        Iterator<String> rulesIterator = rules.iterator();
+        System.out.println(statesIterator.next());
+        while (statesIterator.hasNext()) {
+            System.out.println(rulesIterator.next());
+            System.out.println(statesIterator.next());
         }
     }
 
