@@ -8,6 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import ar.edu.itba.sia.utils.ConfigurationManager;
+import ar.edu.itba.sia.gridLock.GridLockProblem;
+import ar.edu.itba.sia.gridLock.heuristics.*;
+
 public class Solver {
 
     private static Search<?> search;
@@ -18,7 +22,11 @@ public class Solver {
             MyProperties properties;
             properties = new MyProperties();
             debug = properties.getDebug();
-            solve(new sokoban.SokobanProblem("input4.txt"), new sokoban.SokobanDistanceHeuristic(), properties.getMethod());
+
+            ConfigurationManager.getInstance().uploadConfiguration("grupo9/caseA.txt");
+            solve(new GridLockProblem(ConfigurationManager.getInstance().getInitialState()), new GridLockAdvancedHeuristic(), properties.getMethod());
+
+            //solve(new sokoban.SokobanProblem("input4.txt"), new sokoban.SokobanDistanceHeuristic(), properties.getMethod());
         } catch(Exception e) {
             System.out.println("Unknown exception arose trying to solve game");
             System.out.println(e.getMessage());
