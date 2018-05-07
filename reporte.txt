@@ -36,10 +36,10 @@ input2:
       Generated nodes: 107476
   IDDFS:
     Depth: 12
-    Time: 52.745 seconds
-    Expanded nodes: 627274
+    Time: 1.263 seconds
+    Expanded nodes: 12084
     Frontier nodes: 35
-    Generated nodes: 2840192
+    Generated nodes: 57667
 
 input3:
   A_STAR:
@@ -82,10 +82,10 @@ input3:
       Generated nodes: 145
   IDDDFS:
     Depth: 5
-    Time: 0.03 seconds
-    Expanded nodes: 574
+    Time: 0.028 seconds
+    Expanded nodes: 298
     Frontier nodes: 22
-    Generated nodes: 2855
+    Generated nodes: 1523
 
 input4:
   A_STAR:
@@ -128,7 +128,8 @@ input4:
         Generated nodes: 175899
   IDDFS:
     Depth: 12
-    Time: 125.04 seconds
-    Expanded nodes: 27118392
+    Time: 0.788 seconds
+    Expanded nodes: 37657
     Frontier nodes: 29
-    Generated nodes: 98050126
+    Generated nodes: 148996
+
