@@ -4,7 +4,7 @@ import engine.engineException.InvalidLocusException;
 
 public interface Individual {
 
-    Individual replicate(Individual individual);
+    Individual replicate();
 
     int getLocusAmount();
 
