@@ -2,7 +2,8 @@ package engine.mutation;
 
 import engine.model.Individual;
 
+@FunctionalInterface
 public interface Mutator {
 
-    Individual mutate(Individual individual);
+    void mutate(Individual individual);
 }
