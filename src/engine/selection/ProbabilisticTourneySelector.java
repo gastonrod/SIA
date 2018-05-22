@@ -5,32 +5,34 @@ import engine.model.Individual;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ProbabilisticTourneySelector extends TourneySelector implements Selector{
-    private int m = 2;
     private int p;
-    Random rand;
 
     public ProbabilisticTourneySelector(double p){
+        super(2);
         this.p = (int) (p * 100);
-        rand = new Random();
     }
 
     @Override
     public List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction) {
-        super.init(population, fitnessFunction);
+        pop = population;
         List<Individual> winners = new ArrayList<>();
 
         for(int i = 0; i < k; i++){
-            List<Integer> participants = getWinnersIndexes(m);
+            int[] participants = getParticipantsIndexes();
+            Individual ind1 = population.get(participants[0]);
+            double fitness1 = fitnessFunction.eval(ind1);
+            Individual ind2 = population.get(participants[1]);
+            double fitness2 = fitnessFunction.eval(ind2);
+
             if(rand.nextInt(99)+1 <= p){
-                winners.add(getWinner(participants));
+                winners.add((fitness1 > fitness2)?(ind1):(ind2));
             }else{
-                participants.remove(getWinner(participants));
-                winners.add(getWinner(participants));
+                winners.add((fitness1 <= fitness2)?(ind1):(ind2));
             }
         }
+
         return winners;
     }
 

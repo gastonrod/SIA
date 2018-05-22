@@ -6,32 +6,27 @@ import engine.model.Individual;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public abstract class TourneySelector {
+
     List<Individual> pop;
-    ArrayList<Integer> numberList;
-    FitnessFunction fitnessFunction;
+    Random rand;
+    int m;
 
-    void init(List<Individual> population, FitnessFunction fitnessFunction){
-        numberList= new ArrayList<Integer>();
-        for (int i=0; i< pop.size(); i++) {
-            numberList.add(new Integer(i));
-        }
+    TourneySelector(int m){
+        rand = new Random();
+        this.m = m;
     }
 
-    List<Integer> getWinnersIndexes(int m){
-        Collections.shuffle(numberList);
-        List<Integer> winners= new ArrayList<>();
-        for (int i=0; i<m; i++) {
-            winners.add(numberList.get(i));
-        }
-        return winners;
+    int[] getParticipantsIndexes(){
+        return rand.ints(0, pop.size()-1).distinct().limit(m).toArray();
     }
 
-    Individual getWinner(List<Integer> winners){
+    Individual getWinner(int[] winners, FitnessFunction fitnessFunction){
         double biggestFitness = -1;
         int biggestFitnessIndex = 0;
-        for(Integer i: winners){
+        for(int i = 0; i< winners.length; i++){
             double f = fitnessFunction.eval(pop.get(i));
             if(f > biggestFitness){
                 biggestFitness = f;
@@ -40,6 +35,5 @@ public abstract class TourneySelector {
         }
         return pop.get(biggestFitnessIndex);
     }
-
 
 }

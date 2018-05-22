@@ -8,17 +8,16 @@ import java.util.List;
 
 public class DeterministicTourneySelector extends TourneySelector implements Selector{
 
-    private int m;
     public DeterministicTourneySelector(int m){
-        this.m = m;
+        super(m);
     }
 
     @Override
     public List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction) {
-        super.init(population, fitnessFunction);
+        pop = population;
         List<Individual> winners = new ArrayList<>();
         for(int i = 0; i < k; i++){
-            winners.add(getWinner(getWinnersIndexes(m)));
+            winners.add(getWinner(getParticipantsIndexes(), fitnessFunction));
         }
         return winners;
     }
