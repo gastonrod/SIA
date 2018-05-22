@@ -20,10 +20,14 @@ public abstract class AccumulatedSumSelector {
         selectedIndividuals = new ArrayList<>();
 
         population.toArray(pop);
-        accumulatedSum[0] = fitnessFunction.eval(pop[0]);
-
-        for(int i = 1; i < k; i++){
-            accumulatedSum[i] = accumulatedSum[i-1] + fitnessFunction.eval(pop[i]);
+        double totalFitness = 0;
+        for(int i = 0; i < k; i++){
+            double fitness = fitnessFunction.eval(pop[i]);
+            totalFitness += fitness;
+            accumulatedSum[i] = fitness;
+        }
+        for(int i = 0; i < k; i++){
+            accumulatedSum[i] /= totalFitness;
         }
     }
 
