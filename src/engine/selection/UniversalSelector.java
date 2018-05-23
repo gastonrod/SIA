@@ -5,7 +5,7 @@ import engine.model.Individual;
 import java.util.List;
 
 
-public class UniversalSelector extends AccumulatedSumSelector implements Selector {
+public class UniversalSelector extends AccumulatedSumSelector{
 
     @Override
     public List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction) {

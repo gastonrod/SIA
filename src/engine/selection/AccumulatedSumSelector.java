@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-abstract class AccumulatedSumSelector {
+abstract class AccumulatedSumSelector implements Selector{
 
 
     protected double accumulatedSum[];
@@ -45,6 +45,5 @@ abstract class AccumulatedSumSelector {
          */
         return (idx >= 0) ? (idx) : ((-1) * idx - 1);
     }
-
 
 }
