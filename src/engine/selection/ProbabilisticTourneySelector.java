@@ -6,7 +6,7 @@ import engine.model.Individual;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProbabilisticTourneySelector extends TourneySelector implements Selector{
+public class ProbabilisticTourneySelector extends TourneySelector{
     private int p;
 
     public ProbabilisticTourneySelector(double p){

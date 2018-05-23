@@ -6,7 +6,7 @@ import engine.model.Individual;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeterministicTourneySelector extends TourneySelector implements Selector{
+public class DeterministicTourneySelector extends TourneySelector{
 
     public DeterministicTourneySelector(int m){
         super(m);

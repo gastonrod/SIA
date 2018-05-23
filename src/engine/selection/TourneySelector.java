@@ -6,7 +6,7 @@ import engine.model.Individual;
 import java.util.List;
 import java.util.Random;
 
-abstract class TourneySelector {
+abstract class TourneySelector implements Selector{
 
     protected List<Individual> currentPopulation;
     protected Random rand;
