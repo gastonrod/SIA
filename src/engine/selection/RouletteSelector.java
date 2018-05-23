@@ -12,7 +12,7 @@ public class RouletteSelector extends AccumulatedSumSelector implements Selector
         super.init(population, k, fitnessFunction);
 
         for(int i = 0; i < k; i++) {
-            selectedIndividuals.add(pop[super.search(accumulatedSum, Math.random())]);
+            selectedIndividuals.add(pop[super.lowerBoundSearch(accumulatedSum, Math.random())]);
         }
         return selectedIndividuals;
     }

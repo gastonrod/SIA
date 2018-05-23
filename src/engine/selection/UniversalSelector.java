@@ -14,7 +14,7 @@ public class UniversalSelector extends AccumulatedSumSelector implements Selecto
 
         for(int i = 1; i <= k; i++) {
             double rand = (r + (double) i - 1.0) / (double) k;
-            selectedIndividuals.add(pop[super.search(accumulatedSum, rand)]);
+            selectedIndividuals.add(pop[super.lowerBoundSearch(accumulatedSum, rand)]);
         }
         return selectedIndividuals;
     }

@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AccumulatedSumSelector {
+abstract class AccumulatedSumSelector {
 
 
-    double accumulatedSum[];
-    List<Individual> selectedIndividuals;
-    Individual pop[];
+    protected double accumulatedSum[];
+    protected List<Individual> selectedIndividuals;
+    protected Individual pop[];
 
     void init(List<Individual> population, int k, FitnessFunction fitnessFunction){
         accumulatedSum = new double[k];
@@ -31,7 +31,7 @@ public abstract class AccumulatedSumSelector {
         }
     }
 
-    int search(double[] arr, double key) {
+    int lowerBoundSearch(double[] arr, double key) {
         int idx = Arrays.binarySearch(arr, key);
         /* From the documentation:
             Returns:
