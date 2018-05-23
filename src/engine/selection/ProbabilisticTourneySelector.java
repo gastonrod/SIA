@@ -16,7 +16,7 @@ public class ProbabilisticTourneySelector extends TourneySelector implements Sel
 
     @Override
     public List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction) {
-        pop = population;
+        currentPopulation = population;
         List<Individual> winners = new ArrayList<>();
 
         for(int i = 0; i < k; i++){
