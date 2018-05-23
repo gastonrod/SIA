@@ -6,11 +6,11 @@ import engine.model.Individual;
 import java.util.List;
 import java.util.Random;
 
-public abstract class TourneySelector {
+abstract class TourneySelector {
 
-    List<Individual> currentPopulation;
-    Random rand;
-    int m;
+    protected List<Individual> currentPopulation;
+    protected Random rand;
+    protected int m;
 
     TourneySelector(int m){
         rand = new Random();
