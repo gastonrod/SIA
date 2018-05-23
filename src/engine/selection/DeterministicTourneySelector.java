@@ -8,8 +8,8 @@ import java.util.List;
 
 public class DeterministicTourneySelector extends TourneySelector{
 
-    public DeterministicTourneySelector(int m){
-        super(m);
+    public DeterministicTourneySelector(int participantsPerDuel){
+        super(participantsPerDuel);
     }
 
     @Override

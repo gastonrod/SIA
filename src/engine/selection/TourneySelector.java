@@ -10,15 +10,15 @@ abstract class TourneySelector implements Selector{
 
     protected List<Individual> currentPopulation;
     protected Random rand;
-    protected int m;
+    protected int participantsPerDuel;
 
-    TourneySelector(int m){
+    TourneySelector(int participantsPerDuel){
         rand = new Random();
-        this.m = m;
+        this.participantsPerDuel = participantsPerDuel;
     }
 
     int[] getParticipantsIndexes(){
-        return rand.ints(0, currentPopulation.size()-1).distinct().limit(m).toArray();
+        return rand.ints(0, currentPopulation.size()-1).distinct().limit(participantsPerDuel).toArray();
     }
 
     Individual getWinner(int[] participants, FitnessFunction fitnessFunction){
