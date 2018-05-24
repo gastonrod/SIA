@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProbabilisticTourneySelector extends TourneySelector{
-    private double p = 0.75;
-    private int participants = 2;
+    private static final double p = 0.75;
+    private static final int participants = 2;
 
     public ProbabilisticTourneySelector(){
         super(participants);

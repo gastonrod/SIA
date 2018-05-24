@@ -12,16 +12,16 @@ abstract class TourneySelector implements Selector{
     protected Random rand;
     protected int participantsPerDuel;
 
-    TourneySelector(int participantsPerDuel){
+    protected TourneySelector(int participantsPerDuel){
         rand = new Random();
         this.participantsPerDuel = participantsPerDuel;
     }
 
-    int[] getParticipantsIndexes(){
+    protected int[] getParticipantsIndexes(){
         return rand.ints(0, currentPopulation.size()-1).distinct().limit(participantsPerDuel).toArray();
     }
 
-    Individual getWinner(int[] participants, FitnessFunction fitnessFunction){
+    protected Individual getWinner(int[] participants, FitnessFunction fitnessFunction){
         double biggestFitness = -1;
         int biggestFitnessIndex = 0;
         for(int i = 0; i< participants.length; i++){
