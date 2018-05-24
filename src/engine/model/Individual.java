@@ -11,4 +11,6 @@ public interface Individual {
     void exchangeAt(Individual otherIndividual, int locus) throws InvalidLocusException;
 
     void mutateAt(int locus) throws InvalidLocusException;
+
+    int getGeneration();
 }
