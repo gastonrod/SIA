@@ -24,14 +24,14 @@ abstract class AccumulatedSumSelector implements Selector{
         for(int i = 0; i < k; i++){
             double fitness = fitnessFunction.eval(pop[i]);
             totalFitness += fitness;
-            accumulatedSum[i] = fitness;
+            accumulatedSum[i] = totalFitness;
         }
         for(int i = 0; i < k; i++){
             accumulatedSum[i] /= totalFitness;
         }
     }
 
-    int lowerBoundSearch(double[] arr, double key) {
+    int upperBoundSearch(double[] arr, double key) {
         int idx = Arrays.binarySearch(arr, key);
         /* From the documentation:
             Returns:

@@ -14,7 +14,7 @@ public class UniversalSelector extends AccumulatedSumSelector{
 
         for(int i = 1; i <= k; i++) {
             double rand = (r + i - 1.0) / k;
-            selectedIndividuals.add(pop[super.lowerBoundSearch(accumulatedSum, rand)]);
+            selectedIndividuals.add(pop[super.upperBoundSearch(accumulatedSum, rand)]);
         }
         return selectedIndividuals;
     }
