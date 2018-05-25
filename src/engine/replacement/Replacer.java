@@ -8,5 +8,5 @@ import java.util.List;
 @FunctionalInterface
 public interface Replacer {
 
-    void replace(ArrayList<Individual> population, ArrayList<Individual> children, double generationalGap);
+    void replace(ArrayList<Individual> population, ArrayList<Individual> children);
 }
