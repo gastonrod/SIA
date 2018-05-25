@@ -7,11 +7,11 @@ public class NonUniformSinglePointMutator extends AbstractSinglePointMutator {
 
     private VariationFunction variationFunction;
     private int currentGeneration;
+    private double probability;
 
-    public NonUniformSinglePointMutator(VariationFunction variationFunction, int firstGeneration) {
-        super(variationFunction.eval(firstGeneration));
+    public NonUniformSinglePointMutator(VariationFunction variationFunction) {
         this.variationFunction = variationFunction;
-        this.currentGeneration = firstGeneration;
+        this.currentGeneration = -1;
     }
 
     @Override
@@ -20,6 +20,6 @@ public class NonUniformSinglePointMutator extends AbstractSinglePointMutator {
             currentGeneration = generation;
             probability = variationFunction.eval(generation);
         }
-        mutateSinglePoint(individual);
+        mutateSinglePoint(individual, probability);
     }
 }
