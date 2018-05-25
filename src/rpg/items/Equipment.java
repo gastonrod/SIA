@@ -1,11 +1,15 @@
 package rpg.items;
 
-import rpg.Stats;
+import rpg.stats.Stats;
 
-public class Equipment {
+public abstract class Equipment {
     double[] stats;
 
-    public double getStat(int i){
-        return stats[Stats.values()[i].ordinal()];
+    protected Equipment(double[] stats){
+        this.stats = stats;
+    }
+
+    public double getStat(Stats s){
+        return stats[s.i];
     }
 }

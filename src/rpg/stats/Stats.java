@@ -1,4 +1,4 @@
-package rpg;
+package rpg.stats;
 
 public enum Stats {
     AGILITY(0), EXPERTISE(1), RESISTANCE(2), STRENGTH(3), VITALITY(4);
