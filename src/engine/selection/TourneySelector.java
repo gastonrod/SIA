@@ -6,9 +6,9 @@ import engine.model.Individual;
 import java.util.List;
 import java.util.Random;
 
-abstract class TourneySelector implements Selector{
+abstract class TourneySelector<T extends Individual> implements Selector<T> {
 
-    protected List<Individual> currentPopulation;
+    protected List<T> currentPopulation;
     protected Random rand;
     protected int participantsPerDuel;
 
@@ -21,7 +21,7 @@ abstract class TourneySelector implements Selector{
         return rand.ints(0, currentPopulation.size()-1).distinct().limit(participantsPerDuel).toArray();
     }
 
-    protected Individual getWinner(int[] participants, FitnessFunction fitnessFunction){
+    protected T getWinner(int[] participants, FitnessFunction<T> fitnessFunction){
         double biggestFitness = -1;
         int biggestFitnessIndex = 0;
         for(int i = 0; i< participants.length; i++){
