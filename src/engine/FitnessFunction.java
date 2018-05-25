@@ -3,7 +3,7 @@ package engine;
 import engine.model.Individual;
 
 @FunctionalInterface
-public interface FitnessFunction {
+public interface FitnessFunction<T extends Individual> {
 
-    double eval(Individual i);
+    double eval(T i);
 }

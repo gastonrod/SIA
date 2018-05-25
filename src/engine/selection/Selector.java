@@ -7,6 +7,5 @@ import java.util.List;
 
 @FunctionalInterface
 public interface Selector {
-
     List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction);
 }
