@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class SearchUtils {
 
-    public static int search(double[] arr, double key) {
+    public static int upperBoundSearch(double[] arr, double key) {
         int idx = Arrays.binarySearch(arr, key);
         /* From the documentation:
             Returns:
