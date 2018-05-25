@@ -7,5 +7,5 @@ import java.util.List;
 @FunctionalInterface
 public interface Replacer {
 
-    List<Individual> replace(List<Individual> population, List<Individual> children, int generationalGap);
+    List<Individual> replace(List<Individual> population, List<Individual> children, double generationalGap);
 }
