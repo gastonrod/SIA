@@ -14,11 +14,13 @@ public class RankingSelector<T extends Individual> implements Selector<T> {
     @Override
     public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
         ArrayList<MockPositionalIndividual> mockPopulation = new ArrayList<>();
-        Iterator<T> populationIterator = population.iterator();
-        for (int i = 1; populationIterator.hasNext(); i++) {
-            mockPopulation.add(new MockPositionalIndividual(i));
+        for (T individual : population) {
+            mockPopulation.add(new MockPositionalIndividual(fitnessFunction.eval(individual)));
         }
-        mockPopulation.sort(Comparator.comparingInt(MockPositionalIndividual::getPosition));
+        mockPopulation.sort(Comparator.comparingDouble(MockPositionalIndividual::getActualFitness));
+        for (int i = 0; i < mockPopulation.size(); i++) {
+            mockPopulation.get(i).setPosition(i+1);
+        }
         List<MockPositionalIndividual> mockChildren = rouletteSelector.select(mockPopulation, k, mockFitnessFunction);
         List<T> selectedChildren = new ArrayList<>(mockChildren.size());
         for (MockPositionalIndividual mpi : mockChildren) {
@@ -29,9 +31,18 @@ public class RankingSelector<T extends Individual> implements Selector<T> {
 
     private static class MockPositionalIndividual implements Individual {
 
-        private final int position;
+        private int position = -1;
+        private final double actualFitness;
 
-        MockPositionalIndividual(int position) {
+        MockPositionalIndividual(double actualFitness) {
+            this.actualFitness = actualFitness;
+        }
+
+        double getActualFitness() {
+            return actualFitness;
+        }
+
+        void setPosition(int position) {
             this.position = position;
         }
 
