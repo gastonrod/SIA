@@ -1,4 +1,4 @@
-package engine;
+package engine.variation;
 
 @FunctionalInterface
 public interface VariationFunction {

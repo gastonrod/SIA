@@ -9,7 +9,7 @@ public class UniformSinglepointMutator extends AbstractSinglePointMutator {
     }
 
     @Override
-    public void mutate(Individual individual) {
+    public void mutate(Individual individual, int generation) {
         mutateSinglePoint(individual);
     }
 }
