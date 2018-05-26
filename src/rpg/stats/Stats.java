@@ -1,7 +1,7 @@
 package rpg.stats;
 
 public enum Stats {
-    AGILITY(0), EXPERTISE(1), RESISTANCE(2), STRENGTH(3), VITALITY(4);
+    STRENGTH(0), AGILITY(1), EXPERTISE(2), RESISTANCE(3), VITALITY(4);
 
     public int i;
 

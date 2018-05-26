@@ -2,10 +2,12 @@ package rpg.items;
 
 import rpg.stats.Stats;
 
-public abstract class Equipment {
-    double[] stats;
+public class Equipment {
+    private final double[] stats;
+    private final EquipmentType type;
 
-    protected Equipment(double[] stats) {
+    protected Equipment(double[] stats, EquipmentType type) {
+        this.type = type;
         this.stats = stats;
     }
 
@@ -13,7 +15,6 @@ public abstract class Equipment {
         return stats[s.i];
     }
 
-
-    public abstract EquipmentType getType();
+    public EquipmentType getType(){ return type; }
 
 }
