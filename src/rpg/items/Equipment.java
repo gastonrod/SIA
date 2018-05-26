@@ -16,7 +16,7 @@ public class Equipment {
     }
 
     public double getStat(Stats s) {
-        return stats[s.i];
+        return stats[s.ordinal()];
     }
 
     public EquipmentType getType() {

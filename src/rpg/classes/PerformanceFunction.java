@@ -34,20 +34,20 @@ class PerformanceFunction implements FitnessFunction<Fighter> {
         double[] rawStats = new double[statModifiers.length];
         for (Equipment e : equipment) {
             for (Stats s : Stats.values()) {
-                rawStats[s.i] += e.getStat(s);
+                rawStats[s.ordinal()] += e.getStat(s);
             }
         }
         for (Stats s : Stats.values()) {
-            stats[s.i] = calculators[s.i].calculate(rawStats[s.i] * statModifiers[s.i]);
+            stats[s.ordinal()] = calculators[s.ordinal()].calculate(rawStats[s.ordinal()] * statModifiers[s.ordinal()]);
         }
     }
 
     private double attack(double height) {
-        return (stats[AGILITY.i] + stats[EXPERTISE.i]) * stats[STRENGTH.i] * attackModifier.calculate(height);
+        return (stats[AGILITY.ordinal()] + stats[EXPERTISE.ordinal()]) * stats[STRENGTH.ordinal()] * attackModifier.calculate(height);
     }
 
     private double defense(double height) {
-        return (stats[RESISTANCE.i] + stats[EXPERTISE.i]) * stats[VITALITY.i] * defenseModifier.calculate(height);
+        return (stats[RESISTANCE.ordinal()] + stats[EXPERTISE.ordinal()]) * stats[VITALITY.ordinal()] * defenseModifier.calculate(height);
     }
 
     @Override
