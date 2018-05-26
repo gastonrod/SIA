@@ -14,20 +14,18 @@ class PerformanceFunction implements FitnessFunction<Fighter> {
     private final double[] statModifiers;
     private final Profession profession;
     private final StatCalculator[] calculators;
-    // Estos dos capaz son un poco overkill
     private final DefenseModifier defenseModifier;
     private final AttackModifier attackModifier;
 
     private final double[] stats;
 
-    PerformanceFunction(Profession profession, double[] statModifiers, StatCalculator[] calculators,
-                        DefenseModifier defenseModifier, AttackModifier attackModifier) {
+    PerformanceFunction(Profession profession, double[] statModifiers, StatCalculator[] calculators) {
         stats = new double[Stats.values().length];
         this.statModifiers = statModifiers;
         this.profession = profession;
         this.calculators = calculators;
-        this.defenseModifier = defenseModifier;
-        this.attackModifier = attackModifier;
+        this.defenseModifier = new DefenseModifier();
+        this.attackModifier = new AttackModifier();
     }
 
     private void calculateStats(Equipment[] equipment) {
@@ -53,6 +51,6 @@ class PerformanceFunction implements FitnessFunction<Fighter> {
     @Override
     public double eval(Fighter fighter) {
         calculateStats(fighter.getEquipment());
-        return attack(fighter.getHeight()) * profession.attackPerformance + profession.defensePeformance * defense(fighter.getHeight());
+        return attack(fighter.getHeight()) * profession.attackPerformance + profession.defensePerformance * defense(fighter.getHeight());
     }
 }

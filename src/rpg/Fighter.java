@@ -19,7 +19,7 @@ public class Fighter implements Individual {
 
     @Override
     public Individual replicate() {
-        return new Fighter(this.height, this.equipment);
+        return new Fighter(this.height, this.equipment.clone());
     }
 
     @Override
