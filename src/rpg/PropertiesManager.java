@@ -7,9 +7,13 @@ import java.util.Properties;
 public class PropertiesManager {
     Properties prop;
 
-    public PropertiesManager(String propertiesFile) throws IOException {
+    public PropertiesManager(String propertiesFile) {
         prop = new Properties();
-        prop.load(new FileReader(propertiesFile));
+        try {
+            prop.load(new FileReader(propertiesFile));
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading " + propertiesFile + " properties file");
+        }
     }
 
     public String getBootsFileLocation() {

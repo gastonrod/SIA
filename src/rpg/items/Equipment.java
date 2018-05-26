@@ -23,10 +23,12 @@ public class Equipment {
         return type;
     }
 
-    public int getId(){ return id;  }
+    public int getId() {
+        return id;
+    }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "[" + type.name() + ", " + id + " , " + Arrays.toString(stats) + "]";
     }
 
