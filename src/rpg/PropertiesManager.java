@@ -21,37 +21,31 @@ public class PropertiesManager {
     }
 
     public String getChestPiecesFileLocation() {
-        return getFileLocation(Keys.CHEST_PIECES.s);
+        return getFileLocation(Keys.CHEST_PIECES.name());
     }
 
     public String getGlovesFileLocation() {
-        return getFileLocation(Keys.GLOVES.s);
+        return getFileLocation(Keys.GLOVES.name());
     }
 
     public String getHelmetsFileLocation() {
-        return getFileLocation(Keys.HELMETS.s);
+        return getFileLocation(Keys.HELMETS.name());
     }
 
     public String getWeaponsFileLocation() {
-        return getFileLocation(Keys.WEAPONS.s);
+        return getFileLocation(Keys.WEAPONS.name());
     }
 
     private String getFileLocation(String file) {
-        return prop.getProperty(Keys.ITEMS_FOLDER.s) + "/" + prop.getProperty(file);
+        return prop.getProperty(Keys.ITEMS_FOLDER.name()) + "/" + prop.getProperty(file);
     }
 
     private enum Keys {
-        BOOTS("boots"),
-        CHEST_PIECES("chestPieces"),
-        GLOVES("gloves"),
-        HELMETS("helmets"),
-        WEAPONS("weapons"),
-        ITEMS_FOLDER("itemsFolder");
-
-        protected final String s;
-
-        Keys(String s) {
-            this.s = s;
-        }
+        BOOTS,
+        CHEST_PIECES,
+        GLOVES,
+        HELMETS,
+        WEAPONS,
+        ITEMS_FOLDER;
     }
 }
