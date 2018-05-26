@@ -23,12 +23,12 @@ public class MixSelector<T extends Individual> implements Selector<T> {
         this.proportionOfK = proportionOfK;
     }
     @Override
-    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
+    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         List<T> children = new ArrayList<>();
         int proportion1 = (int) Math.round(k * proportionOfK);
         int proportion2 = k - proportion1;
-        children.addAll(selector1.select(population, proportion1, fitnessFunction));
-        children.addAll(selector2.select(population, proportion2, fitnessFunction));
+        children.addAll(selector1.select(population, proportion1, fitnessFunction, generation));
+        children.addAll(selector2.select(population, proportion2, fitnessFunction, generation));
         return children;
     }
 }
