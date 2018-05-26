@@ -7,16 +7,15 @@ import engine.utils.SearchUtils;
 import java.util.List;
 
 
-public class RouletteSelector extends AccumulatedSumSelector{
+public class RouletteSelector<T extends Individual> extends AccumulatedSumSelector<T> {
 
     @Override
-    public List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction) {
+    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
         super.init(population, k, fitnessFunction);
 
         for(int i = 0; i < k; i++) {
-            selectedIndividuals.add(pop[SearchUtils.search(accumulatedSum, Math.random())]);
+            selectedIndividuals.add(pop.get(SearchUtils.upperBoundSearch(accumulatedSum, Math.random())));
         }
         return selectedIndividuals;
     }
-
 }

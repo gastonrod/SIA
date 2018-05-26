@@ -6,16 +6,16 @@ import engine.model.Individual;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeterministicTourneySelector extends TourneySelector{
+public class DeterministicTourneySelector<T extends Individual> extends TourneySelector<T> {
 
     public DeterministicTourneySelector(int participantsPerDuel){
         super(participantsPerDuel);
     }
 
     @Override
-    public List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction) {
+    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
         currentPopulation = population;
-        List<Individual> winners = new ArrayList<>();
+        List<T> winners = new ArrayList<>();
         for(int i = 0; i < k; i++){
             winners.add(getWinner(getParticipantsIndexes(), fitnessFunction));
         }

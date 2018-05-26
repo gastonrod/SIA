@@ -6,7 +6,7 @@ import engine.model.Individual;
 import java.util.List;
 
 @FunctionalInterface
-public interface Selector {
+public interface Selector<T extends Individual> {
 
-    List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction);
+    List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction);
 }
