@@ -25,7 +25,7 @@ public class MixSelector<T extends Individual> implements Selector<T> {
     @Override
     public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
         List<T> children = new ArrayList<>();
-        int fraction1 = (int) (k / fractionOfK);
+        int fraction1 = (int) (k * fractionOfK);
         int fraction2 = k - fraction1;
         children.addAll(selector1.select(population, fraction1, fitnessFunction));
         children.addAll(selector2.select(population, fraction2, fitnessFunction));
