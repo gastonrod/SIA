@@ -41,55 +41,44 @@ public class ItemsInputManager {
 
     private List<Equipment> parseFile(EquipmentType type, String file) {
         List<Equipment> list = new ArrayList<>();
-        FileReader fr;
-        BufferedReader br;
-
-        try {
-            fr = new FileReader(file);
-            br = new BufferedReader(fr);
-            br.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException("File " + file + " could not be loaded properly.");
-        }
-        StringTokenizer st;
-        String line = null;
-        int linesCounter = 2;
-        while (true) {
-            try {
-                line = br.readLine();
-                if (line == null)
-                    break;
-            } catch (IOException e) {
-                throw new RuntimeException("Error while loading line " + linesCounter + " in file " + file);
-            }
-            st = new StringTokenizer(line);
-            if (st.countTokens() != columnsPerRow)
-                throw new RuntimeException("Line " + linesCounter + " has an invalid amount of columns." +
-                                           " Found " + st.countTokens() + " and there should be " + columnsPerRow + ".");
-            double[] stats = new double[Stats.values().length];
-            int id;
-            try {
-                id = Integer.parseInt(st.nextToken());
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("Invalid integer for item id in line " + linesCounter + ".");
-            }
-            for (int k = 0; k < stats.length; k++) {
-                // El enum esta ordenado para que coincida con el orden
-                //   en el que vienen los stats en los archivos.
+        try (FileReader fr = new FileReader(file);
+             BufferedReader br = new BufferedReader(fr)) {
+            StringTokenizer st;
+            String line;
+            int linesCounter = 2;
+            while (true) {
                 try {
-                    stats[k] = Double.parseDouble(st.nextToken());
-                } catch (NumberFormatException e) {
-                    throw new RuntimeException("Invalid double for item stat in line " + linesCounter + ", column " + k + ".");
+                    line = br.readLine();
+                    if (line == null)
+                        break;
+                } catch (IOException e) {
+                    throw new RuntimeException("Error while loading line " + linesCounter + " in file " + file);
                 }
+                st = new StringTokenizer(line);
+                if (st.countTokens() != columnsPerRow)
+                    throw new RuntimeException("Line " + linesCounter + " has an invalid amount of columns." +
+                        " Found " + st.countTokens() + " and there should be " + columnsPerRow + ".");
+                double[] stats = new double[Stats.values().length];
+                int id;
+                try {
+                    id = Integer.parseInt(st.nextToken());
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException("Invalid integer for item id in line " + linesCounter + ".");
+                }
+                for (int k = 0; k < stats.length; k++) {
+                    try {
+                        stats[k] = Double.parseDouble(st.nextToken());
+                    } catch (NumberFormatException e) {
+                        throw new RuntimeException("Invalid double for item stat in line " + linesCounter + ", column " + (k + 1) + ".");
+                    }
+                }
+                list.add(new Equipment(id, stats, type));
+                linesCounter++;
             }
-            list.add(new Equipment(id, stats, type));
-            linesCounter++;
-        }
-        try {
-            fr.close();
-            br.close();
         } catch (IOException e) {
-            throw new RuntimeException("File " + file + " could not be closed properly.");
+            throw new RuntimeException("Error while loading/closing the file " + file + ".");
+        } catch (RuntimeException e) {
+            throw e;
         }
         return list;
     }
