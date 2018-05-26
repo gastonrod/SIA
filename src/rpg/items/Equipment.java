@@ -2,11 +2,15 @@ package rpg.items;
 
 import rpg.stats.Stats;
 
+import java.util.Arrays;
+
 public class Equipment {
+    private final int id;
     private final double[] stats;
     private final EquipmentType type;
 
-    public Equipment(double[] stats, EquipmentType type) {
+    public Equipment(int id, double[] stats, EquipmentType type) {
+        this.id = id;
         this.type = type;
         this.stats = stats;
     }
@@ -17,6 +21,13 @@ public class Equipment {
 
     public EquipmentType getType() {
         return type;
+    }
+
+    public int getId(){ return id;  }
+
+    @Override
+    public String toString(){
+        return "[" + type.name() + ", " + id + " , " + Arrays.toString(stats) + "]";
     }
 
 }

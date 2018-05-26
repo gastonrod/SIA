@@ -3,6 +3,6 @@
 .idea/*
 src/.idea/*
 out/*
-src/out/*
 *.iml
 .editorconfig
+src/out/*

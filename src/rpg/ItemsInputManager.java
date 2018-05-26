@@ -9,28 +9,34 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 public class ItemsInputManager {
+    private final PropertiesManager prop;
 
-    public List<Equipment> readBoots(String file) throws IOException {
-        return parseFile(EquipmentType.BOOTS, file);
+    public ItemsInputManager(PropertiesManager prop){
+        this.prop = prop;
     }
 
-    public List<Equipment> readHelmets(String file) throws IOException {
-        return parseFile(EquipmentType.HELMET, file);
+    public List<Equipment> readBoots() throws IOException {
+        return parseFile(EquipmentType.BOOTS, prop.getBootsFileLocation());
     }
 
-    public List<Equipment> readChestPieces(String file) throws IOException {
-        return parseFile(EquipmentType.CHEST_PIECE, file);
+    public List<Equipment> readHelmets() throws IOException {
+        return parseFile(EquipmentType.HELMET, prop.getHelmetsFileLocation());
     }
 
-    public List<Equipment> readGloves(String file) throws IOException {
-        return parseFile(EquipmentType.GLOVES, file);
+    public List<Equipment> readChestPieces() throws IOException {
+        return parseFile(EquipmentType.CHEST_PIECE, prop.getChestPiecesFileLocation());
     }
 
-    public List<Equipment> readWeapons(String file) throws IOException {
-        return parseFile(EquipmentType.WEAPON, file);
+    public List<Equipment> readGloves() throws IOException {
+        return parseFile(EquipmentType.GLOVES, prop.getGlovesFileLocation());
+    }
+
+    public List<Equipment> readWeapons() throws IOException {
+        return parseFile(EquipmentType.WEAPON, prop.getWeaponsFileLocation());
     }
 
     private List<Equipment> parseFile(EquipmentType type, String file) throws IOException {
@@ -44,13 +50,13 @@ public class ItemsInputManager {
         for (int j = 0; j < lines; j++) {
             st = new StringTokenizer(br.readLine());
             double[] stats = new double[Stats.values().length];
-            st.nextToken(); // El item id
+            int id = Integer.parseInt(st.nextToken());
             for (int k = 0; k < stats.length; k++) {
                 // El enum esta ordenado para que coincida con el orden
                 //   en el que vienen los stats en los archivos.
                 stats[k] = Double.parseDouble(st.nextToken());
             }
-            list.add(new Equipment(stats, type));
+            list.add(new Equipment(id, stats, type));
         }
         fr.close();
         br.close();

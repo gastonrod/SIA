@@ -44,7 +44,7 @@ public class PropertiesManager {
         WEAPONS("weapons"),
         ITEMS_FOLDER("itemsFolder");
 
-        final String s;
+        protected final String s;
 
         Keys(String s) {
             this.s = s;
