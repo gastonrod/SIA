@@ -17,7 +17,7 @@ public class PropertiesManager {
     }
 
     public String getBootsFileLocation() {
-        return getFileLocation(Keys.BOOTS.s);
+        return getFileLocation(Keys.BOOTS.name());
     }
 
     public String getChestPiecesFileLocation() {
