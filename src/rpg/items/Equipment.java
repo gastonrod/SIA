@@ -6,7 +6,7 @@ public class Equipment {
     private final double[] stats;
     private final EquipmentType type;
 
-    protected Equipment(double[] stats, EquipmentType type) {
+    public Equipment(double[] stats, EquipmentType type) {
         this.type = type;
         this.stats = stats;
     }
@@ -15,6 +15,8 @@ public class Equipment {
         return stats[s.i];
     }
 
-    public EquipmentType getType(){ return type; }
+    public EquipmentType getType() {
+        return type;
+    }
 
 }
