@@ -7,13 +7,13 @@ import engine.model.Individual;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MixSelector implements Selector {
+public class MixSelector<T extends Individual> implements Selector<T> {
 
-    private Selector selector1;
-    private Selector selector2;
+    private Selector<T> selector1;
+    private Selector<T> selector2;
     private double fractionOfK;
 
-    public MixSelector(Selector selector1, Selector selector2, double fractionOfK) {
+    public MixSelector(Selector<T> selector1, Selector<T> selector2, double fractionOfK) {
         this.selector1 = selector1;
         this.selector2 = selector2;
         boolean isValidFraction = 0 <= fractionOfK && fractionOfK <= 1;
@@ -23,8 +23,8 @@ public class MixSelector implements Selector {
         this.fractionOfK = fractionOfK;
     }
     @Override
-    public List<Individual> select(List<Individual> population, int k, FitnessFunction fitnessFunction) {
-        List<Individual> children = new ArrayList<>();
+    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
+        List<T> children = new ArrayList<>();
         int fraction1 = (int) (k / fractionOfK);
         int fraction2 = k - fraction1;
         children.addAll(selector1.select(population, fraction1, fitnessFunction));
