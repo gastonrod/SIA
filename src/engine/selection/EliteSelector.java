@@ -10,7 +10,7 @@ import java.util.List;
 public class EliteSelector<T extends Individual> implements Selector<T> {
 
     @Override
-    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
+    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         ArrayList<T> elite = new ArrayList<>(population.size());
         Iterator<T> iterator = population.iterator();
         for (int i = 0; iterator.hasNext(); i++) {
