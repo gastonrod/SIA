@@ -2,18 +2,34 @@ package rpg.items;
 
 import rpg.stats.Stats;
 
-public abstract class Equipment {
-    double[] stats;
+import java.util.Arrays;
 
-    protected Equipment(double[] stats) {
+public class Equipment {
+    private final int id;
+    private final double[] stats;
+    private final EquipmentType type;
+
+    public Equipment(int id, double[] stats, EquipmentType type) {
+        this.id = id;
+        this.type = type;
         this.stats = stats;
     }
 
     public double getStat(Stats s) {
-        return stats[s.i];
+        return stats[s.ordinal()];
     }
 
+    public EquipmentType getType() {
+        return type;
+    }
 
-    public abstract EquipmentType getType();
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + type.name() + ", " + id + " , " + Arrays.toString(stats) + "]";
+    }
 
 }

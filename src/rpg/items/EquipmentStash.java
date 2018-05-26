@@ -7,6 +7,6 @@ public class EquipmentStash {
     // TODO El inicializador, hay que ver como lo vamos a hacer.
 
     public static Equipment getRandomEquipment(EquipmentType type) {
-        return equipmentsStashes[type.i].get((int) (Math.random() * equipmentsStashes[type.i].size()));
+        return equipmentsStashes[type.ordinal()].get((int) (Math.random() * equipmentsStashes[type.ordinal()].size()));
     }
 }
