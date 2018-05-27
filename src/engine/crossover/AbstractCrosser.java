@@ -5,7 +5,7 @@ import engine.model.Pair;
 
 import java.util.Random;
 
-abstract class AbstractCrosser<T extends Individual> implements Crosser<T>{
+abstract class AbstractCrosser<T extends Individual> implements Crosser<T> {
 
     Random rand;
     Pair<T> children;

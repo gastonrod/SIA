@@ -4,7 +4,6 @@ import engine.FitnessFunction;
 import engine.model.Individual;
 
 import java.util.ArrayList;
-import java.util.List;
 
 abstract class AccumulatedSumSelector<T extends Individual> implements Selector<T> {
 
@@ -13,7 +12,7 @@ abstract class AccumulatedSumSelector<T extends Individual> implements Selector<
     protected ArrayList<T> selectedIndividuals;
     protected ArrayList<T> pop;
 
-    protected void init(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
+    protected void init(ArrayList<T> population, int k, FitnessFunction<T> fitnessFunction) {
         accumulatedSum = new double[k];
         pop = new ArrayList<>(population.size());
         selectedIndividuals = new ArrayList<>(k);

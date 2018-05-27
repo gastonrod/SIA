@@ -2,8 +2,6 @@ package rpg.items;
 
 import rpg.stats.Stats;
 
-import java.util.Arrays;
-
 public class Equipment {
     private final int id;
     private final double[] stats;
@@ -29,7 +27,7 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return "[" + type.name() + ", " + id + " , " + Arrays.toString(stats) + "]";
+        return "[" + type.name() + ", " + id + /*" , " + Arrays.toString(stats) + */"]";
     }
 
 }

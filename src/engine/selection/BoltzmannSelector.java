@@ -3,6 +3,7 @@ package engine.selection;
 import engine.FitnessFunction;
 import engine.model.Individual;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BoltzmannSelector<T extends Individual> implements Selector<T> {
@@ -10,7 +11,7 @@ public class BoltzmannSelector<T extends Individual> implements Selector<T> {
     private RouletteSelector<T> rouletteSelector = new RouletteSelector<>();
 
     @Override
-    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
+    public ArrayList<T> select(ArrayList<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         BoltzmannFitness boltzmannFitness = new BoltzmannFitness(population, fitnessFunction, generation);
         return rouletteSelector.select(population, k, boltzmannFitness, generation);
     }

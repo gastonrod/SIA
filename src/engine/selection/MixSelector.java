@@ -5,7 +5,6 @@ import engine.engineException.InvalidProportionException;
 import engine.model.Individual;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MixSelector<T extends Individual> implements Selector<T> {
 
@@ -24,8 +23,8 @@ public class MixSelector<T extends Individual> implements Selector<T> {
     }
 
     @Override
-    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
-        List<T> children = new ArrayList<>();
+    public ArrayList<T> select(ArrayList<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
+        ArrayList<T> children = new ArrayList<>();
         int proportion1 = (int) Math.round(k * proportionOfK);
         int proportion2 = k - proportion1;
         children.addAll(selector1.select(population, proportion1, fitnessFunction, generation));

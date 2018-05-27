@@ -4,7 +4,6 @@ import engine.FitnessFunction;
 import engine.model.Individual;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProbabilisticTourneySelector<T extends Individual> extends TourneySelector<T> {
     private static final double p = 0.75;
@@ -15,9 +14,9 @@ public class ProbabilisticTourneySelector<T extends Individual> extends TourneyS
     }
 
     @Override
-    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
+    public ArrayList<T> select(ArrayList<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         currentPopulation = population;
-        List<T> winners = new ArrayList<>();
+        ArrayList<T> winners = new ArrayList<>();
 
         for (int i = 0; i < k; i++) {
             int[] participants = getParticipantsIndexes();

@@ -5,6 +5,8 @@ import engine.model.Individual;
 import rpg.items.Equipment;
 import rpg.items.EquipmentStash;
 
+import java.util.Arrays;
+
 import static rpg.FighterManager.MAX_HEIGHT;
 import static rpg.FighterManager.MIN_HEIGHT;
 
@@ -68,5 +70,10 @@ public class Fighter implements Individual {
 
     public Equipment[] getEquipment() {
         return equipment;
+    }
+
+    @Override
+    public String toString() {
+        return "Fighter: Height=" + height + "; equipment = " + Arrays.toString(equipment);
     }
 }

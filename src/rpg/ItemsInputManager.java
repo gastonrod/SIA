@@ -41,8 +41,8 @@ public class ItemsInputManager {
 
     private List<Equipment> parseFile(EquipmentType type, String file) {
         List<Equipment> list = new ArrayList<>();
-        try (FileReader fr = new FileReader(file);
-             BufferedReader br = new BufferedReader(fr)) {
+        try (FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr)) {
+            br.readLine();  // discard first line
             StringTokenizer st;
             String line;
             int linesCounter = 2;
@@ -57,13 +57,14 @@ public class ItemsInputManager {
                 st = new StringTokenizer(line);
                 if (st.countTokens() != columnsPerRow)
                     throw new RuntimeException("Line " + linesCounter + " has an invalid amount of columns." +
-                        " Found " + st.countTokens() + " and there should be " + columnsPerRow + ".");
+                            " Found " + st.countTokens() + " and there should be " + columnsPerRow + ".");
                 double[] stats = new double[Stats.values().length];
                 int id;
+                String idString = st.nextToken();
                 try {
-                    id = Integer.parseInt(st.nextToken());
+                    id = Integer.parseInt(idString);
                 } catch (NumberFormatException e) {
-                    throw new RuntimeException("Invalid integer for item id in line " + linesCounter + ".");
+                    throw new RuntimeException("Invalid integer " + idString + " for item id in line " + linesCounter + ".");
                 }
                 for (int k = 0; k < stats.length; k++) {
                     try {
@@ -78,7 +79,7 @@ public class ItemsInputManager {
         } catch (IOException e) {
             throw new RuntimeException("Error while loading/closing the file " + file + ".");
         } catch (RuntimeException e) {
-            throw e;
+            throw new RuntimeException("In file " + file, e);
         }
         return list;
     }

@@ -8,12 +8,11 @@ import rpg.items.EquipmentStash;
 import rpg.stats.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FighterManager implements IndividualManager<Fighter> {
     public final static double MAX_HEIGHT = 2.0;
     public final static double MIN_HEIGHT = 1.3;
-    private final static String RPG_PROPERTIES_FILE = "rpg/config.properties";
+    private final static String RPG_PROPERTIES_FILE = "src/rpg/config.properties";
     private final EquipmentStash equipmentStash;
     final private PerformanceFunction fitnessFunction;
 
@@ -39,8 +38,8 @@ public class FighterManager implements IndividualManager<Fighter> {
     }
 
     @Override
-    public List<Fighter> createRandomPopulation(int size) {
-        List<Fighter> population = new ArrayList<>();
+    public ArrayList<Fighter> createRandomPopulation(int size) {
+        ArrayList<Fighter> population = new ArrayList<>();
         double height;
         Equipment[] set;
         for (int i = 0; i < size; i++) {

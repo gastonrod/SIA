@@ -3,12 +3,12 @@ package engine.selection;
 import engine.FitnessFunction;
 import engine.model.Individual;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 abstract class TourneySelector<T extends Individual> implements Selector<T> {
 
-    protected List<T> currentPopulation;
+    protected ArrayList<T> currentPopulation;
     protected Random rand;
     protected int participantsPerDuel;
 
@@ -18,7 +18,7 @@ abstract class TourneySelector<T extends Individual> implements Selector<T> {
     }
 
     protected int[] getParticipantsIndexes() {
-        return rand.ints(0, currentPopulation.size() - 1).distinct().limit(participantsPerDuel).toArray();
+        return rand.ints(0, currentPopulation.size()).distinct().limit(participantsPerDuel).toArray();
     }
 
     protected T getWinner(int[] participants, FitnessFunction<T> fitnessFunction) {

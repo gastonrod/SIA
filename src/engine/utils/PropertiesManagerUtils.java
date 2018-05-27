@@ -1,7 +1,5 @@
 package engine.utils;
 
-import engine.EnginePropertiesManager;
-
 import java.util.Properties;
 
 public class PropertiesManagerUtils {

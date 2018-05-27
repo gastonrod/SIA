@@ -53,7 +53,7 @@ public class EnginePropertiesManager {
                 return new UniversalSelector<>();
         }
         throw new RuntimeException("Selection method is not valid. Check the .properties file" +
-            "to see the available options.");
+                "to see the available options.");
     }
 
     public <T extends Individual> Mutator<T> getMutator() {
@@ -64,7 +64,7 @@ public class EnginePropertiesManager {
                 return new NonUniformSinglePointMutator<>();
         }
         throw new RuntimeException("Mutation method is not valid. Check the .properties file" +
-            "to see the available options.");
+                "to see the available options.");
     }
 
     public <T extends Individual> Crosser<T> getCrosser() {
@@ -79,7 +79,7 @@ public class EnginePropertiesManager {
                 return new UniformCrosser<>(retrieveDouble(Keys.UNIFORM_CROSSER_PROBABILITY.name(), prop));
         }
         throw new RuntimeException("Crossover method is not valid. Check the .properties file" +
-            "to see the available options.");
+                "to see the available options.");
     }
 
     public int getPopulationSize() {
