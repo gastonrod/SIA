@@ -9,7 +9,7 @@ public class EquipmentStash {
     public static Equipment[] generateRandomSet() {
         int setSize = EquipmentType.values().length;
         Equipment[] set = new Equipment[setSize];
-        for(int i = 0; i < setSize; i++) {
+        for (int i = 0; i < setSize; i++) {
             set[i] = getRandomEquipment(EquipmentType.values()[i]);
         }
         return set;

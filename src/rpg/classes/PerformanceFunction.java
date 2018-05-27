@@ -12,20 +12,22 @@ import static rpg.stats.Stats.*;
 
 public class PerformanceFunction implements FitnessFunction<Fighter> {
     private final double[] statModifiers;
-    private final Profession profession;
+    private final double attackPerformanceModifier;
+    private final double defensePerformanceModifier;
     private final StatCalculator[] calculators;
     private final DefenseModifier defenseModifier;
     private final AttackModifier attackModifier;
 
     private final double[] stats;
 
-    public PerformanceFunction(Profession profession, double[] statModifiers, StatCalculator[] calculators) {
+    public PerformanceFunction(double[] statModifiers, StatCalculator[] calculators, double attackPerformanceModifier, double defensePerformanceModifier) {
         stats = new double[Stats.values().length];
         this.statModifiers = statModifiers;
-        this.profession = profession;
         this.calculators = calculators;
         this.defenseModifier = new DefenseModifier();
         this.attackModifier = new AttackModifier();
+        this.attackPerformanceModifier = attackPerformanceModifier;
+        this.defensePerformanceModifier = defensePerformanceModifier;
     }
 
     private void calculateStats(Equipment[] equipment) {
@@ -55,6 +57,6 @@ public class PerformanceFunction implements FitnessFunction<Fighter> {
     @Override
     public double eval(Fighter fighter) {
         calculateStats(fighter.getEquipment());
-        return attack(fighter.getHeight()) * profession.attackPerformance + profession.defensePerformance * defense(fighter.getHeight());
+        return attack(fighter.getHeight()) * attackPerformanceModifier + defensePerformanceModifier * defense(fighter.getHeight());
     }
 }
