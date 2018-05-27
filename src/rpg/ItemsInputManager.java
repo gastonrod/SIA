@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class ItemsInputManager {
-    private final PropertiesManager prop;
+    private final RpgPropertiesManager prop;
     private final int columnsPerRow = Stats.values().length + 1;
 
-    public ItemsInputManager(PropertiesManager prop) {
+    public ItemsInputManager(RpgPropertiesManager prop) {
         this.prop = prop;
     }
 
