@@ -37,10 +37,10 @@ public class PerformanceFunction implements FitnessFunction<Fighter> {
         this.defensePerformanceModifier = defensePerformanceModifier;
 
         double auxOptimalPerformance = 0;
-        for(double h = MIN_HEIGHT; h < MAX_HEIGHT; h += HEIGHT_STEP) {
+        for (double h = MIN_HEIGHT; h < MAX_HEIGHT; h += HEIGHT_STEP) {
             double auxPerformance = attackPerformanceModifier * MAX_ATTACK_BOOST * attackModifier.calculate(h)
-                             + defensePerformanceModifier * MAX_DEFENCE_BOOST * defenseModifier.calculate(h);
-            if(auxPerformance > auxOptimalPerformance) {
+                + defensePerformanceModifier * MAX_DEFENCE_BOOST * defenseModifier.calculate(h);
+            if (auxPerformance > auxOptimalPerformance) {
                 auxOptimalPerformance = auxPerformance;
             }
         }

@@ -12,15 +12,17 @@ public class Fighter implements Individual {
 
     private double height;
     private Equipment[] equipment;
+    private EquipmentStash equipmentStash;
 
-    Fighter(double height, Equipment[] equipment) {
+    Fighter(double height, Equipment[] equipment, EquipmentStash equipmentStash) {
         this.height = height;
         this.equipment = equipment;
+        this.equipmentStash = equipmentStash;
     }
 
     @Override
     public Fighter replicate() {
-        return new Fighter(this.height, this.equipment.clone());
+        return new Fighter(this.height, this.equipment.clone(), equipmentStash);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class Fighter implements Individual {
         if (locus == 0) {
             height = (Math.random() * (MAX_HEIGHT - MIN_HEIGHT)) + MIN_HEIGHT;
         } else {
-            equipment[locus - 1] = EquipmentStash.getRandomEquipment(equipment[locus - 1].getType());
+            equipment[locus - 1] = equipmentStash.getRandomEquipment(equipment[locus - 1].getType());
         }
     }
 
