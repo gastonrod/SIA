@@ -3,7 +3,7 @@ package engine.crossover;
 import engine.model.Individual;
 import engine.model.Pair;
 
-public class UniformCrosser extends AbstractCrosser implements Crosser {
+public class UniformCrosser<T extends Individual> extends AbstractCrosser<T> {
 
     private int p;
 
@@ -12,7 +12,7 @@ public class UniformCrosser extends AbstractCrosser implements Crosser {
     }
 
     @Override
-    public Pair<Individual> cross(Pair<Individual> pair) {
+    public Pair<T> cross(Pair<T> pair) {
         super.init(pair);
 
         for (int i = 0; i < locusAmount; i++) {

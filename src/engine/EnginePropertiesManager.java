@@ -34,7 +34,7 @@ public class EnginePropertiesManager {
         return getSelector(Keys.SECOND_SELECTOR);
     }
 
-    public <T extends Individual> Selector<T> getSelector(Keys key) {
+    private <T extends Individual> Selector<T> getSelector(Keys key) {
         switch (SelectorMethod.valueOf(retrieveValue(key))) {
             case DETERMINISTIC_TOURNEY:
                 return new DeterministicTourneySelector<>(retrieveInt(Keys.PARTICIPANTS));
@@ -64,16 +64,16 @@ public class EnginePropertiesManager {
             "to see the available options.");
     }
 
-    public Crosser getCrosser() {
+    public <T extends Individual> Crosser<T> getCrosser() {
         switch (CrosserMethod.valueOf(retrieveValue(Keys.CROSSER))) {
             case ANNULAR:
-                return new AnnularCrosser();
+                return new AnnularCrosser<>();
             case SINGLE_POINT:
-                return new SinglePointCrosser();
+                return new SinglePointCrosser<>();
             case TWO_POINTS:
-                return new TwoPointCrosser();
+                return new TwoPointCrosser<>();
             case UNIFORM:
-                return new UniformCrosser(retrieveDouble(Keys.UNIFORM_CROSSER_PROBABILITY));
+                return new UniformCrosser<>(retrieveDouble(Keys.UNIFORM_CROSSER_PROBABILITY));
         }
         throw new RuntimeException("Crossover method is not valid. Check the .properties file" +
             "to see the available options.");

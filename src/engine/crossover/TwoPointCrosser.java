@@ -4,9 +4,9 @@ import engine.engineException.InvalidLocusAmountException;
 import engine.model.Individual;
 import engine.model.Pair;
 
-public class TwoPointCrosser extends AbstractCrosser implements Crosser {
+public class TwoPointCrosser<T extends Individual> extends AbstractCrosser<T> {
     @Override
-    public Pair<Individual> cross(Pair<Individual> pair) {
+    public Pair<T> cross(Pair<T> pair) {
         if (pair.first.getLocusAmount() < 2) {
             throw new InvalidLocusAmountException();
         }

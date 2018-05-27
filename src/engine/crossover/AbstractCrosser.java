@@ -5,19 +5,19 @@ import engine.model.Pair;
 
 import java.util.Random;
 
-public abstract class AbstractCrosser {
+abstract class AbstractCrosser<T extends Individual> implements Crosser<T>{
 
     Random rand;
-    Pair<Individual> children;
+    Pair<T> children;
     int locusAmount;
 
 
-    void init(Pair<Individual> pair) {
+    void init(Pair<T> pair) {
         rand = new Random();
         locusAmount = pair.first.getLocusAmount();
         children = new Pair<>();
 
-        children.first = pair.first.replicate();
-        children.second = pair.second.replicate();
+        children.first = (T) pair.first.replicate();
+        children.second = (T) pair.second.replicate();
     }
 }

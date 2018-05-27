@@ -3,11 +3,11 @@ package engine.crossover;
 import engine.model.Individual;
 import engine.model.Pair;
 
-public class AnnularCrosser extends AbstractCrosser implements Crosser {
+public class AnnularCrosser<T extends Individual> extends AbstractCrosser<T> {
 
 
     @Override
-    public Pair<Individual> cross(Pair<Individual> pair) {
+    public Pair<T> cross(Pair<T> pair) {
         super.init(pair);
         int r = rand.nextInt(locusAmount);
         int l = rand.nextInt((int) (locusAmount / 2.0 - 1)) + 1;

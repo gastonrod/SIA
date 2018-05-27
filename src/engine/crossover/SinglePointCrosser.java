@@ -3,10 +3,10 @@ package engine.crossover;
 import engine.model.Individual;
 import engine.model.Pair;
 
-public class SinglePointCrosser extends AbstractCrosser implements Crosser {
+public class SinglePointCrosser<T extends Individual> extends AbstractCrosser<T> {
 
     @Override
-    public Pair<Individual> cross(Pair<Individual> pair) {
+    public Pair<T> cross(Pair<T> pair) {
         super.init(pair);
         int r = rand.nextInt(pair.first.getLocusAmount());
 
