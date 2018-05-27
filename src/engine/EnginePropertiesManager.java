@@ -1,5 +1,7 @@
 package engine;
 
+import engine.breaking.Breaker;
+import engine.breaking.GenerationBreaker;
 import engine.crossover.*;
 import engine.model.Individual;
 import engine.mutation.Mutator;
@@ -53,7 +55,7 @@ public class EnginePropertiesManager {
                 return new UniversalSelector<>();
         }
         throw new RuntimeException("Selection method is not valid. Check the .properties file" +
-                "to see the available options.");
+            " to see the available options.");
     }
 
     public <T extends Individual> Mutator<T> getMutator() {
@@ -64,7 +66,7 @@ public class EnginePropertiesManager {
                 return new NonUniformSinglePointMutator<>();
         }
         throw new RuntimeException("Mutation method is not valid. Check the .properties file" +
-                "to see the available options.");
+            " to see the available options.");
     }
 
     public <T extends Individual> Crosser<T> getCrosser() {
@@ -79,7 +81,22 @@ public class EnginePropertiesManager {
                 return new UniformCrosser<>(retrieveDouble(Keys.UNIFORM_CROSSER_PROBABILITY.name(), prop));
         }
         throw new RuntimeException("Crossover method is not valid. Check the .properties file" +
-                "to see the available options.");
+            " to see the available options.");
+    }
+
+    public <T extends Individual> Breaker<T> getBreaker() {
+        switch (BreakerMethod.valueOf(retrieveValue(Keys.BREAKER.name(), prop))) {
+            case GENERATION:
+                return new GenerationBreaker<>(retrieveInt(Keys.MAX_GENERATIONS.name(), prop));
+            case OPTIMAL:
+                break;
+            case STRUCTURE:
+                break;
+            case CONTENT:
+                break;
+        }
+        throw new RuntimeException("Breaker method is not valid. Check the .properties file" +
+            " to see the available options.");
     }
 
     public int getPopulationSize() {
@@ -105,12 +122,14 @@ public class EnginePropertiesManager {
         MUTATOR,
         CROSSER,
         PARTICIPANTS,
+        BREAKER,
         MUTATOR_PROBABILITY,
         UNIFORM_CROSSER_PROBABILITY,
         GENERATIONAL_GAP,
         POP_SIZE,
         FIRST_SELECTOR_PCT,
-        FIRST_REPLACER_PCT
+        FIRST_REPLACER_PCT,
+        MAX_GENERATIONS
     }
 
     private enum SelectorMethod {
@@ -132,6 +151,13 @@ public class EnginePropertiesManager {
         SINGLE_POINT,
         TWO_POINTS,
         UNIFORM
+    }
+
+    private enum BreakerMethod {
+        GENERATION,
+        OPTIMAL,
+        STRUCTURE,
+        CONTENT
     }
 
 }
