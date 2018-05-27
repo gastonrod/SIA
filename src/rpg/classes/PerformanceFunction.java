@@ -8,15 +8,22 @@ import rpg.stats.DefenseModifier;
 import rpg.stats.StatCalculator;
 import rpg.stats.Stats;
 
+import static rpg.FighterManager.MAX_HEIGHT;
+import static rpg.FighterManager.MIN_HEIGHT;
 import static rpg.stats.Stats.*;
 
 public class PerformanceFunction implements FitnessFunction<Fighter> {
+    private static final int MAX_ATTACK_BOOST = 160;
+    private static final int MAX_DEFENCE_BOOST = 160;
+    private static final double HEIGHT_STEP = 0.01;
+
     private final double[] statModifiers;
     private final double attackPerformanceModifier;
     private final double defensePerformanceModifier;
     private final StatCalculator[] calculators;
     private final DefenseModifier defenseModifier;
     private final AttackModifier attackModifier;
+    private final double optimalPerformance;
 
     private final double[] stats;
 
@@ -28,6 +35,16 @@ public class PerformanceFunction implements FitnessFunction<Fighter> {
         this.attackModifier = new AttackModifier();
         this.attackPerformanceModifier = attackPerformanceModifier;
         this.defensePerformanceModifier = defensePerformanceModifier;
+
+        double auxOptimalPerformance = 0;
+        for(double h = MIN_HEIGHT; h < MAX_HEIGHT; h += HEIGHT_STEP) {
+            double auxPerformance = attackPerformanceModifier * MAX_ATTACK_BOOST * attackModifier.calculate(h)
+                             + defensePerformanceModifier * MAX_DEFENCE_BOOST * defenseModifier.calculate(h);
+            if(auxPerformance > auxOptimalPerformance) {
+                auxOptimalPerformance = auxPerformance;
+            }
+        }
+        optimalPerformance = auxOptimalPerformance;
     }
 
     private void calculateStats(Equipment[] equipment) {
@@ -51,7 +68,7 @@ public class PerformanceFunction implements FitnessFunction<Fighter> {
     }
 
     public double getOptimalPerformance() {
-        return 0;
+        return optimalPerformance;
     }
 
     @Override

@@ -5,8 +5,8 @@ import engine.model.Individual;
 import rpg.items.Equipment;
 import rpg.items.EquipmentStash;
 
-import static rpg.FighterManager.maxHeight;
-import static rpg.FighterManager.minHeight;
+import static rpg.FighterManager.MAX_HEIGHT;
+import static rpg.FighterManager.MIN_HEIGHT;
 
 public class Fighter implements Individual {
 
@@ -49,7 +49,7 @@ public class Fighter implements Individual {
     public void mutateAt(int locus) throws InvalidLocusException {
         checkLocus(locus);
         if (locus == 0) {
-            height = (Math.random() * (maxHeight - minHeight)) + minHeight;
+            height = (Math.random() * (MAX_HEIGHT - MIN_HEIGHT)) + MIN_HEIGHT;
         } else {
             equipment[locus - 1] = EquipmentStash.getRandomEquipment(equipment[locus - 1].getType());
         }

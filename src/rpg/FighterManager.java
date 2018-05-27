@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FighterManager implements IndividualManager<Fighter> {
-    final static double maxHeight = 2.0;
-    final static double minHeight = 1.3;
+    public final static double MAX_HEIGHT = 2.0;
+    public final static double MIN_HEIGHT = 1.3;
     private final static String RPG_PROPERTIES_FILE = "rpg/config.properties";
     final private PerformanceFunction fitnessFunction;
 
@@ -43,7 +43,7 @@ public class FighterManager implements IndividualManager<Fighter> {
         double height;
         Equipment[] set;
         for (int i = 0; i < size; i++) {
-            height = (Math.random() * (maxHeight - minHeight)) + minHeight;
+            height = (Math.random() * (MAX_HEIGHT - MIN_HEIGHT)) + MIN_HEIGHT;
             set = EquipmentStash.generateRandomSet();
             population.add(new Fighter(height, set));
         }
