@@ -9,8 +9,8 @@ public class NonUniformSinglePointMutator extends AbstractSinglePointMutator {
     private int currentGeneration;
     private double probability;
 
-    public NonUniformSinglePointMutator(VariationFunction variationFunction) {
-        this.variationFunction = variationFunction;
+    public NonUniformSinglePointMutator() {
+        this.variationFunction = g -> Math.random();
         this.currentGeneration = -1;
     }
 
@@ -22,4 +22,11 @@ public class NonUniformSinglePointMutator extends AbstractSinglePointMutator {
         }
         mutateSinglePoint(individual, probability);
     }
+
+    @FunctionalInterface
+    public interface VariationFunction {
+
+        double eval(int generation);
+    }
+
 }

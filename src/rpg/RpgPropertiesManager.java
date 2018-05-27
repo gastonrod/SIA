@@ -11,7 +11,9 @@ public class RpgPropertiesManager {
     public RpgPropertiesManager(String rpgPropertiesFile) {
         prop = new Properties();
         try {
-            prop.load(new FileReader(rpgPropertiesFile));
+            FileReader fr = new FileReader(rpgPropertiesFile);
+            prop.load(fr);
+            fr.close();
         } catch (IOException e) {
             throw new RuntimeException("Error loading " + rpgPropertiesFile + " properties file.");
         }

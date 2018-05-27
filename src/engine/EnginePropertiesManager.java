@@ -16,14 +16,24 @@ public class EnginePropertiesManager {
     public EnginePropertiesManager(String enginePropertiesFile) {
         prop = new Properties();
         try {
-            prop.load(new FileReader(enginePropertiesFile));
+            FileReader fr = new FileReader(enginePropertiesFile);
+            prop.load(fr);
+            fr.close();
         } catch (IOException e) {
             throw new RuntimeException("Error loading " + enginePropertiesFile + " properties file.");
         }
     }
 
-    public <T extends Individual> Selector<T> getSelector() {
-        switch (SelectorMethod.valueOf(retrieveValue(Keys.SELECTOR))) {
+    public <T extends Individual> Selector<T> getFirstSelector() {
+        return getSelector(Keys.FIRST_SELECTOR);
+    }
+
+    public <T extends Individual> Selector<T> getSecondSelector() {
+        return getSelector(Keys.SECOND_SELECTOR);
+    }
+
+    public <T extends Individual> Selector<T> getSelector(Keys key) {
+        switch (SelectorMethod.valueOf(retrieveValue(key))) {
             case DETERMINISTIC_TOURNEY:
                 return new DeterministicTourneySelector<>(retrieveInt(Keys.PARTICIPANTS));
             case PROBABILISTIC_TOURNEY:
@@ -44,10 +54,9 @@ public class EnginePropertiesManager {
     public Mutator getMutator() {
         switch (MutatorMethod.valueOf(retrieveValue(Keys.MUTATOR))) {
             case UNIFORM:
-                return new UniformSinglepointMutator(retrieveDouble(Keys.SP_MUTATOR_PROBABILITY));
+                return new UniformSinglepointMutator(retrieveDouble(Keys.MUTATOR_PROBABILITY));
             case NON_UNIFORM:
-                // TODO variation functions
-                return new NonUniformSinglePointMutator(null);
+                return new NonUniformSinglePointMutator();
         }
         throw new RuntimeException("Mutation method is not valid. Check the .properties file" +
             "to see the available options.");
@@ -66,6 +75,30 @@ public class EnginePropertiesManager {
         }
         throw new RuntimeException("Crossover method is not valid. Check the .properties file" +
             "to see the available options.");
+    }
+
+    public int getPopulationSize(){
+        return retrieveInt(Keys.POP_SIZE);
+    }
+
+    public double getGenerationalGap(){
+        return retrieveDouble(Keys.GENERATIONAL_GAP);
+    }
+
+    public double getFirstSelectorPercentage(){
+        return retrievePercentage(Keys.FIRST_SELECTOR_PCT);
+    }
+
+    public double getFirstReplacerPercentage(){
+        return retrievePercentage(Keys.FIRST_REPLACER_PCT);
+    }
+
+    private double retrievePercentage(Keys k){
+        double pct = retrieveDouble(Keys.FIRST_SELECTOR_PCT);
+        if(pct < 0 || pct > 1){
+            throw new RuntimeException(k.name() + " percentage double must be between 0 and 1.");
+        }
+        return pct;
     }
 
     private String retrieveValue(Keys key) {
@@ -92,12 +125,17 @@ public class EnginePropertiesManager {
     }
 
     private enum Keys {
-        SELECTOR,
+        FIRST_SELECTOR,
+        SECOND_SELECTOR,
         MUTATOR,
         CROSSER,
         PARTICIPANTS,
-        SP_MUTATOR_PROBABILITY,
-        UNIFORM_CROSSER_PROBABILITY
+        MUTATOR_PROBABILITY,
+        UNIFORM_CROSSER_PROBABILITY,
+        GENERATIONAL_GAP,
+        POP_SIZE,
+        FIRST_SELECTOR_PCT,
+        FIRST_REPLACER_PCT
     }
 
     private enum SelectorMethod {
