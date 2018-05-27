@@ -5,7 +5,7 @@ import engine.model.Individual;
 import java.util.ArrayList;
 
 @FunctionalInterface
-public interface Replacer {
+public interface Replacer<T extends Individual> {
 
-    void replace(ArrayList<Individual> population, ArrayList<Individual> children);
+    void replace(ArrayList<T> population, ArrayList<T> children);
 }
