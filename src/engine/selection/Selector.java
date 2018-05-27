@@ -8,5 +8,5 @@ import java.util.List;
 @FunctionalInterface
 public interface Selector<T extends Individual> {
 
-    List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction);
+    List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation);
 }

@@ -13,7 +13,7 @@ public class DeterministicTourneySelector<T extends Individual> extends TourneyS
     }
 
     @Override
-    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
+    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         currentPopulation = population;
         List<T> winners = new ArrayList<>();
         for(int i = 0; i < k; i++){

@@ -10,7 +10,7 @@ import java.util.List;
 public class UniversalSelector<T extends Individual> extends AccumulatedSumSelector<T> {
 
     @Override
-    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction) {
+    public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         super.init(population, k, fitnessFunction);
         double r = Math.random();
 
