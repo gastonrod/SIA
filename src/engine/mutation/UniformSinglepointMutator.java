@@ -3,7 +3,7 @@ package engine.mutation;
 import engine.engineException.InvalidProbabilityException;
 import engine.model.Individual;
 
-public class UniformSinglepointMutator extends AbstractSinglePointMutator {
+public class UniformSinglepointMutator<T extends Individual> extends AbstractSinglePointMutator<T> {
 
     private final double probability;
 
@@ -16,7 +16,7 @@ public class UniformSinglepointMutator extends AbstractSinglePointMutator {
     }
 
     @Override
-    public void mutate(Individual individual, int generation) {
+    public void mutate(T individual, int generation) {
         mutateSinglePoint(individual, probability);
     }
 }

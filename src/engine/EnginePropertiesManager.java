@@ -53,12 +53,12 @@ public class EnginePropertiesManager {
             "to see the available options.");
     }
 
-    public Mutator getMutator() {
+    public <T extends Individual> Mutator<T> getMutator() {
         switch (MutatorMethod.valueOf(retrieveValue(Keys.MUTATOR))) {
             case UNIFORM:
-                return new UniformSinglepointMutator(retrieveDouble(Keys.MUTATOR_PROBABILITY));
+                return new UniformSinglepointMutator<>(retrieveDouble(Keys.MUTATOR_PROBABILITY));
             case NON_UNIFORM:
-                return new NonUniformSinglePointMutator();
+                return new NonUniformSinglePointMutator<>();
         }
         throw new RuntimeException("Mutation method is not valid. Check the .properties file" +
             "to see the available options.");

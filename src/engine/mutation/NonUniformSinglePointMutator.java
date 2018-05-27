@@ -2,7 +2,7 @@ package engine.mutation;
 
 import engine.model.Individual;
 
-public class NonUniformSinglePointMutator extends AbstractSinglePointMutator {
+public class NonUniformSinglePointMutator<T extends Individual> extends AbstractSinglePointMutator<T> {
 
     private VariationFunction variationFunction;
     private int currentGeneration;
@@ -14,7 +14,7 @@ public class NonUniformSinglePointMutator extends AbstractSinglePointMutator {
     }
 
     @Override
-    public void mutate(Individual individual, int generation) {
+    public void mutate(T individual, int generation) {
         if (generation != currentGeneration) {
             currentGeneration = generation;
             probability = variationFunction.eval(generation);

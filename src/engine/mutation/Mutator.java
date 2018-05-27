@@ -3,7 +3,7 @@ package engine.mutation;
 import engine.model.Individual;
 
 @FunctionalInterface
-public interface Mutator {
+public interface Mutator<T extends Individual> {
 
-    void mutate(Individual individual, int generation);
+    void mutate(T individual, int generation);
 }
