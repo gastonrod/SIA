@@ -1,7 +1,6 @@
 package engine;
 
 import engine.breaking.Breaker;
-import engine.breaking.GenerationBreaker;
 import engine.crossover.Crosser;
 import engine.model.IndividualManager;
 import engine.model.Pair;
@@ -32,7 +31,7 @@ public class Breeder {
             int populationSize = enginePropertiesManager.getPopulationSize();
             double generationalGap = enginePropertiesManager.getGenerationalGap();
             int k = (int) Math.round(populationSize * generationalGap);
-            Breaker<Fighter> breaker = new GenerationBreaker<>(3);  // TODO: read generation from file
+            Breaker<Fighter> breaker = enginePropertiesManager.getBreaker();
 
             IndividualManager<Fighter> individualManager = new FighterManager();
 

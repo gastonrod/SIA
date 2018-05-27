@@ -1,6 +1,5 @@
 package engine.breaking;
 
-import engine.FitnessFunction;
 import engine.model.Individual;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class GenerationBreaker<T extends Individual> implements Breaker<T> {
     }
 
     @Override
-    public boolean shouldBreak(ArrayList<T> population, FitnessFunction<T> fitnessFunction, double optimalValue, int generation) {
+    public boolean shouldBreak(ArrayList<T> population, int generation) {
         return generation >= maxGeneration;
     }
 }
