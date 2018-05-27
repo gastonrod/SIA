@@ -10,7 +10,7 @@ import rpg.stats.Stats;
 
 import static rpg.stats.Stats.*;
 
-class PerformanceFunction implements FitnessFunction<Fighter> {
+public class PerformanceFunction implements FitnessFunction<Fighter> {
     private final double[] statModifiers;
     private final Profession profession;
     private final StatCalculator[] calculators;
@@ -19,7 +19,7 @@ class PerformanceFunction implements FitnessFunction<Fighter> {
 
     private final double[] stats;
 
-    PerformanceFunction(Profession profession, double[] statModifiers, StatCalculator[] calculators) {
+    public PerformanceFunction(Profession profession, double[] statModifiers, StatCalculator[] calculators) {
         stats = new double[Stats.values().length];
         this.statModifiers = statModifiers;
         this.profession = profession;
@@ -46,6 +46,10 @@ class PerformanceFunction implements FitnessFunction<Fighter> {
 
     private double defense(double height) {
         return (stats[RESISTANCE.ordinal()] + stats[EXPERTISE.ordinal()]) * stats[VITALITY.ordinal()] * defenseModifier.calculate(height);
+    }
+
+    public double getOptimalPerformance() {
+        return 0;
     }
 
     @Override

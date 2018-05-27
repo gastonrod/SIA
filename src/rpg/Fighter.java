@@ -5,14 +5,15 @@ import engine.model.Individual;
 import rpg.items.Equipment;
 import rpg.items.EquipmentStash;
 
+import static rpg.FighterManager.maxHeight;
+import static rpg.FighterManager.minHeight;
+
 public class Fighter implements Individual {
-    private final static double maxHeight = 2.0;
-    private final static double minHeight = 1.3;
 
     private double height;
     private Equipment[] equipment;
 
-    public Fighter(double height, Equipment[] equipment) {
+    Fighter(double height, Equipment[] equipment) {
         this.height = height;
         this.equipment = equipment;
     }
