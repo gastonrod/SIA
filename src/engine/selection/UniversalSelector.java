@@ -14,7 +14,7 @@ public class UniversalSelector<T extends Individual> extends AccumulatedSumSelec
         super.init(population, k, fitnessFunction);
         double r = Math.random();
 
-        for(int i = 1; i <= k; i++) {
+        for (int i = 1; i <= k; i++) {
             double rand = (r + i - 1.0) / k;
             selectedIndividuals.add(pop.get(SearchUtils.upperBoundSearch(accumulatedSum, rand)));
         }

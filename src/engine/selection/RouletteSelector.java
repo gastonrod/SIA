@@ -13,7 +13,7 @@ public class RouletteSelector<T extends Individual> extends AccumulatedSumSelect
     public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         super.init(population, k, fitnessFunction);
 
-        for(int i = 0; i < k; i++) {
+        for (int i = 0; i < k; i++) {
             selectedIndividuals.add(pop.get(SearchUtils.upperBoundSearch(accumulatedSum, Math.random())));
         }
         return selectedIndividuals;

@@ -17,11 +17,12 @@ public class MixSelector<T extends Individual> implements Selector<T> {
         this.selector1 = selector1;
         this.selector2 = selector2;
         boolean isValidProportion = 0 <= proportionOfK && proportionOfK <= 1;
-        if(!isValidProportion) {
+        if (!isValidProportion) {
             throw new InvalidProportionException(proportionOfK);
         }
         this.proportionOfK = proportionOfK;
     }
+
     @Override
     public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         List<T> children = new ArrayList<>();

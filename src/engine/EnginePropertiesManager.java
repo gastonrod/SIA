@@ -2,7 +2,9 @@ package engine;
 
 import engine.crossover.*;
 import engine.model.Individual;
-import engine.mutation.*;
+import engine.mutation.Mutator;
+import engine.mutation.NonUniformSinglePointMutator;
+import engine.mutation.UniformSinglepointMutator;
 import engine.selection.*;
 
 import java.io.FileReader;
@@ -77,25 +79,25 @@ public class EnginePropertiesManager {
             "to see the available options.");
     }
 
-    public int getPopulationSize(){
+    public int getPopulationSize() {
         return retrieveInt(Keys.POP_SIZE);
     }
 
-    public double getGenerationalGap(){
+    public double getGenerationalGap() {
         return retrieveDouble(Keys.GENERATIONAL_GAP);
     }
 
-    public double getFirstSelectorPercentage(){
+    public double getFirstSelectorPercentage() {
         return retrievePercentage(Keys.FIRST_SELECTOR_PCT);
     }
 
-    public double getFirstReplacerPercentage(){
+    public double getFirstReplacerPercentage() {
         return retrievePercentage(Keys.FIRST_REPLACER_PCT);
     }
 
-    private double retrievePercentage(Keys k){
+    private double retrievePercentage(Keys k) {
         double pct = retrieveDouble(Keys.FIRST_SELECTOR_PCT);
-        if(pct < 0 || pct > 1){
+        if (pct < 0 || pct > 1) {
             throw new RuntimeException(k.name() + " percentage double must be between 0 and 1.");
         }
         return pct;

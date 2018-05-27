@@ -4,7 +4,9 @@ import engine.FitnessFunction;
 import engine.engineException.InvalidLocusException;
 import engine.model.Individual;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class RankingSelector<T extends Individual> implements Selector<T> {
 
@@ -19,20 +21,20 @@ public class RankingSelector<T extends Individual> implements Selector<T> {
         }
         mockPopulation.sort(Comparator.comparingDouble(MockPositionalIndividual::getActualFitness));
         for (int i = 0; i < mockPopulation.size(); i++) {
-            mockPopulation.get(i).setPosition(i+1);
+            mockPopulation.get(i).setPosition(i + 1);
         }
         List<MockPositionalIndividual> mockChildren = rouletteSelector.select(mockPopulation, k, mockFitnessFunction, generation);
         List<T> selectedChildren = new ArrayList<>(mockChildren.size());
         for (MockPositionalIndividual mpi : mockChildren) {
-            selectedChildren.add(population.get(mpi.getPosition()-1));
+            selectedChildren.add(population.get(mpi.getPosition() - 1));
         }
         return selectedChildren;
     }
 
     private static class MockPositionalIndividual implements Individual {
 
-        private int position = -1;
         private final double actualFitness;
+        private int position = -1;
 
         MockPositionalIndividual(double actualFitness) {
             this.actualFitness = actualFitness;
@@ -42,12 +44,12 @@ public class RankingSelector<T extends Individual> implements Selector<T> {
             return actualFitness;
         }
 
-        void setPosition(int position) {
-            this.position = position;
-        }
-
         int getPosition() {
             return position;
+        }
+
+        void setPosition(int position) {
+            this.position = position;
         }
 
         @Override

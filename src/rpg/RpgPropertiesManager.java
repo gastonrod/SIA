@@ -43,9 +43,9 @@ public class RpgPropertiesManager {
         return retrieveValue(Keys.ITEMS_FOLDER) + "/" + retrieveValue(file);
     }
 
-    private String retrieveValue(Keys key){
+    private String retrieveValue(Keys key) {
         String value = prop.getProperty(key.name());
-        if(value == null)
+        if (value == null)
             throw new RuntimeException(key.name() + " key was not found.");
         return value;
     }

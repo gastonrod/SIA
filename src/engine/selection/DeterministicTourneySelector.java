@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DeterministicTourneySelector<T extends Individual> extends TourneySelector<T> {
 
-    public DeterministicTourneySelector(int participantsPerDuel){
+    public DeterministicTourneySelector(int participantsPerDuel) {
         super(participantsPerDuel);
     }
 
@@ -16,7 +16,7 @@ public class DeterministicTourneySelector<T extends Individual> extends TourneyS
     public List<T> select(List<T> population, int k, FitnessFunction<T> fitnessFunction, int generation) {
         currentPopulation = population;
         List<T> winners = new ArrayList<>();
-        for(int i = 0; i < k; i++){
+        for (int i = 0; i < k; i++) {
             winners.add(getWinner(getParticipantsIndexes(), fitnessFunction));
         }
         return winners;

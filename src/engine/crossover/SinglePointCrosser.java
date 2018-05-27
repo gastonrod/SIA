@@ -10,7 +10,7 @@ public class SinglePointCrosser extends AbstractCrosser implements Crosser {
         super.init(pair);
         int r = rand.nextInt(pair.first.getLocusAmount());
 
-        for(int i = r; i < pair.first.getLocusAmount(); i++){
+        for (int i = r; i < pair.first.getLocusAmount(); i++) {
             children.first.exchangeAt(children.second, i);
         }
 

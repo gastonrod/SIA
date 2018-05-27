@@ -9,7 +9,7 @@ public class UniformSinglepointMutator extends AbstractSinglePointMutator {
 
     public UniformSinglepointMutator(double probability) {
         boolean isValidProbability = 0 <= probability && probability <= 1;
-        if(!isValidProbability) {
+        if (!isValidProbability) {
             throw new InvalidProbabilityException(probability);
         }
         this.probability = probability;

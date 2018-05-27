@@ -29,7 +29,7 @@ public class BoltzmannSelector<T extends Individual> implements Selector<T> {
             this.generation = generation;
             double auxAverage = 0;
             for (T individual : population) {
-                auxAverage += Math.exp(actualFitnessFunction.eval(individual)/calculateTemperature(generation));
+                auxAverage += Math.exp(actualFitnessFunction.eval(individual) / calculateTemperature(generation));
             }
             auxAverage /= population.size();
             average = auxAverage;
@@ -37,7 +37,7 @@ public class BoltzmannSelector<T extends Individual> implements Selector<T> {
 
         @Override
         public double eval(T i) {
-            return Math.exp(actualFitnessFunction.eval(i)/calculateTemperature(generation))/average;
+            return Math.exp(actualFitnessFunction.eval(i) / calculateTemperature(generation)) / average;
         }
 
         /* Es una función positiva y decreciente de la generación */
