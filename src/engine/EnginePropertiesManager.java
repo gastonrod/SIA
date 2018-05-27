@@ -6,10 +6,13 @@ import engine.mutation.Mutator;
 import engine.mutation.NonUniformSinglePointMutator;
 import engine.mutation.UniformSinglepointMutator;
 import engine.selection.*;
+import engine.utils.PropertiesManagerUtils;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+
+import static engine.utils.PropertiesManagerUtils.*;
 
 public class EnginePropertiesManager {
 
@@ -35,9 +38,9 @@ public class EnginePropertiesManager {
     }
 
     private <T extends Individual> Selector<T> getSelector(Keys key) {
-        switch (SelectorMethod.valueOf(retrieveValue(key))) {
+        switch (SelectorMethod.valueOf(PropertiesManagerUtils.retrieveValue(key.name(), prop))) {
             case DETERMINISTIC_TOURNEY:
-                return new DeterministicTourneySelector<>(retrieveInt(Keys.PARTICIPANTS));
+                return new DeterministicTourneySelector<>(retrieveInt(Keys.PARTICIPANTS.name(), prop));
             case PROBABILISTIC_TOURNEY:
                 return new ProbabilisticTourneySelector<>();
             case ELITE:
@@ -54,9 +57,9 @@ public class EnginePropertiesManager {
     }
 
     public <T extends Individual> Mutator<T> getMutator() {
-        switch (MutatorMethod.valueOf(retrieveValue(Keys.MUTATOR))) {
+        switch (MutatorMethod.valueOf(retrieveValue(Keys.MUTATOR.name(), prop))) {
             case UNIFORM:
-                return new UniformSinglepointMutator<>(retrieveDouble(Keys.MUTATOR_PROBABILITY));
+                return new UniformSinglepointMutator<>(retrieveDouble(Keys.MUTATOR_PROBABILITY.name(), prop));
             case NON_UNIFORM:
                 return new NonUniformSinglePointMutator<>();
         }
@@ -65,7 +68,7 @@ public class EnginePropertiesManager {
     }
 
     public <T extends Individual> Crosser<T> getCrosser() {
-        switch (CrosserMethod.valueOf(retrieveValue(Keys.CROSSER))) {
+        switch (CrosserMethod.valueOf(retrieveValue(Keys.CROSSER.name(), prop))) {
             case ANNULAR:
                 return new AnnularCrosser<>();
             case SINGLE_POINT:
@@ -73,58 +76,28 @@ public class EnginePropertiesManager {
             case TWO_POINTS:
                 return new TwoPointCrosser<>();
             case UNIFORM:
-                return new UniformCrosser<>(retrieveDouble(Keys.UNIFORM_CROSSER_PROBABILITY));
+                return new UniformCrosser<>(retrieveDouble(Keys.UNIFORM_CROSSER_PROBABILITY.name(), prop));
         }
         throw new RuntimeException("Crossover method is not valid. Check the .properties file" +
             "to see the available options.");
     }
 
     public int getPopulationSize() {
-        return retrieveInt(Keys.POP_SIZE);
+        return retrieveInt(Keys.POP_SIZE.name(), prop);
     }
 
     public double getGenerationalGap() {
-        return retrieveDouble(Keys.GENERATIONAL_GAP);
+        return retrieveDouble(Keys.GENERATIONAL_GAP.name(), prop);
     }
 
     public double getFirstSelectorPercentage() {
-        return retrievePercentage(Keys.FIRST_SELECTOR_PCT);
+        return retrievePercentage(Keys.FIRST_SELECTOR_PCT.name(), prop);
     }
 
     public double getFirstReplacerPercentage() {
-        return retrievePercentage(Keys.FIRST_REPLACER_PCT);
+        return retrievePercentage(Keys.FIRST_REPLACER_PCT.name(), prop);
     }
 
-    private double retrievePercentage(Keys k) {
-        double pct = retrieveDouble(Keys.FIRST_SELECTOR_PCT);
-        if (pct < 0 || pct > 1) {
-            throw new RuntimeException(k.name() + " percentage double must be between 0 and 1.");
-        }
-        return pct;
-    }
-
-    private String retrieveValue(Keys key) {
-        String value = prop.getProperty(key.name());
-        if (value == null)
-            throw new RuntimeException(key.name() + " key was not found.");
-        return value;
-    }
-
-    private int retrieveInt(Keys key) {
-        try {
-            return Integer.parseInt(retrieveValue(key));
-        } catch (NumberFormatException e) {
-            throw new RuntimeException("Invalid integer for " + key.name() + " key.");
-        }
-    }
-
-    private double retrieveDouble(Keys key) {
-        try {
-            return Double.parseDouble(retrieveValue(key));
-        } catch (NumberFormatException e) {
-            throw new RuntimeException("Invalid double for " + key.name() + " key.");
-        }
-    }
 
     private enum Keys {
         FIRST_SELECTOR,

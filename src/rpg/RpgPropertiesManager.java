@@ -3,7 +3,7 @@ package rpg;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
-
+import static engine.utils.PropertiesManagerUtils.*;
 public class RpgPropertiesManager {
 
     private Properties prop;
@@ -18,6 +18,16 @@ public class RpgPropertiesManager {
             throw new RuntimeException("Error loading " + rpgPropertiesFile + " properties file.");
         }
     }
+
+    public double getStrengthModifier() { return retrieveDouble(Keys.STRENGTH.name(), prop); }
+
+    public double getAgilityModifier() { return retrieveDouble(Keys.AGILITY.name(), prop); }
+
+    public double getExpertiseModifier() { return retrieveDouble(Keys.EXPERTISE.name(), prop); }
+
+    public double getResistanceModifier() { return retrieveDouble(Keys.RESISTANCE.name(), prop); }
+
+    public double getVitalityModifier() { return retrieveDouble(Keys.VITALITY.name(), prop); }
 
     public String getBootsFileLocation() {
         return getFileLocation(Keys.BOOTS);
@@ -40,14 +50,7 @@ public class RpgPropertiesManager {
     }
 
     private String getFileLocation(Keys file) {
-        return retrieveValue(Keys.ITEMS_FOLDER) + "/" + retrieveValue(file);
-    }
-
-    private String retrieveValue(Keys key) {
-        String value = prop.getProperty(key.name());
-        if (value == null)
-            throw new RuntimeException(key.name() + " key was not found.");
-        return value;
+        return retrieveValue(Keys.ITEMS_FOLDER.name(), prop) + "/" + retrieveValue(file.name(), prop);
     }
 
     private enum Keys {
@@ -56,6 +59,11 @@ public class RpgPropertiesManager {
         GLOVES,
         HELMETS,
         WEAPONS,
-        ITEMS_FOLDER
+        ITEMS_FOLDER,
+        STRENGTH,
+        AGILITY,
+        EXPERTISE,
+        RESISTANCE,
+        VITALITY
     }
 }
