@@ -6,6 +6,7 @@ import engine.model.IndividualManager;
 import engine.model.Pair;
 import engine.mutation.Mutator;
 import engine.replacement.SimpleReplacer;
+import engine.replacement.WorstIndividualsReplacer;
 import engine.selection.Selector;
 import rpg.Fighter;
 import rpg.FighterManager;
@@ -62,7 +63,7 @@ public class Breeder {
                     mutator.mutate(f, generation);
                 }
                 // Replacement
-                new SimpleReplacer<Fighter>().replace(population, crossed);
+                new WorstIndividualsReplacer<Fighter>().replace(population, crossed, individualManager.getFitnessFunction());
                 System.out.println(population);
             }
             // Get winner

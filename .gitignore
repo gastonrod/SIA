@@ -6,3 +6,4 @@ out/*
 *.iml
 .editorconfig
 src/out/*
+src/fulldata/*
