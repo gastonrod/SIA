@@ -2,6 +2,7 @@ package engine;
 
 import engine.breaking.Breaker;
 import engine.crossover.Crosser;
+import engine.model.Individual;
 import engine.model.IndividualManager;
 import engine.model.Pair;
 import engine.mutation.Mutator;
@@ -15,17 +16,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class Breeder {
 
     private static final String ENGINE_PROPERTIES_FILE = "src/engine/config.properties";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         try {
+            System.out.println("Loading data...");
             IndividualManager<Fighter> individualManager = new FighterManager();
-            System.out.println("Loaded all the wachines.");
+            System.out.println("Data loaded");
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             while(br.readLine().equals("1")) {
                 individualManager.initialize();
@@ -72,6 +76,7 @@ public class Breeder {
                     // Replacement
                     new WorstIndividualsReplacer<Fighter>().replace(population, crossed, individualManager.getFitnessFunction());
                     System.out.println(population);
+                    System.out.println(getBestFitness(population, individualManager.getFitnessFunction()));
                 }
                 // Get winner
                 Iterator<Fighter> iterator = population.iterator();
@@ -93,9 +98,13 @@ public class Breeder {
         } catch (Exception e) {
             System.out.println("Falló");
             System.out.println(e.getMessage());
-            throw e;
+            //throw e;
         }
 
+    }
+
+    private static <T extends Individual> double getBestFitness(ArrayList<T> population, FitnessFunction<T> fitnessFunction) {
+        return fitnessFunction.eval(Collections.max(population, Comparator.comparingDouble(fitnessFunction::eval)));
     }
 
 }
