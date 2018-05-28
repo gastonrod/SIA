@@ -9,6 +9,8 @@ import engine.model.Individual;
 import engine.mutation.Mutator;
 import engine.mutation.NonUniformSinglePointMutator;
 import engine.mutation.UniformSinglepointMutator;
+import engine.replacement.MixReplacer;
+import engine.replacement.Replacer;
 import engine.selection.*;
 import engine.utils.PropertiesManagerUtils;
 
@@ -39,6 +41,13 @@ public class EnginePropertiesManager {
 
     public <T extends Individual> Selector<T> getSecondSelector() {
         return getSelector(Keys.SECOND_SELECTOR);
+    }
+
+    public <T extends Individual> Replacer<T> getReplacer() {
+        Selector<T> selector1 = getSelector(Keys.FIRST_REPLACER_SELECTOR);
+        Selector<T> selector2 = getSelector(Keys.SECOND_REPLACER_SELECTOR);
+        double proportionOfK = retrieveDouble(Keys.REPLACER_PROPORTION.name(), prop);
+        return new MixReplacer<>(new MixSelector<>(selector1, selector2, proportionOfK));
     }
 
     private <T extends Individual> Selector<T> getSelector(Keys key) {
@@ -132,6 +141,9 @@ public class EnginePropertiesManager {
     private enum Keys {
         FIRST_SELECTOR,
         SECOND_SELECTOR,
+        FIRST_REPLACER_SELECTOR,
+        SECOND_REPLACER_SELECTOR,
+        REPLACER_PROPORTION,
         MUTATOR,
         CROSSER,
         PARTICIPANTS,

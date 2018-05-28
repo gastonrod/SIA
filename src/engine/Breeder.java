@@ -6,14 +6,13 @@ import engine.model.Individual;
 import engine.model.IndividualManager;
 import engine.model.Pair;
 import engine.mutation.Mutator;
-import engine.replacement.SimpleReplacer;
+import engine.replacement.Replacer;
 import engine.replacement.WorstIndividualsReplacer;
 import engine.selection.Selector;
 import rpg.Fighter;
 import rpg.FighterManager;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +37,7 @@ public class Breeder {
                 Selector<Fighter> mixSelector = enginePropertiesManager.getFirstSelector();
                 Crosser<Fighter> crosser = enginePropertiesManager.getCrosser();
                 Mutator<Fighter> mutator = enginePropertiesManager.getMutator();
+                Replacer<Fighter> replacer = enginePropertiesManager.getReplacer();
                 //Replacer<Fighter> firstReplacer = enginePropertiesManager.getFirstReplacer();
                 //Replacer<Fighter> secondReplacer = enginePropertiesManager.getSecondReplacer();
                 double firstReplacerPercentage = enginePropertiesManager.getFirstReplacerPercentage();
@@ -74,7 +74,7 @@ public class Breeder {
                         mutator.mutate(f, generation);
                     }
                     // Replacement
-                    new WorstIndividualsReplacer<Fighter>().replace(population, crossed, individualManager.getFitnessFunction());
+                    replacer.replace(population, crossed, individualManager.getFitnessFunction(), generation);
                     System.out.println(population);
                     System.out.println(getBestFitness(population, individualManager.getFitnessFunction()));
                 }

@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 public class WorstIndividualsReplacer<T extends Individual> implements Replacer<T> {
     @Override
-    public void replace(ArrayList<T> population, ArrayList<T> children, FitnessFunction<T> fitnessFunction) {
+    public void replace(ArrayList<T> population, ArrayList<T> children, FitnessFunction<T> fitnessFunction, int generation) {
         population.sort(Comparator.comparingDouble(fitnessFunction::eval));
         for (T individual : children) {
             population.remove(0);

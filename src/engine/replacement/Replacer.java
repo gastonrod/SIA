@@ -8,5 +8,5 @@ import java.util.ArrayList;
 @FunctionalInterface
 public interface Replacer<T extends Individual> {
 
-    void replace(ArrayList<T> population, ArrayList<T> children, FitnessFunction<T> fitnessFunction);
+    void replace(ArrayList<T> population, ArrayList<T> children, FitnessFunction<T> fitnessFunction, int generation);
 }
