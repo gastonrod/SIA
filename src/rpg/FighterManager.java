@@ -13,12 +13,18 @@ public class FighterManager implements IndividualManager<Fighter> {
     public final static double MAX_HEIGHT = 2.0;
     public final static double MIN_HEIGHT = 1.3;
     private final static String RPG_PROPERTIES_FILE = "src/rpg/config.properties";
-    private final EquipmentStash equipmentStash;
-    final private PerformanceFunction fitnessFunction;
+    private EquipmentStash equipmentStash;
+    private PerformanceFunction fitnessFunction;
 
     public FighterManager() {
+        initialize();
         RpgPropertiesManager pm = new RpgPropertiesManager(RPG_PROPERTIES_FILE);
         equipmentStash = new EquipmentStash(pm);
+    }
+
+    @Override
+    public void initialize(){
+        RpgPropertiesManager pm = new RpgPropertiesManager(RPG_PROPERTIES_FILE);
         double[] statModifiers = new double[Stats.values().length];
         StatCalculator[] calculators = new StatCalculator[Stats.values().length];
 
@@ -36,7 +42,6 @@ public class FighterManager implements IndividualManager<Fighter> {
 
         this.fitnessFunction = new PerformanceFunction(statModifiers, calculators, pm.getAttackPerformanceModifier(), pm.getDefensePerformanceModifier());
     }
-
     @Override
     public ArrayList<Fighter> createRandomPopulation(int size) {
         ArrayList<Fighter> population = new ArrayList<>();

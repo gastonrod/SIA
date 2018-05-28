@@ -11,4 +11,6 @@ public interface IndividualManager<T extends Individual> {
     FitnessFunction<T> getFitnessFunction();
 
     double getOptimalFitness();
+
+    void initialize();
 }
