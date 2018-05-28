@@ -1,6 +1,7 @@
 package engine;
 
 import engine.breaking.Breaker;
+import engine.breaking.ContentBreaker;
 import engine.breaking.FitnessBreaker;
 import engine.breaking.GenerationBreaker;
 import engine.crossover.*;
@@ -105,7 +106,7 @@ public class EnginePropertiesManager {
             case STRUCTURE:
                 break;
             case CONTENT:
-                break;
+                return new ContentBreaker<>(retrieveInt(Keys.WINDOW.name(), prop), retrieveDouble(Keys.TOLERANCE.name(),prop));
         }
         throw new RuntimeException("Breaker method is not valid. Check the .properties file" +
             " to see the available options.");
@@ -142,7 +143,9 @@ public class EnginePropertiesManager {
         FIRST_SELECTOR_PCT,
         FIRST_REPLACER_PCT,
         MAX_GENERATIONS,
-        THRESHOLD
+        THRESHOLD,
+        WINDOW,
+        TOLERANCE
     }
 
     private enum SelectorMethod {
