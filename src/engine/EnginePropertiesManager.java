@@ -1,6 +1,7 @@
 package engine;
 
 import engine.breaking.Breaker;
+import engine.breaking.FitnessBreaker;
 import engine.breaking.GenerationBreaker;
 import engine.crossover.*;
 import engine.model.Individual;
@@ -41,9 +42,20 @@ public class EnginePropertiesManager {
 
     private <T extends Individual> Selector<T> getSelector(Keys key) {
         switch (SelectorMethod.valueOf(PropertiesManagerUtils.retrieveValue(key.name(), prop))) {
+            case BOLTZMANN:
+                return new BoltzmannSelector<>();
             case DETERMINISTIC_TOURNEY:
-                return new DeterministicTourneySelector<>(retrieveInt(Keys.PARTICIPANTS.name(), prop));
+                int popSize = retrieveInt(Keys.POP_SIZE.name(), prop);
+                int participantsPerDuel = retrieveInt(Keys.PARTICIPANTS.name(), prop);
+                if (popSize < participantsPerDuel) {
+                    throw new IllegalArgumentException("Participants per duel (" + participantsPerDuel + ") is larger than population size (" + popSize + ")");
+                }
+                return new DeterministicTourneySelector<>(participantsPerDuel);
             case PROBABILISTIC_TOURNEY:
+                popSize = retrieveInt(Keys.POP_SIZE.name(), prop);
+                if (!ProbabilisticTourneySelector.isValidPopulationSize(popSize)) {
+                    throw new IllegalArgumentException("Invalid population size (" + popSize + ") for probabilistic tourney selector");
+                }
                 return new ProbabilisticTourneySelector<>();
             case ELITE:
                 return new EliteSelector<>();
@@ -89,7 +101,7 @@ public class EnginePropertiesManager {
             case GENERATION:
                 return new GenerationBreaker<>(retrieveInt(Keys.MAX_GENERATIONS.name(), prop));
             case OPTIMAL:
-                break;
+                return new FitnessBreaker<>(retrieveDouble(Keys.THRESHOLD.name(), prop));
             case STRUCTURE:
                 break;
             case CONTENT:
@@ -129,10 +141,12 @@ public class EnginePropertiesManager {
         POP_SIZE,
         FIRST_SELECTOR_PCT,
         FIRST_REPLACER_PCT,
-        MAX_GENERATIONS
+        MAX_GENERATIONS,
+        THRESHOLD
     }
 
     private enum SelectorMethod {
+        BOLTZMANN,
         DETERMINISTIC_TOURNEY,
         PROBABILISTIC_TOURNEY,
         ELITE,

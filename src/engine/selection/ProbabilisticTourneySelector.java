@@ -7,10 +7,14 @@ import java.util.ArrayList;
 
 public class ProbabilisticTourneySelector<T extends Individual> extends TourneySelector<T> {
     private static final double p = 0.75;
-    private static final int participants = 2;
+    private static final int PARTICIPANTS = 2;
 
     public ProbabilisticTourneySelector() {
-        super(participants);
+        super(PARTICIPANTS);
+    }
+
+    public static boolean isValidPopulationSize(int popSize) {
+        return popSize >= PARTICIPANTS;
     }
 
     @Override

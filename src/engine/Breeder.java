@@ -40,7 +40,7 @@ public class Breeder {
             Pair<Fighter> toCross = new Pair<>();
             System.out.println("Initial population");
             System.out.println(population.toString());
-            for (generation = 0; !breaker.shouldBreak(population, generation); generation++) {
+            for (generation = 0; !breaker.shouldBreak(population, generation, individualManager.getFitnessFunction(), individualManager.getOptimalFitness()); generation++) {
                 // Selection
                 ArrayList<Fighter> selected = mixSelector.select(population, k, individualManager.getFitnessFunction(), generation);
                 // Crossover
@@ -65,7 +65,22 @@ public class Breeder {
                 new SimpleReplacer<Fighter>().replace(population, crossed);
                 System.out.println(population);
             }
-            System.out.println("Llegamos sanos y salvos");
+            // Get winner
+            Iterator<Fighter> iterator = population.iterator();
+            Fighter winner = iterator.next();
+            double bestFitness = individualManager.getFitnessFunction().eval(winner);
+            while (iterator.hasNext()) {
+                Fighter candidate = iterator.next();
+                double candidateFitness = individualManager.getFitnessFunction().eval(candidate);
+                if (candidateFitness > bestFitness) {
+                    bestFitness = candidateFitness;
+                    winner = candidate;
+                }
+            }
+            System.out.println("And the winner is: ");
+            System.out.println(winner);
+            System.out.println("With a fitness of: " + bestFitness);
+            System.out.println("Optimal fitness: " + individualManager.getOptimalFitness());
         } catch (Exception e) {
             System.out.println("Falló");
             System.out.println(e.getMessage());
@@ -73,6 +88,5 @@ public class Breeder {
         }
 
     }
-
 
 }

@@ -12,14 +12,18 @@ import static rpg.FighterManager.MIN_HEIGHT;
 
 public class Fighter implements Individual {
 
+    private static int nextId = 0;
+
     private double height;
     private Equipment[] equipment;
     private EquipmentStash equipmentStash;
+    private int id;
 
     Fighter(double height, Equipment[] equipment, EquipmentStash equipmentStash) {
         this.height = height;
         this.equipment = equipment;
         this.equipmentStash = equipmentStash;
+        this.id = nextId++;
     }
 
     @Override
@@ -74,6 +78,10 @@ public class Fighter implements Individual {
 
     @Override
     public String toString() {
-        return "Fighter: Height=" + height + "; equipment = " + Arrays.toString(equipment);
+        return "Fighter " + getId() + ": Height=" + height + "; equipment = " + Arrays.toString(equipment);
+    }
+
+    public int getId() {
+        return id;
     }
 }
