@@ -36,27 +36,27 @@ public class EnginePropertiesManager {
     }
 
     public <T extends Individual> Selector<T> getFirstSelector() {
-        return getSelector(Keys.FIRST_SELECTOR);
+        return getSelector(Keys.FIRST_SELECTOR, Stage.SELECTION);
     }
 
     public <T extends Individual> Selector<T> getSecondSelector() {
-        return getSelector(Keys.SECOND_SELECTOR);
+        return getSelector(Keys.SECOND_SELECTOR, Stage.SELECTION);
     }
 
     public <T extends Individual> Replacer<T> getReplacer() {
-        Selector<T> selector1 = getSelector(Keys.FIRST_REPLACER_SELECTOR);
-        Selector<T> selector2 = getSelector(Keys.SECOND_REPLACER_SELECTOR);
-        double proportionOfK = retrieveDouble(Keys.REPLACER_PROPORTION.name(), prop);
+        Selector<T> selector1 = getSelector(Keys.FIRST_REPLACER_SELECTOR, Stage.REPLACING);
+        Selector<T> selector2 = getSelector(Keys.SECOND_REPLACER_SELECTOR, Stage.REPLACING);
+        double proportionOfK = retrieveDouble(Keys.FIRST_REPLACER_PROPORTION.name(), prop);
         return new MixReplacer<>(new MixSelector<>(selector1, selector2, proportionOfK));
     }
 
-    private <T extends Individual> Selector<T> getSelector(Keys key) {
+    private <T extends Individual> Selector<T> getSelector(Keys key, Stage stage) {
         switch (SelectorMethod.valueOf(PropertiesManagerUtils.retrieveValue(key.name(), prop))) {
             case BOLTZMANN:
                 return new BoltzmannSelector<>();
             case DETERMINISTIC_TOURNEY:
                 int popSize = retrieveInt(Keys.POP_SIZE.name(), prop);
-                int participantsPerDuel = retrieveInt(Keys.PARTICIPANTS.name(), prop);
+                int participantsPerDuel = retrieveInt((stage == Stage.SELECTION ? Keys.SELECTOR_PARTICIPANTS.name() : Keys.REPLACER_PARTICIPANTS.name()), prop);
                 if (popSize < participantsPerDuel) {
                     throw new IllegalArgumentException("Participants per duel (" + participantsPerDuel + ") is larger than population size (" + popSize + ")");
                 }
@@ -143,10 +143,11 @@ public class EnginePropertiesManager {
         SECOND_SELECTOR,
         FIRST_REPLACER_SELECTOR,
         SECOND_REPLACER_SELECTOR,
-        REPLACER_PROPORTION,
+        FIRST_REPLACER_PROPORTION,
         MUTATOR,
         CROSSER,
-        PARTICIPANTS,
+        SELECTOR_PARTICIPANTS,
+        REPLACER_PARTICIPANTS,
         BREAKER,
         MUTATOR_PROBABILITY,
         UNIFORM_CROSSER_PROBABILITY,
@@ -189,4 +190,7 @@ public class EnginePropertiesManager {
         CONTENT
     }
 
+    private enum Stage {
+        SELECTION, REPLACING
+    }
 }
