@@ -13,6 +13,7 @@ import rpg.Fighter;
 import rpg.FighterManager;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +31,7 @@ public class Breeder {
             IndividualManager<Fighter> individualManager = new FighterManager();
             System.out.println("Data loaded");
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            while(br.readLine().equals("1")) {
+            while(shouldContinue(br)) {
                 individualManager.initialize();
                 EnginePropertiesManager enginePropertiesManager = new EnginePropertiesManager(ENGINE_PROPERTIES_FILE);
                 //Selector<Fighter> mixSelector = new MixSelector<>(enginePropertiesManager.getFirstSelector(), enginePropertiesManager.getSecondSelector(), enginePropertiesManager.getFirstSelectorPercentage());
@@ -101,6 +102,13 @@ public class Breeder {
             //throw e;
         }
 
+    }
+
+    private static boolean shouldContinue(BufferedReader br) throws IOException {
+        System.out.println("Type \"next\" if you want to execute the program.");
+        if(br.readLine().equals("next"))
+            return true;
+        return false;
     }
 
     public static <T extends Individual> double getBestFitness(ArrayList<T> population, FitnessFunction<T> fitnessFunction) {

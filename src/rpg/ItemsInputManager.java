@@ -78,8 +78,9 @@ public class ItemsInputManager {
             }
         } catch (IOException e) {
             throw new RuntimeException("Error while loading/closing the file " + file + ".");
+
         } catch (RuntimeException e) {
-            throw new RuntimeException("In file " + file, e);
+            throw new RuntimeException("In file " + file + ". " + e.getMessage(), e);
         }
         return list;
     }
