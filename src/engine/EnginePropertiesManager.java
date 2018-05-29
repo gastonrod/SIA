@@ -20,11 +20,11 @@ import java.util.Properties;
 
 import static engine.utils.PropertiesManagerUtils.*;
 
-public class EnginePropertiesManager {
+class EnginePropertiesManager {
 
     private Properties prop;
 
-    public EnginePropertiesManager(String enginePropertiesFile) {
+    EnginePropertiesManager(String enginePropertiesFile) {
         prop = new Properties();
         try {
             FileReader fr = new FileReader(enginePropertiesFile);
@@ -35,15 +35,15 @@ public class EnginePropertiesManager {
         }
     }
 
-    public <T extends Individual> Selector<T> getFirstSelector() {
+    <T extends Individual> Selector<T> getFirstSelector() {
         return getSelector(Keys.FIRST_SELECTOR, Stage.SELECTION);
     }
 
-    public <T extends Individual> Selector<T> getSecondSelector() {
+    <T extends Individual> Selector<T> getSecondSelector() {
         return getSelector(Keys.SECOND_SELECTOR, Stage.SELECTION);
     }
 
-    public <T extends Individual> Replacer<T> getReplacer() {
+    <T extends Individual> Replacer<T> getReplacer() {
         Selector<T> selector1 = getSelector(Keys.FIRST_REPLACER_SELECTOR, Stage.REPLACING);
         Selector<T> selector2 = getSelector(Keys.SECOND_REPLACER_SELECTOR, Stage.REPLACING);
         double proportionOfK = retrieveDouble(Keys.FIRST_REPLACER_PROPORTION.name(), prop);
@@ -80,7 +80,7 @@ public class EnginePropertiesManager {
             " to see the available options.");
     }
 
-    public <T extends Individual> Mutator<T> getMutator() {
+    <T extends Individual> Mutator<T> getMutator() {
         switch (MutatorMethod.valueOf(retrieveValue(Keys.MUTATOR.name(), prop))) {
             case UNIFORM:
                 return new UniformSinglepointMutator<>(retrieveDouble(Keys.MUTATOR_PROBABILITY.name(), prop));
@@ -91,7 +91,7 @@ public class EnginePropertiesManager {
             " to see the available options.");
     }
 
-    public <T extends Individual> Crosser<T> getCrosser() {
+    <T extends Individual> Crosser<T> getCrosser() {
         switch (CrosserMethod.valueOf(retrieveValue(Keys.CROSSER.name(), prop))) {
             case ANNULAR:
                 return new AnnularCrosser<>();
@@ -106,7 +106,7 @@ public class EnginePropertiesManager {
             " to see the available options.");
     }
 
-    public <T extends Individual> Breaker<T> getBreaker() {
+    <T extends Individual> Breaker<T> getBreaker() {
         switch (BreakerMethod.valueOf(retrieveValue(Keys.BREAKER.name(), prop))) {
             case GENERATION:
                 return new GenerationBreaker<>(retrieveInt(Keys.MAX_GENERATIONS.name(), prop));
@@ -121,22 +121,21 @@ public class EnginePropertiesManager {
             " to see the available options.");
     }
 
-    public int getPopulationSize() {
+    int getPopulationSize() {
         return retrieveInt(Keys.POP_SIZE.name(), prop);
     }
 
-    public double getGenerationalGap() {
+    double getGenerationalGap() {
         return retrieveDouble(Keys.GENERATIONAL_GAP.name(), prop);
     }
 
-    public double getFirstSelectorPercentage() {
+    double getFirstSelectorPercentage() {
         return retrievePercentage(Keys.FIRST_SELECTOR_PCT.name(), prop);
     }
 
-    public double getFirstReplacerPercentage() {
-        return retrievePercentage(Keys.FIRST_REPLACER_PCT.name(), prop);
+    boolean isDebuggingEnabled() {
+        return retrieveBoolean(Keys.DEBUG.name(), prop);
     }
-
 
     private enum Keys {
         FIRST_SELECTOR,
@@ -158,7 +157,8 @@ public class EnginePropertiesManager {
         MAX_GENERATIONS,
         THRESHOLD,
         WINDOW,
-        TOLERANCE
+        TOLERANCE,
+        DEBUG
     }
 
     private enum SelectorMethod {

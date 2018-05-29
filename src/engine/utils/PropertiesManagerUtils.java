@@ -35,4 +35,9 @@ public class PropertiesManagerUtils {
             throw new RuntimeException("Invalid double for " + key + " key.");
         }
     }
+
+
+    public static boolean retrieveBoolean(String key, Properties prop) {
+        return Boolean.parseBoolean(retrieveValue(key, prop));
+    }
 }

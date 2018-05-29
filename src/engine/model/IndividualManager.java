@@ -13,4 +13,5 @@ public interface IndividualManager<T extends Individual> {
     double getOptimalFitness();
 
     void initialize();
+
 }

@@ -8,6 +8,7 @@ import engine.model.Pair;
 import engine.mutation.Mutator;
 import engine.replacement.Replacer;
 import engine.replacement.WorstIndividualsReplacer;
+import engine.selection.MixSelector;
 import engine.selection.Selector;
 import rpg.Fighter;
 import rpg.FighterManager;
@@ -34,19 +35,15 @@ public class Breeder {
             while(shouldContinue(br)) {
                 individualManager.initialize();
                 EnginePropertiesManager enginePropertiesManager = new EnginePropertiesManager(ENGINE_PROPERTIES_FILE);
-                //Selector<Fighter> mixSelector = new MixSelector<>(enginePropertiesManager.getFirstSelector(), enginePropertiesManager.getSecondSelector(), enginePropertiesManager.getFirstSelectorPercentage());
-                Selector<Fighter> mixSelector = enginePropertiesManager.getFirstSelector();
+                boolean debugging = enginePropertiesManager.isDebuggingEnabled();
+                Selector<Fighter> mixSelector = new MixSelector<>(enginePropertiesManager.getFirstSelector(), enginePropertiesManager.getSecondSelector(), enginePropertiesManager.getFirstSelectorPercentage());
                 Crosser<Fighter> crosser = enginePropertiesManager.getCrosser();
                 Mutator<Fighter> mutator = enginePropertiesManager.getMutator();
                 Replacer<Fighter> replacer = enginePropertiesManager.getReplacer();
-                //Replacer<Fighter> firstReplacer = enginePropertiesManager.getFirstReplacer();
-                //Replacer<Fighter> secondReplacer = enginePropertiesManager.getSecondReplacer();
-                double firstReplacerPercentage = enginePropertiesManager.getFirstReplacerPercentage();
                 int populationSize = enginePropertiesManager.getPopulationSize();
                 double generationalGap = enginePropertiesManager.getGenerationalGap();
                 int k = (int) Math.round(populationSize * generationalGap);
                 Breaker<Fighter> breaker = enginePropertiesManager.getBreaker();
-
 
                 ArrayList<Fighter> population = individualManager.createRandomPopulation(populationSize);
                 int generation;
@@ -76,8 +73,11 @@ public class Breeder {
                     }
                     // Replacement
                     replacer.replace(population, crossed, individualManager.getFitnessFunction(), generation);
-                    System.out.println(population);
-                    System.out.println(getBestFitness(population, individualManager.getFitnessFunction()));
+                    if (debugging) {
+                        Fighter fittest = getFittest(population, individualManager.getFitnessFunction());
+                        double fitness = individualManager.getFitnessFunction().eval(fittest);
+                        System.out.println("Fitest individual: " + fittest + "\r\nFitness: " + fitness);
+                    }
                 }
                 // Get winner
                 Iterator<Fighter> iterator = population.iterator();
@@ -105,14 +105,17 @@ public class Breeder {
     }
 
     private static boolean shouldContinue(BufferedReader br) throws IOException {
-        System.out.println("Type \"next\" if you want to execute the program.");
-        if(br.readLine().equals("next"))
-            return true;
-        return false;
+        final String continueString = "next";
+        System.out.println("Type \"" + continueString + "\" if you want to execute the program, anything else to quit.");
+        return br.readLine().equalsIgnoreCase(continueString);
     }
 
     public static <T extends Individual> double getBestFitness(ArrayList<T> population, FitnessFunction<T> fitnessFunction) {
         return fitnessFunction.eval(Collections.max(population, Comparator.comparingDouble(fitnessFunction::eval)));
+    }
+
+    public static <T extends Individual> T getFittest(ArrayList<T> population, FitnessFunction<T> fitnessFunction) {
+        return Collections.max(population, Comparator.comparingDouble(fitnessFunction::eval));
     }
 
 }

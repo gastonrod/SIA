@@ -10,29 +10,30 @@ import rpg.stats.*;
 import java.util.ArrayList;
 
 public class FighterManager implements IndividualManager<Fighter> {
+
     public final static double MAX_HEIGHT = 2.0;
     public final static double MIN_HEIGHT = 1.3;
     private final static String RPG_PROPERTIES_FILE = "src/rpg/config.properties";
     private EquipmentStash equipmentStash;
     private PerformanceFunction fitnessFunction;
+    private RpgPropertiesManager propertiesManager;
 
     public FighterManager() {
         initialize();
-        RpgPropertiesManager pm = new RpgPropertiesManager(RPG_PROPERTIES_FILE);
-        equipmentStash = new EquipmentStash(pm);
+        equipmentStash = new EquipmentStash(propertiesManager);
     }
 
     @Override
     public void initialize(){
-        RpgPropertiesManager pm = new RpgPropertiesManager(RPG_PROPERTIES_FILE);
+        propertiesManager = new RpgPropertiesManager(RPG_PROPERTIES_FILE);
         double[] statModifiers = new double[Stats.values().length];
         StatCalculator[] calculators = new StatCalculator[Stats.values().length];
 
-        statModifiers[Stats.AGILITY.ordinal()] = pm.getAgilityModifier();
-        statModifiers[Stats.STRENGTH.ordinal()] = pm.getStrengthModifier();
-        statModifiers[Stats.EXPERTISE.ordinal()] = pm.getExpertiseModifier();
-        statModifiers[Stats.RESISTANCE.ordinal()] = pm.getResistanceModifier();
-        statModifiers[Stats.VITALITY.ordinal()] = pm.getVitalityModifier();
+        statModifiers[Stats.AGILITY.ordinal()] = propertiesManager.getAgilityModifier();
+        statModifiers[Stats.STRENGTH.ordinal()] = propertiesManager.getStrengthModifier();
+        statModifiers[Stats.EXPERTISE.ordinal()] = propertiesManager.getExpertiseModifier();
+        statModifiers[Stats.RESISTANCE.ordinal()] = propertiesManager.getResistanceModifier();
+        statModifiers[Stats.VITALITY.ordinal()] = propertiesManager.getVitalityModifier();
 
         calculators[Stats.AGILITY.ordinal()] = new AgilityCalculator();
         calculators[Stats.STRENGTH.ordinal()] = new StrengthCalculator();
@@ -40,8 +41,9 @@ public class FighterManager implements IndividualManager<Fighter> {
         calculators[Stats.VITALITY.ordinal()] = new VitalityCalculator();
         calculators[Stats.EXPERTISE.ordinal()] = new ExpertiseCalculator();
 
-        this.fitnessFunction = new PerformanceFunction(statModifiers, calculators, pm.getAttackPerformanceModifier(), pm.getDefensePerformanceModifier());
+        this.fitnessFunction = new PerformanceFunction(statModifiers, calculators, propertiesManager.getAttackPerformanceModifier(), propertiesManager.getDefensePerformanceModifier());
     }
+
     @Override
     public ArrayList<Fighter> createRandomPopulation(int size) {
         ArrayList<Fighter> population = new ArrayList<>();
