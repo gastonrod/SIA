@@ -13,19 +13,22 @@ public class FighterManager implements IndividualManager<Fighter> {
 
     public final static double MAX_HEIGHT = 2.0;
     public final static double MIN_HEIGHT = 1.3;
-    private final static String RPG_PROPERTIES_FILE = "src/rpg/config.properties";
+    private final static String RPG_PROPERTIES_FILE = "src/rpg/statModifiers.properties";
+    private final static String RPG_ITEMS_FILE = "src/rpg/itemsFileLocation.properties";
+
     private EquipmentStash equipmentStash;
     private PerformanceFunction fitnessFunction;
-    private RpgPropertiesManager propertiesManager;
+    private RpgStatModifiersPropertiesManager propertiesManager;
+    private double optimalFitness;
 
     public FighterManager() {
+        equipmentStash = new EquipmentStash(new RpgFilesLocationPropertiesManager(RPG_ITEMS_FILE));
         initialize();
-        equipmentStash = new EquipmentStash(propertiesManager);
     }
 
     @Override
-    public void initialize(){
-        propertiesManager = new RpgPropertiesManager(RPG_PROPERTIES_FILE);
+    public void initialize() {
+        propertiesManager = new RpgStatModifiersPropertiesManager(RPG_PROPERTIES_FILE);
         double[] statModifiers = new double[Stats.values().length];
         StatCalculator[] calculators = new StatCalculator[Stats.values().length];
 
@@ -42,6 +45,7 @@ public class FighterManager implements IndividualManager<Fighter> {
         calculators[Stats.EXPERTISE.ordinal()] = new ExpertiseCalculator();
 
         this.fitnessFunction = new PerformanceFunction(statModifiers, calculators, propertiesManager.getAttackPerformanceModifier(), propertiesManager.getDefensePerformanceModifier());
+        calculateOptimalFitness();
     }
 
     @Override
@@ -64,6 +68,15 @@ public class FighterManager implements IndividualManager<Fighter> {
 
     @Override
     public double getOptimalFitness() {
-        return fitnessFunction.getOptimalPerformance();
+        return optimalFitness;
+    }
+
+    private void calculateOptimalFitness() {
+        double auxOptimalFitness;
+        final double heightStep = 0.01;
+        for (double h = MIN_HEIGHT; h < MAX_HEIGHT; h += heightStep) {
+            auxOptimalFitness = this.fitnessFunction.eval(h, equipmentStash.getBestSumForStats());
+            optimalFitness = Math.max(optimalFitness, auxOptimalFitness);
+        }
     }
 }

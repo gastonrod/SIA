@@ -99,7 +99,7 @@ public class Breeder {
         } catch (Exception e) {
             System.out.println("Falló");
             System.out.println(e.getMessage());
-            //throw e;
+            throw new RuntimeException(e);
         }
 
     }

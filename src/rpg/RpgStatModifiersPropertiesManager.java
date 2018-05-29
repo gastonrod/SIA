@@ -7,11 +7,11 @@ import java.util.Properties;
 import static engine.utils.PropertiesManagerUtils.retrieveDouble;
 import static engine.utils.PropertiesManagerUtils.retrieveValue;
 
-public class RpgPropertiesManager {
+public class RpgStatModifiersPropertiesManager {
 
     private Properties prop;
 
-    public RpgPropertiesManager(String rpgPropertiesFile) {
+    public RpgStatModifiersPropertiesManager(String rpgPropertiesFile) {
         prop = new Properties();
         try {
             FileReader fr = new FileReader(rpgPropertiesFile);
@@ -50,37 +50,8 @@ public class RpgPropertiesManager {
         return retrieveDouble(Keys.DEFENSE.name(), prop);
     }
 
-    public String getBootsFileLocation() {
-        return getFileLocation(Keys.BOOTS);
-    }
-
-    public String getChestPiecesFileLocation() {
-        return getFileLocation(Keys.CHEST_PIECES);
-    }
-
-    public String getGlovesFileLocation() {
-        return getFileLocation(Keys.GLOVES);
-    }
-
-    public String getHelmetsFileLocation() {
-        return getFileLocation(Keys.HELMETS);
-    }
-
-    public String getWeaponsFileLocation() {
-        return getFileLocation(Keys.WEAPONS);
-    }
-
-    private String getFileLocation(Keys file) {
-        return retrieveValue(Keys.ITEMS_FOLDER.name(), prop) + "/" + retrieveValue(file.name(), prop);
-    }
 
     private enum Keys {
-        BOOTS,
-        CHEST_PIECES,
-        GLOVES,
-        HELMETS,
-        WEAPONS,
-        ITEMS_FOLDER,
         STRENGTH,
         AGILITY,
         EXPERTISE,
