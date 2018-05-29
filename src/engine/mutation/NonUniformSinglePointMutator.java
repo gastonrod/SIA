@@ -9,7 +9,7 @@ public class NonUniformSinglePointMutator<T extends Individual> extends Abstract
     private double probability;
 
     public NonUniformSinglePointMutator() {
-        this.variationFunction = g -> Math.random();
+        this.variationFunction = g -> 1/Math.log(g + Math.E);
         this.currentGeneration = -1;
     }
 

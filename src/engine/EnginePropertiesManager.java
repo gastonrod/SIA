@@ -1,9 +1,6 @@
 package engine;
 
-import engine.breaking.Breaker;
-import engine.breaking.ContentBreaker;
-import engine.breaking.FitnessBreaker;
-import engine.breaking.GenerationBreaker;
+import engine.breaking.*;
 import engine.crossover.*;
 import engine.model.Individual;
 import engine.mutation.Mutator;
@@ -113,7 +110,7 @@ class EnginePropertiesManager {
             case OPTIMAL:
                 return new FitnessBreaker<>(retrieveDouble(Keys.THRESHOLD.name(), prop));
             case STRUCTURE:
-                break;
+                return new StructureBreaker<>(retrieveDouble(Keys.UNCHANGED_PROPORTION.name(), prop));
             case CONTENT:
                 return new ContentBreaker<>(retrieveInt(Keys.WINDOW.name(), prop), retrieveDouble(Keys.TOLERANCE.name(),prop));
         }
@@ -153,12 +150,12 @@ class EnginePropertiesManager {
         GENERATIONAL_GAP,
         POP_SIZE,
         FIRST_SELECTOR_PCT,
-        FIRST_REPLACER_PCT,
         MAX_GENERATIONS,
         THRESHOLD,
         WINDOW,
         TOLERANCE,
-        DEBUG
+        DEBUG,
+        UNCHANGED_PROPORTION
     }
 
     private enum SelectorMethod {
@@ -191,6 +188,7 @@ class EnginePropertiesManager {
     }
 
     private enum Stage {
-        SELECTION, REPLACING
+        SELECTION,
+        REPLACING
     }
 }

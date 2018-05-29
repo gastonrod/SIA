@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import static engine.utils.PropertiesManagerUtils.retrieveDouble;
-import static engine.utils.PropertiesManagerUtils.retrieveValue;
 
 public class RpgStatModifiersPropertiesManager {
 

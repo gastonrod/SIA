@@ -6,6 +6,7 @@ import rpg.items.Equipment;
 import rpg.items.EquipmentStash;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static rpg.FighterManager.MAX_HEIGHT;
 import static rpg.FighterManager.MIN_HEIGHT;
@@ -18,6 +19,11 @@ public class Fighter implements Individual {
     private Equipment[] equipment;
     private EquipmentStash equipmentStash;
     private int id;
+
+    @Override
+    public int hashCode() {
+        return 31 * Objects.hash(height) + Arrays.hashCode(equipment);
+    }
 
     Fighter(double height, Equipment[] equipment, EquipmentStash equipmentStash) {
         this.height = height;

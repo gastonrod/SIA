@@ -1,32 +1,39 @@
 package engine.breaking;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import engine.FitnessFunction;
 import engine.model.Individual;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class StructureBreaker<T extends Individual> implements Breaker<T> {
 
     private double expectedUnchangedProportion;
-    private ArrayList<T> lastPopulation;
+    private HashSet<Integer> lastPopulationHashcodes;
 
     public StructureBreaker(double expectedUnchangedProportion) {
         this.expectedUnchangedProportion = expectedUnchangedProportion;
-        this.lastPopulation = null;
     }
 
     @Override
     public boolean shouldBreak(ArrayList<T> population, int generation, FitnessFunction<T> fitnessFunction, double optimalFitness) {
-        if (lastPopulation == null || expectedUnchangedProportion < unchangedProportion(population)) {
-            lastPopulation = (ArrayList<T>) population.clone();
+        if (lastPopulationHashcodes == null || expectedUnchangedProportion > unchangedProportion(population)) {
+            lastPopulationHashcodes = new HashSet<>();
+            for (T individual : population) {
+                lastPopulationHashcodes.add(individual.hashCode());
+            }
             return false;
         }
         return true;
     }
 
     private double unchangedProportion(ArrayList<T> population) {
-        // TODO: Algun metodo piola para ver esto.
-        return 0;
+        int unchanged = 0;
+        for (T individual : population) {
+            if (lastPopulationHashcodes.contains(individual.hashCode())) {
+                unchanged++;
+            }
+        }
+        return 1.0 * unchanged / population.size();
     }
 }

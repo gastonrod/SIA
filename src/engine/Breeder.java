@@ -95,6 +95,7 @@ public class Breeder {
                 System.out.println(winner);
                 System.out.println("With a fitness of: " + bestFitness);
                 System.out.println("Optimal fitness: " + individualManager.getOptimalFitness());
+                System.out.println("Generations: " + generation);
             }
         } catch (Exception e) {
             System.out.println("Falló");

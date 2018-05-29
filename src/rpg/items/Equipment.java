@@ -27,7 +27,20 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return "[" + type.name() + ", " + id + /*" , " + Arrays.toString(stats) + */"]";
+        return "[" + type.name() + ", " + id + " , " + stringifyEquipment() + "]";
+    }
+
+    private String stringifyEquipment() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Stats stat : Stats.values()) {
+            sb.append(stat.name());
+            sb.append(": ");
+            sb.append(stats[stat.ordinal()]);
+            sb.append(", ");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
 }
