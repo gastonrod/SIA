@@ -49,7 +49,7 @@ public class Breeder {
                 int generation;
                 Pair<Fighter> toCross = new Pair<>();
                 System.out.println("Initial population");
-                System.out.println(population.toString());
+                System.out.println(population);
                 for (generation = 0; !breaker.shouldBreak(population, generation, individualManager.getFitnessFunction(), individualManager.getOptimalFitness()); generation++) {
                     // Selection
                     ArrayList<Fighter> selected = mixSelector.select(population, k, individualManager.getFitnessFunction(), generation);

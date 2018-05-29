@@ -23,7 +23,6 @@ public class FighterManager implements IndividualManager<Fighter> {
 
     public FighterManager() {
         equipmentStash = new EquipmentStash(new RpgFilesLocationPropertiesManager(RPG_ITEMS_FILE));
-        initialize();
     }
 
     @Override
@@ -72,6 +71,7 @@ public class FighterManager implements IndividualManager<Fighter> {
     }
 
     private void calculateOptimalFitness() {
+        optimalFitness = 0;
         double auxOptimalFitness;
         final double heightStep = 0.01;
         for (double h = MIN_HEIGHT; h < MAX_HEIGHT; h += heightStep) {
