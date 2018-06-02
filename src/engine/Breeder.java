@@ -7,7 +7,6 @@ import engine.model.IndividualManager;
 import engine.model.Pair;
 import engine.mutation.Mutator;
 import engine.replacement.Replacer;
-import engine.replacement.WorstIndividualsReplacer;
 import engine.selection.MixSelector;
 import engine.selection.Selector;
 import rpg.Fighter;
@@ -24,6 +23,7 @@ import java.util.Iterator;
 public class Breeder {
 
     private static final String ENGINE_PROPERTIES_FILE = "src/engine/config.properties";
+    private final static Plotter plotter = new Plotter();
 
     public static void main(String[] args) {
 
@@ -33,6 +33,7 @@ public class Breeder {
             System.out.println("Data loaded");
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             while(shouldContinue(br)) {
+                plotter.resetDataset();
                 individualManager.initialize();
                 EnginePropertiesManager enginePropertiesManager = new EnginePropertiesManager(ENGINE_PROPERTIES_FILE);
                 boolean debugging = enginePropertiesManager.isDebuggingEnabled();
@@ -75,8 +76,15 @@ public class Breeder {
                     replacer.replace(population, crossed, individualManager.getFitnessFunction(), generation);
                     if (debugging) {
                         Fighter fittest = getFittest(population, individualManager.getFitnessFunction());
-                        double fitness = individualManager.getFitnessFunction().eval(fittest);
-                        System.out.println("Fitest individual: " + fittest + "\r\nFitness: " + fitness);
+                        double bestFitness = individualManager.getFitnessFunction().eval(fittest);
+                        System.out.println("Fitest individual: " + fittest + "\r\nFitness: " + bestFitness);
+                        plotter.addBest(generation, bestFitness);
+                        Fighter worst = getWorst(population, individualManager.getFitnessFunction());
+                        double worstFitness = individualManager.getFitnessFunction().eval(worst);
+                        plotter.addWorst(generation, worstFitness);
+                        double averageFitness = getAverageFitness(population, individualManager.getFitnessFunction());
+                        plotter.addAverage(generation, averageFitness);
+                        plotter.plot();
                     }
                 }
                 // Get winner
@@ -105,6 +113,15 @@ public class Breeder {
 
     }
 
+    private static double getAverageFitness(ArrayList<Fighter> population, FitnessFunction<Fighter> fitnessFunction) {
+        double average = 0;
+        for (Fighter fighter : population) {
+            average += fitnessFunction.eval(fighter);
+        }
+        average /= population.size();
+        return average;
+    }
+
     private static boolean shouldContinue(BufferedReader br) throws IOException {
         final String continueString = "next";
         System.out.println("Type \"" + continueString + "\" if you want to execute the program, anything else to quit.");
@@ -117,6 +134,10 @@ public class Breeder {
 
     public static <T extends Individual> T getFittest(ArrayList<T> population, FitnessFunction<T> fitnessFunction) {
         return Collections.max(population, Comparator.comparingDouble(fitnessFunction::eval));
+    }
+
+    private static <T extends Individual> T getWorst(ArrayList<T> population, FitnessFunction<T> fitnessFunction) {
+        return Collections.min(population, Comparator.comparingDouble(fitnessFunction::eval));
     }
 
 }
