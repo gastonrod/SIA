@@ -3,6 +3,7 @@ package engine;
 import engine.breaking.*;
 import engine.crossover.*;
 import engine.model.Individual;
+import engine.mutation.MultigenMutator;
 import engine.mutation.Mutator;
 import engine.mutation.NonUniformSinglePointMutator;
 import engine.mutation.UniformSinglepointMutator;
@@ -83,6 +84,9 @@ class EnginePropertiesManager {
                 return new UniformSinglepointMutator<>(retrieveDouble(Keys.MUTATOR_PROBABILITY.name(), prop));
             case NON_UNIFORM:
                 return new NonUniformSinglePointMutator<>();
+            case MULTIGEN:
+                return new MultigenMutator<>(retrieveDouble(Keys.MUTATOR_INDIVIDUAL_PROBABILITY.name(), prop),
+                        retrieveDouble(Keys.MUTATOR_GEN_PROBABILITY.name(), prop));
         }
         throw new RuntimeException("Mutation method is not valid. Check the .properties file" +
             " to see the available options.");
@@ -146,6 +150,8 @@ class EnginePropertiesManager {
         REPLACER_PARTICIPANTS,
         BREAKER,
         MUTATOR_PROBABILITY,
+        MUTATOR_INDIVIDUAL_PROBABILITY,
+        MUTATOR_GEN_PROBABILITY,
         UNIFORM_CROSSER_PROBABILITY,
         GENERATIONAL_GAP,
         POP_SIZE,
@@ -170,7 +176,8 @@ class EnginePropertiesManager {
 
     private enum MutatorMethod {
         UNIFORM,
-        NON_UNIFORM
+        NON_UNIFORM,
+        MULTIGEN
     }
 
     private enum CrosserMethod {
